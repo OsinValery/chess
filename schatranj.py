@@ -1,3 +1,4 @@
+from chess import Game
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle,Ellipse,Color,Line
 from kivy.uix.button import Button
@@ -7,7 +8,6 @@ from kivy.clock import Clock
 import kivy.utils
 
 import copy
-import bad_help
 
 import interface
 from  Window_info import Window
@@ -17,8 +17,8 @@ from translater import Get_text
 from connection import Connection
 import global_constants
 
-import bad_figure as help_chess
-Figure = help_chess.Figure
+import schatranj_figure
+Figure = schatranj_figure.Figure
 
 class Game_rect(Widget):
     def on_touch_down(self,touch):
@@ -67,6 +67,22 @@ class Green_line(Line):
                 self.drawed = True
                 Color(1,1,1,1)
 
+
+def create_start_game_board():
+    board = [[Field() for t in range(8)] for a in range(8)]
+    for x in range(8):
+        for y in range(8):
+            board[x][y].figure = Figure('',0,0,'empty')
+            board[x][y].attacked = False
+    
+    figs = ['rook','horse','bishop','king','queen','bishop','horse','rook']
+    for a in range(8):
+        board[a][0].figure = Figure('white',a,0,figs[a])
+        board[a][7].figure = Figure('black',a,7,figs[a])
+        board[a][1].figure = Figure('white',a,1,'pawn')
+        board[a][6].figure = Figure('black',a,6,'pawn')
+
+    return board
 
 def back(touch):
     global choose_figure,interfase,gr_line
@@ -337,26 +353,14 @@ def move_figure(board,x,y,options=None):
     board[x][y].figure.set_coords_on_board(x,y)
 
     if choose_figure.type == 'pawn' and board[x][y].figure.pawn_on_last_line():
-            if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
-                # type of figure was taken in message from partner
-                n , m = choose_figure.x , choose_figure.y
-                choose_figure.transform_to(options[1])
-                choose_figure = Figure('',0,0,'empty')
-                options = options[2:]
-                change_color(options)
-                is_end_of_game(board)
-            else:
-                # horse will be choosen in do_transformation automatically
-                do_transformation(Game.color_do_hod_now,x,y,options)
-    else:
-        if Game.state_game != 'one' and Game.color_do_hod_now == Game.play_by:
-            Game.message += f" {Game.players_time['white']} {Game.players_time['black']}"
-            Connection.messages += [Game.message]
-            Game.message = ''
-        choose_figure = Figure('',0,0,'empty')
-        change_color(options)
-        is_end_of_game(board)
-    
+        board[x][y].figure.transform_to('queen')
+    choose_figure = Figure('',0,0,'empty')
+    if Game.state_game != 'one' and Game.color_do_hod_now == Game.play_by:
+        Game.message += f" {Game.players_time['white']} {Game.players_time['black']}"
+        Connection.messages += [Game.message]
+    Game.message = ''
+    change_color(options)
+    is_end_of_game(board)
     delete_tips()
     gr_line.show_field(x=-1,y=-1)
     Game.list_of_hod_field = []
@@ -379,65 +383,6 @@ def fit_field(event):
         x = round(x)
         y = round(y)
         return x,y
-
-def do_transformation(color,x,y,options):
-    if  kivy.utils.platform == 'win':
-        d = '\\'
-    else: d = '/'
-    def complete(ftype):
-        global choose_figure
-        x , y = choose_figure.x , choose_figure.y
-        choose_figure.transform_to(ftype)
-        choose_figure = Figure('',0,0,'empty')
-        Main_Window.remove_widget(Game.bub)
-        del Game.bub
-        Game.need_change_figure = False
-        if Game.state_game != 'one':
-            Game.message += ' = ' + ftype
-            Game.message += f" {Game.players_time['white']} {Game.players_time['black']}"
-            Connection.messages += [Game.message]
-        Game.message = ''
-        change_color(options)
-        is_end_of_game(Game.board)
-    
-    # for buttons
-    def change_q(click):
-        complete('queen')
-    def change_h(click):
-        complete('horse')
-    def change_b(click):
-        complete('bishop')
-    def change_r(click):
-        complete('rook')
-
-    Game.need_change_figure = True
-
-    wid = ( x - 1 ) * Sizes.field_size + Sizes.x_top + Sizes.x_top_board
-    height = ( y + 0.8 ) * Sizes.field_size + Sizes.y_top + Sizes.y_top_board
-
-    Game.bub = Bubble(
-        pos = [wid,height],
-        size=[3*Sizes.field_size]*2
-    )
-    box = GridLayout(rows=2,cols=2)
-    box.padding = [Sizes.field_size*0.05]*4
-    if color == 'white':
-        names = ['qw.png','bw.png','hw.png','rw.png']
-    else:
-        names = ['qb.png','bb.png','hb.png','rb.png']
-    commands = [change_q,change_b,change_h,change_r]
-    folder = Settings.get_folder() + 'pictures{0}fig_set1{0}'.format(d)
-    for x in range(4):
-        but = BubbleButton(
-            text='',
-            background_normal=folder + names[x],
-            size=[Sizes.field_size]*2)
-        but.bind(on_press=commands[x])
-        box.add_widget(but)
-
-    Game.bub.add_widget(box)
-    Main_Window.add_widget(Game.bub)
-    change_q(1)
 
 def draw():
     if not Game.ind:
@@ -480,7 +425,7 @@ def build_game(game):
     game.fit_field = fit_field
     game.color_do_hod_now = 'white'
     game.list_of_hod_field = []
-    bad_help.init_chess(game)
+    game.board = create_start_game_board()
     game.do_hod = do_hod
     game.tips_drawed = False
     if game.with_time:
@@ -551,7 +496,7 @@ def init_game():
 
     choose_figure = Figure('white',0,0,'empty')
     create_interface(Main_Window,Sizes,Game)
-    help_chess.get_widget(Main_Window.wid,Sizes)
+    schatranj_figure.get_widget(Main_Window.wid,Sizes)
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)
