@@ -18,6 +18,7 @@ import garner_figure
 import horde_figure
 import kamikadze_figure
 import bad_figure
+import schatranj_figure
 import rasing_figure
 Figure = None
 
@@ -49,7 +50,6 @@ class Tutorial_Widget(Widget):
         self.current = None
         self.options = options
         super(Tutorial_Widget,self).__init__()
-
 
         self.canvas.add(Rectangle(
             size = self.app_size.board_size,
@@ -118,6 +118,11 @@ class Tutorial_Widget(Widget):
             rasing_figure.get_widget(self,self.app_size)
             Figure = rasing_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
+        
+        elif self.type_of_chess == 'schatranj':
+            schatranj_figure.get_widget(self,self.app_size)
+            Figure = schatranj_figure.Figure
+            self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
 
 
 
@@ -142,7 +147,7 @@ class Tutorial_Widget(Widget):
         eight_fields = [
             'classic','fisher','horse_battle','magik',
             'permutation','horde','week','kamikadze',
-            'bad_chess', 'rasing','haotic'
+            'bad_chess', 'rasing','haotic','schatranj'
             ]
         if self.type_of_chess in eight_fields:
             pos[0] -= (self.app_size.x_top_board + self.app_size.x_top)
@@ -196,7 +201,8 @@ class Tutorial_Widget(Widget):
                 squared = [
                     'classic','fisher','horse_battle','magik',
                     'permutation','los_alamos','garner','horde',
-                    'week','kamikadze','bad_chess','rasing','haotic'
+                    'week','kamikadze','bad_chess','rasing','haotic',
+                    'schatranj'
                 ]
                 if self.type_of_chess in squared :
                     simple_tips(self.app_size,self.canvas,may)

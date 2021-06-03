@@ -271,7 +271,7 @@ def is_end_of_game(board):
                 interfase.do_info(Get_text('game_black_mate'))
                 is_mate = True
             else:
-                interfase.do_info(Get_text('game_black_chax'))   
+                interfase.do_info(Get_text('game_black_chax'))
 
     if not is_mate:
         if not able_to_do_hod(board,Game.color_do_hod_now):

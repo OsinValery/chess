@@ -15,6 +15,7 @@ import garner_figure
 import horde_figure
 import bad_figure
 import rasing_figure
+
 Figure = None
 
 # Start position
@@ -27,6 +28,7 @@ import gen_kuej
 import gen_horde
 import week
 import bad_help
+import schatranj
 
 #Chess types
 import circle_chess
@@ -65,7 +67,8 @@ class Static_picture(Widget):
 
         standart = [
             'classic','fisher','horse_battle','magik',
-            'permutation','week','kamikadze','haotic'
+            'permutation','week','kamikadze','haotic',
+            'schatranj'
             ]
         if self.type_of_chess in standart:
             help_chess.get_widget(self,self.app_size)
@@ -77,6 +80,8 @@ class Static_picture(Widget):
                     fisher.create_start_game_board()
                 elif self.type_of_chess == 'week':
                     week.create_start_game_board()
+                elif self.type_of_chess == 'schatranj':
+                    schatranj.create_start_game_board()
                 else:
                     horse_battle.create_start_game_board()
 
@@ -125,6 +130,7 @@ class Static_picture(Widget):
             Figure = rasing_figure.Figure
             if 'start' in self.options:
                 rasing.get_start_position()
+
             
         
 

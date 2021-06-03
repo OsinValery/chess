@@ -75,7 +75,10 @@ def lost_tutorial():
 def interactive_interface(size,figure,btn_command,label_text='',fig_pos = [4,4]):
     """
     create standart interface of tutorial
-    with onetype parameters of objects
+    with onetype parameters of objects\n
+    size - window.size\n
+    figure = 'bishop'\n
+    label_text <- Get_text(...)
     """
     global_constants.Main_Window.add_widget(Label(
         text = get_text(label_text,size[0]*0.9,normal_font_size/2),
@@ -203,9 +206,10 @@ def tutorial(press):
         do_racing_tutorial()
     elif game.type_of_chess == 'haotic':
         do_haos_tutorial()
+    elif game.type_of_chess == 'schatranj':
+        do_schatranj_tutorial()
     else:
         lost_tutorial()
-
 
 # for classic chess
 def do_classic_tutorial(click):
@@ -1571,3 +1575,97 @@ def haos2(par=None):
     )
 
 # add haotic tutorial
+
+def do_schatranj_tutorial(par=None):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text = Get_text('tutorial_shcatranj_start'),
+        btn_command = schat2
+    )
+
+def schat2(par=...):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text = Get_text('tutorial_shcatranj_changes'),
+        btn_command = schat3
+    )
+
+def schat3(par=None):
+    help_tutorial()
+    board = [
+        ['white',5,5,'pawn'], ['white',1,1,'pawn'], ['black',2,3,'pawn'],
+        ['white',4,2,'pawn'], ['black',5,3,'pawn']
+    ]
+    actions = [
+        ['show',1,1,[[1,2]] ],         ['move',1,1,1,2],
+        ['show_attack',2,3,1,2],       ['take',2,3,1,2],
+        ['show_attack',4,2,5,3],       ['take',4,2,5,3],
+        ['move',1,2,1,1],              ['move',5,5,5,6],
+        ['move',1,1,1,0],              ['change',1,0,'queen'],
+        ['move',5,6,5,7],              ['change',5,7,'queen']
+    ]
+    size = global_constants.Main_Window.size    
+    text = get_text(Get_text('tutorial_shcatranj_pawn'),size[0]*0.9,normal_font_size/2)
+    video_interface(board,actions,1.2,schat4,text)
+
+def schat4(par=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure = 'bishop',
+        btn_command=schat5,
+        label_text=Get_text('tutorial_shcatranj_bishop')
+    )
+
+def schat5(par=...):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure = 'rook',
+        btn_command=schat6,
+        label_text=Get_text('tutorial_shcatranj_rook')
+    )
+
+
+def schat6(par=...):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure = 'king',
+        btn_command=schat7,
+        label_text=Get_text('tutorial_shcatranj_king')
+    )
+
+def schat7(par=...):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure = 'horse',
+        btn_command=schat8,
+        label_text=Get_text('tutorial_shcatranj_horse')
+    )
+
+def schat8(par=...):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure = 'queen',
+        btn_command=schat9,
+        label_text=Get_text('tutorial_shcatranj_queen')
+    )
+
+def schat9(par=...):
+    help_tutorial()
+    static_interface(
+        repeat=True,
+        size=global_constants.Main_Window.size,
+        label_text= Get_text('tutorial_shcatranj_end'),
+        btn_command=do_schatranj_tutorial
+        )
+
+# end of schatranj tutorial
+
+
+

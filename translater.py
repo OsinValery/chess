@@ -188,6 +188,13 @@ def bace_text(language,description):
         elif language == 'es': return 'Caótico'
         elif language == 'de': return 'Chaotisch'
     
+    elif description == 'schatranj':
+        if language == 'ru':    return 'Шатрандж'
+        elif language == 'en':  return 'Shatranj'
+        elif language == 'fr': return 'Shatrange'
+        elif language == 'es': return 'Shatrange'
+        elif language == 'de': return 'Shatrange'
+    
     elif description == 'exit?':
         if language == 'ru':   return 'Выйти?'
         elif language == 'en': return 'Leave?'
@@ -937,12 +944,11 @@ def tutorial(language,description):
         elif language == 'de':  return 'Weiter'
 
     elif description == 'repeat':
-        if language == 'ru' :return 'Ещё раз'
+        if language == 'ru' :  return 'Ещё раз'
         elif language == 'en': return 'Repeat'
         elif language == 'fr': return 'Une fois de plus'
         elif language == 'es': return 'una vez más'
-        elif language == 'de':
-            return 'Noch einmal'
+        elif language == 'de': return 'Noch einmal'
 
     elif description == 'see':
         if language == 'ru' :return 'Смотреть'
@@ -1008,6 +1014,9 @@ def tutorial(language,description):
     
     elif 'haos' in description:
         return get_haos(language,description[5:])
+    
+    elif 'shcatranj' in description:
+        return get_schatranj(language,description[10:])
 
     else:
         return 'error_2'
@@ -2365,6 +2374,113 @@ def get_haos(language,description):
         if language == 'de':
             return 'Viele neue Effekte wurden in diesem Schach hinzugefügt. Es ist unmöglich, Pläne unter solchen Bedingungen zu machen! Dies wird Ihnen beibringen, die Situation sofort zu navigieren. Vorwärts, Schachspieler!'
 
+def get_schatranj(language,description):
+    if description == 'start':
+        if language == 'ru':
+            return 'Это - древняя игра. Играли в эти шахматы до 10 века в Азии и Африке. Из них возникли современные шахматы. '
+        if language == 'en':
+            return 'This is an ancient game. This chess was played until the 10th century in Asia and Africa. Modern chess emerged from them. '
+        if language == 'fr':
+            return  "C'est un jeu ancien. Ce jeu d'échecs a été joué jusqu'au 10ème siècle en Asie et en Afrique. Les échecs modernes en ont émergé. "
+        if language == 'es':
+            return 'Este es un juego antiguo. Este ajedrez se jugó hasta el siglo 10 en Asia y África. El ajedrez moderno surgió de ellos. '
+        if language == 'de':
+            return "Dies ist ein altes Spiel. Jahrhundert in Asien und Afrika gespielt. Modernes Schach entstand aus ihnen. "
+    elif description == 'changes':
+        if language == 'ru':
+            return 'Правила игры немного похожи;\n Отличия:\n 1. Пат - поражение\n2. Многие фигуры ходят иначе\n3. Нет рокировки'
+        if language == 'en':
+            return 'The rules of the game are a bit similar;\n Differences:\n 1. Pat-defeat\n2. Many pieces move differently\n3. No castling'
+        if language == 'fr':
+            return  'Les règles du jeu sont un peu similaires; \n Différences: \n 1. Pat-défaite\n2. Beaucoup de figures marchent différemment\n3. Pas de Roque'
+        if language == 'es':
+            return 'Las reglas del juego son un poco similares; \n Diferencias:  \n 1. Pat - derrota \n2. Muchas figuras caminan de manera diferente\n3. Sin enroque'
+        if language == 'de':
+            return 'Die Spielregeln sind ein bisschen ähnlich; \n Unterschiede: \n 1. Pat-Niederlage\n2. Viele Figuren gehen anders\n3. Keine Rochade'
+    elif description == 'pawn':
+        if language == 'ru':
+            return 'Пешка теперь ходит только на 1 поле. Рубит по диагонали. Дойдя до последней линии, превращается в ферзя.'
+        if language == 'en':
+            return 'The pawn now moves only on 1 square. Cuts diagonally. When he reaches the last line, he turns into a queen.'
+        if language == 'fr':
+            return  'Le pion ne marche plus que sur 1 champ. Coupe en diagonale. Après avoir atteint la Dernière ligne, il se transforme en reine.'
+        if language == 'es':
+            return 'El peón ahora solo camina en 1 campo. Corta en diagonal. Al llegar a la Última línea, se convierte en una reina.'
+        if language == 'de':
+            return 'Der Bauer geht jetzt nur noch auf 1 Feld. Schneidet diagonal. Die letzte Linie erreicht, verwandelt sich in eine Königin.'
+    elif description == 'bishop':
+        if language == 'ru':
+            return 'Слон может ходить по диагонали через 1 поле. Всего 8 полей на доске! Зато он может перепрыгивать фигуры.'
+        if language == 'en':
+            return 'The bishop can walk diagonally across 1 field. There are only 8 fields on the board! But he can jump over the pieces.'
+        if language == 'fr':
+            return  'L\'éléphant peut marcher en diagonale à travers 1 champ. Un total de 8 champs sur le tableau! Mais il peut sauter par-dessus les chiffres.'
+        if language == 'es':
+            return 'El elefante puede caminar en diagonal a través de 1 campo. ¡Solo 8 campos en el tablero! Pero puede saltar sobre las figuras.'
+        if language == 'de':
+            return 'Der Elefant kann diagonal durch 1 Feld gehen. Insgesamt 8 Felder auf dem Brett! Aber er kann über die Figuren springen.'
+    elif description == 'rook':
+        if language == 'ru':
+            return 'На сцене самая сильная фигура шатранжа! Ходит она, как в обычных шахматах. По прямой.'
+        if language == 'en':
+            return 'On the stage is the most powerful figure of Shatrange! She moves like in ordinary chess. In a straight line.'
+        if language == 'fr':
+            return  'Sur scène, la figure la plus forte de shatrange! Elle marche comme dans les échecs ordinaires. À vol d\'oiseau.'
+        if language == 'es':
+            return '¡En el escenario, la figura más poderosa de shatrange! Camina como en el ajedrez normal. En línea recta.'
+        if language == 'de':
+            return "Auf der Bühne ist Shatrange die stärkste Figur! Es geht, wie im gewöhnlichen Schach. In einer geraden Linie."
+    elif description == 'king':
+        if language == 'ru':
+            return 'Король не изменил своих привычек до сих пор! Он и тогда ещё прятался от шахов и страдал от матов! Даже бегает по-прежнему!'
+        if language == 'en':
+            return 'The king hasn\'t changed his habits yet! Even then, he was still hiding from the shahs and suffering from the mats! Even runs as before!'
+        if language == 'fr':
+            return  'Le roi n\'a pas changé ses habitudes jusqu\'à présent! Il se cachait encore des Shahs et souffrait des tapis! Même courir encore!'
+        if language == 'es':
+            return '¡El rey no ha cambiado sus hábitos hasta ahora! ¡También se escondía de los Shah y sufría de las esteras! ¡Incluso sigue corriendo!'
+        if language == 'de':
+            return 'Der König hat seine Gewohnheiten bis jetzt nicht geändert! Er versteckte sich damals noch vor den Schahs und litt unter den Matten! Auch läuft noch!'
+    
+    elif description == 'horse':
+        if language == 'ru':
+            return 'Вот ещё одна фигура, которая не поменяла стиль борьбы! Всё и сейчас так, как раньше!'
+        if language == 'en':
+            return 'Here\'s another piece that hasn\'t changed the fighting style! Everything is still the same as before!'
+        if language == 'fr':
+            return  'Voici une autre figure qui n\'a pas changé le style de combat! Tout est maintenant comme avant!'
+        if language == 'es':
+            return '¡Aquí hay otra figura que no ha cambiado el estilo de lucha! ¡Todo ahora como antes!'
+        if language == 'de':
+            return 'Hier ist eine andere Figur, die den Kampfstil nicht verändert hat! Alles ist jetzt wie früher!'
+
+    if description == 'queen':
+        if language == 'ru':
+            return 'Только у нас! Смотрите! Ферзь - самая слабая фигура, после пешки! Ходит по диагонали на 1 поле.'
+        if language == 'en':
+            return 'Only with us! Look at this! The queen is the weakest figure, after the pawn! Moves diagonally on 1 field.'
+        if language == 'fr':
+            return 'Seulement nous! Voyez! La reine est la figure la plus faible, après le pion! Marche en diagonale sur 1 champ.'
+        if language == 'es':
+            return 'Sólo nosotros! ¡Miren! ¡La reina es la figura más débil, después del peón! Camina en diagonal en 1 campo.'
+        if language == 'de':
+            return 'Nur bei uns! Seht mal! Die Königin ist die schwächste Figur, nach dem Bauern! Geht diagonal auf 1 Feld.'
+
+    if description == 'end':
+        if language == 'ru':
+            return 'Это игра для самых терпеливых. Готовьтесь к черепашьему ходу фигур, но вас также ждут и неожиданные тактические приёмы. Учитесь! Древние были мудрее нас!'
+        if language == 'en':
+            return 'This is a game for the most patient. Get ready for the turtle move of the pieces, but you will also find unexpected tactics. Learn! The ancients were wiser than we!'
+        if language == 'fr':
+            return  'C\'est un jeu pour les plus patients. Préparez-vous pour le tour de tortue des formes, mais vous attendez aussi des techniques tactiques inattendues. Apprenez! Les anciens étaient plus sages que nous!'
+        if language == 'es':
+            return 'Es un juego para los más pacientes. Prepárate para el movimiento de la tortuga de las figuras, pero también te esperan técnicas tácticas inesperadas. Aprende! ¡Los antiguos eran más sabios que nosotros!'
+        if language == 'de':
+            return 'Es ist ein Spiel für die Geduldigsten. Machen Sie sich bereit für die Schildkröte Bewegung der Figuren, aber Sie warten auch auf unerwartete taktische Tricks. Lernen! Die Alten waren klüger als wir!'
+
+
+
+    return 'error in get_schatranj'
 
 
 def for_copy(language,description):
