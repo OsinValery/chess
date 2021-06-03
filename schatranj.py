@@ -1,11 +1,7 @@
-from chess import Game
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle,Ellipse,Color,Line
 from kivy.uix.button import Button
-from kivy.uix.bubble import Bubble,BubbleButton
-from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
-import kivy.utils
 
 import copy
 

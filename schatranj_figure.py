@@ -51,7 +51,6 @@ class Figure(Basic_figure.Figure):
 
         return my_hod
 
-
     def __init__(self, color, x, y, fig_type):
         super().__init__(color, x, y, fig_type)
         del self.do_hod_before

@@ -5,9 +5,9 @@ def Get_text(description,params=None,language=None):
     give it language of frase and description, where
     used text, translayter gives frase on need language\n
     Sintaxis:
-    \<module\>_\<description\>\n
+    <module>_<description>\n
     Example:
-        'settings_back_button'
+        'settings_back_button'\n
         'chess_surrend_error'
     """
     """   
@@ -630,14 +630,14 @@ def game_text(language,description,params):
             elif language == 'es': return 'Pat.\nEmpate!'
             elif language == 'de':return 'Patt.\nUnentschieden!'
         elif params == 'white':
-            if language == 'ru':  return 'Пат.\Белые проиграли!'
-            elif language == 'en':return 'Pat.\White is loser!'
+            if language == 'ru':  return 'Пат.\nБелые проиграли!'
+            elif language == 'en':return 'Pat.\nWhite is loser!'
             elif language == 'fr':return 'Pat.\nLes blancs ont perdu!'
             elif language == 'es': return 'Pat.\nLos blancos perdieron!'
             elif language == 'de':return 'Patt.\nDie weißen verloren!'
         elif params == 'black':
-            if language == 'ru':  return 'Пат.\Чёрные проиграли!'
-            elif language == 'en':return 'Pat.\Black is loser!'
+            if language == 'ru':  return 'Пат.\nЧёрные проиграли!'
+            elif language == 'en':return 'Pat.\nBlack is loser!'
             elif language == 'fr':return 'Pat.\nLes noirs ont perdu!'
             elif language == 'es': return 'Pat.\nLos negros perdieron!'
             elif language == 'de':return 'Patt.\nSchwarze verloren!'
