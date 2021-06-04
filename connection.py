@@ -8,12 +8,10 @@ from kivy.uix.widget import Widget
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
-from kivy.clock import Clock
-from kivy.graphics import Rectangle,Color
+from kivy.graphics import Rectangle, Color
 
 from translater import Get_text
 from settings import Settings
-import time
 
 Game = None
 

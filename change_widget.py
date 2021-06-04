@@ -33,7 +33,7 @@ def create_settings_interface(tap):
     main_widget.canvas.clear()
     main_widget.canvas.add(Rectangle(
         source=Settings.get_bace_picture() ,
-        size = global_constants.Sizes.window_size   
+        size = size.window_size
     ))
 
     main_widget.add_widget(Label(
@@ -216,7 +216,7 @@ class Chess_menu(Widget):
             background_color = (1,0.2,1,0.5),
             font_size = 20,
             color=(0,1,0.1,1),
-            on_press = self.parent.create_start_game ))
+            on_press = global_constants.Main_Window.create_start_game ))
 
         texts = ['random','all','classic', 'positions', 'effects', 'honestlessly','boards','others']
         # size of button's shape
@@ -319,11 +319,12 @@ class Settings_widget(Widget):
         game = global_constants.game
        # niks
         if game.state_game == 'one':
+            texts = [game.name1, game.name2]
             for i in 0,1:
                 self.add_widget(Input(   
                     size = [.62 * self.size[0], 50],
                     pos = [ pos[0] + size[0] * .35  , pos[1] + size[1] * (9-i) / 10],
-                    text= f'Player{i+1}'
+                    text= texts[i]
                 ))
         else:
             def set_color(wid,value):
@@ -346,7 +347,7 @@ class Settings_widget(Widget):
             global_constants.game.make_tips=value
 
         self.add_widget(Switch(
-            active=False,
+            active=game.make_tips,
             pos=[ pos[0] + size[0] * .55, pos[1] + size[1] * .23],
             size = [110,40],
             on_change = tip
@@ -358,7 +359,7 @@ class Settings_widget(Widget):
             on_change=self.change_time,
             pos = [pos[0] + .5 * size[0] , pos[1] + size[1] * .53 ] ,
             size = [.4 * self.size[0] , 50],
-            value = '0 ' + mins ,
+            value = f'{game.time_mode//60} ' + mins ,
             values = [f'{i} ' + mins for i in [0,5,15,30,60,90]] ,
             background_color = [.9 , 0.196, .266, .5],
             background_normal = ''
@@ -369,7 +370,7 @@ class Settings_widget(Widget):
         sec = Get_text('change_sec')
         self.add_widget(Spinner(
             on_change = self.change_add,
-            text = '0 ' + sec,
+            text = f'{game.add_time} ' + sec,
             values=[f'{i} ' + sec for i in [0,1,5,10,15,30,90,300]],
             size = [.4 * size[0] , 50 ],
             pos = [ pos[0] + .5 * size[0] , pos[1] + .4 * size[1]],

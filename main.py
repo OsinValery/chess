@@ -81,6 +81,8 @@ class Game():
         self.play_by = 'white'
         # color of that sample of app
         self.test = not (platform in ['android','ios'] )
+        self.name1 = 'Player1'
+        self.name2 = 'Player2'
         global_constants.game = self
         connection.Game = self
 
@@ -153,7 +155,7 @@ class Game():
         Clock.schedule_once(start)
 
     def create_game(self,touch):
-        main_widget = self.main_widget
+        main_widget = global_constants.Main_Window
         if self.type_of_chess == 'magik':
             player1 = main_widget.children[1].children[5].text
             player2 = main_widget.children[1].children[4].text

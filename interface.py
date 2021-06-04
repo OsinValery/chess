@@ -9,6 +9,7 @@ from kivy.uix.gridlayout import GridLayout
 import settings
 from translater import Get_text
 import global_constants
+import change_widget
 
 def time(sec):
     # convert seconds to min : sec
@@ -23,21 +24,70 @@ def time(sec):
     return f'{a}:{b}'
 
 
-def exit_command(game,command):
-    if not game.ind :
-        command(1)
-    elif game.state_game != 'one':
+def exit_command(command):
+    if not global_constants.game.ind :
+        Repeat_message(command).open()
+    elif global_constants.game.state_game != 'one':
         command(1)
     else:
-        size =  game.main_widget.size
-        Message_exit(
-            command=command,
-            game=game
-        ).open()
+        Message_exit(command=command).open()
+
+class Repeat_message(Popup):
+    def __init__(self, command, **kwargs):
+        self.background_color = [1,1,0,1/4]
+        self.background = 'window_fon.png'        
+        super(Repeat_message,self).__init__(**kwargs)
+        self.auto_dismiss = False
+        self.pos = [0,0]
+        self.title = 'Repeat'
+
+        size = global_constants.Main_Window.size
+        self.size = [.7 * size[0], .5 * size[1]]
+        self.size_hint = [None,None]
+
+        def repeat(par=...):
+            self.dismiss()
+            game = global_constants.game
+            tip = game.type_of_chess
+            with_tips = game.make_tips
+            name1, name2 = game.name1, game.name2
+            add, mode = game.add_time, game.time_mode
+            with_time = game.with_time
+            command(1)
+            game.make_tips = with_tips
+            game.name1 = name1; game.name2= name2
+            game.with_time = with_time
+            game.time_mode = mode
+            game.add_time = add
+            global_constants.Main_Window.set_change(1)
+            change_widget.Chess_type(tip).set_chess(1)
+        
+        def _exit(par=...):
+            self.dismiss()
+            command(1)
+        
+        commands = [self.dismiss,repeat,_exit]
+        texts = [Get_text('all_back'),Get_text('tutorial_repeat'), Get_text('bace_exit')]
+
+        grid = GridLayout(cols = 1,spacing=[0,15])
+        self.add_widget(grid)
+        grid.add_widget(Label(
+            text = Get_text('bace_exit_message'),
+            color = [0,1,1,1]
+        ))
+
+        for i in 0,1,2:
+            but = Button(
+                text = texts[i],
+                size_hint_y = None,
+                on_press = commands[i],
+                background_color = [1,.1,1,.7]
+            )
+            grid.add_widget(but)
 
 
 class Message_exit(Popup):
-    def __init__(self,command,game,**kwargs):
+    def __init__(self,command,**kwargs):
         self.background_color = [1,1,0,0.25]
         self.background = 'window_fon.png'
 
@@ -46,7 +96,7 @@ class Message_exit(Popup):
         self.pos = [0,0]
         self.title = Get_text('bace_exit?')
         
-        size = game.main_widget.size
+        size = global_constants.Main_Window.size
         self.size = [.7 * size[0], .5 * size[1]]
         self.size_hint = [None,None]
         
@@ -55,8 +105,8 @@ class Message_exit(Popup):
             command(1)
 
         def save(par=None):
-            self.dismiss()           
-            data = game.save_data
+            self.dismiss()
+            data = global_constants.game.save_data
             folder = os.path.join(settings.Settings.user_folder,'Saves')
             cont = sorted(os.listdir(folder))
             if cont == []:
@@ -152,7 +202,7 @@ class Graphical_interfase():
             color=(1,1,0,1),
             pos =  [sizes.window_size[0]*0.85,sizes.window_size[1]*.93],
             size=(sizes.window_size[0]*0.15,sizes.window_size[1]*0.07),
-            on_press = lambda par:exit_command(game,commands[0])
+            on_press = lambda par:exit_command(commands[0])
         ))
         names = [game.name2,game.name1]
         mas = [  [sizes.x_top_board , sizes.y_top_board + sizes.board_size[1]  ],
@@ -246,4 +296,8 @@ class Graphical_interfase():
         del self.black_time
         del self.white_time
         del self.info
-        
+
+
+
+
+      
