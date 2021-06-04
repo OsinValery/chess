@@ -229,6 +229,13 @@ def bace_text(language,description):
         elif language == 'es': return 'Quitar'
         elif language == 'de': return 'Entfernen'
         elif language == 'fr': return 'Supprimer'
+    
+    elif description == 'repeat_text':
+        if language == 'ru':   return 'Что делать?'
+        elif language == 'en': return 'What to do?'
+        elif language == 'es': return 'Qué hacer?'
+        elif language == 'de': return 'Was zu tun?'
+        elif language == 'fr': return 'Que faire?'
 
     else:
         return 'error_2'

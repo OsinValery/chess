@@ -39,7 +39,7 @@ class Repeat_message(Popup):
         super(Repeat_message,self).__init__(**kwargs)
         self.auto_dismiss = False
         self.pos = [0,0]
-        self.title = 'Repeat'
+        self.title = Get_text('bace_exit') + '?'
 
         size = global_constants.Main_Window.size
         self.size = [.7 * size[0], .5 * size[1]]
@@ -72,7 +72,7 @@ class Repeat_message(Popup):
         grid = GridLayout(cols = 1,spacing=[0,15])
         self.add_widget(grid)
         grid.add_widget(Label(
-            text = Get_text('bace_exit_message'),
+            text = Get_text('bace_repeat_text'),
             color = [0,1,1,1]
         ))
 

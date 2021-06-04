@@ -83,6 +83,7 @@ class Game():
         self.test = not (platform in ['android','ios'] )
         self.name1 = 'Player1'
         self.name2 = 'Player2'
+        self.magia_moves = 10
         global_constants.game = self
         connection.Game = self
 
@@ -115,7 +116,6 @@ class Game():
         self.voyaje_message = False
         self.add_time = 0
         self.made_moves = 0
-        self.magia_moves = 10
         self.board = []
         self.window = 'main'
 
