@@ -509,7 +509,7 @@ class GameApp(App):
     def after_start(self,par=None):
         def test(time=1):
             Music.create()
-        Clock.schedule_once(test,2)
+        Clock.schedule_once(test,3.5)
         if not 'Saves' in os.listdir(self.user_data_dir):
             os.mkdir(os.path.join(self.user_data_dir,'Saves'))
 
