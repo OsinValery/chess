@@ -87,8 +87,6 @@ def back(touch):
     del Game.fit_field
     del Game.list_of_hod_field
     del Game.do_hod
-    del Game.name2
-    del Game.name1
     del Game.tips_drawed
     del choose_figure
     del gr_line
