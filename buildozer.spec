@@ -7,7 +7,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ogg,txt
 #source.include_patterns = assets/*,images/*.png
 #source.exclude_exts = spec
-#source.exclude_dirs = tests, bin
+#source.exclude_dirs = tests, bin, .vscode, .git
 #source.exclude_patterns = license,images/*/*.jpg
 version.regex = __version__ = ['"](.*)['"]
 version.filename = %(source.dir)s/main.py

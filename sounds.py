@@ -2,8 +2,8 @@ from kivy.core.audio import SoundLoader
 import os
 from settings import Settings
 import global_constants
+from threading import Thread
 
-music_dir = Settings.get_folder() + 'sounds'
 
 class Music_collector():
     def __init__(self):
@@ -17,21 +17,22 @@ class Music_collector():
             self.effect.volume = Settings.volume
             self.end_time = SoundLoader.load(os.path.join(music_dir,'timeend.ogg'))
 
-            self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
-            self.fon.loop = True
-            self.fon.volume = Settings.volume
-            self.start()
+            def load(arg=None):
+                self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
+                self.fon.loop = True
+                self.fon.volume = Settings.volume
+                self.start()
+            sound = Thread(target=load,daemon=True)
+            sound.start()
         except:
             pass
 
     def start(self):
         if Settings.with_sound:
-            try:
-                self.fon.play()
-            except:
-                pass
+            self.fon.play()
     
     def move(self):
+        # calls from game
         if Settings.with_effects:
             try:
                 self.effect.play()
@@ -67,7 +68,7 @@ class Music_collector():
                 self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
                 self.fon.loop = True
                 self.fon.volume = Settings.volume
-                self.fon.play()
+                self.start()
         except:
             pass
 
@@ -84,8 +85,7 @@ class Music_collector():
             self.fon = SoundLoader.load(os.path.join(music_dir,music))
             self.fon.loop = True
             self.fon.volume = Settings.volume
-            if Settings.with_sound:
-                self.fon.play()
+            self.start()
         except:
             pass
 
