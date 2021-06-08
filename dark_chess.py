@@ -139,7 +139,7 @@ def pause(touch):
 def create_tips(a,b,board):
     if Game.state_game == 'one' and Game.color_do_hod_now != board[a][b].figure.color:
         return
-    if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
+    if Game.state_game != 'one' and board[a][b].figure.color != Game.play_by:
         return
     list1 = find_fields(board,board[a][b].figure)
     top_x= Sizes.x_top + Sizes.x_top_board
@@ -173,26 +173,7 @@ def copy_board(board):
             new_board[a][b].figure.color = copy.copy(board[a][b].figure.color)
             new_board[a][b].figure.type = copy.copy(board[a][b].figure.type)
             new_board[a][b].figure.do_hod_before = copy.copy(board[a][b].figure.do_hod_before)
-
     return new_board
-
-def is_chax(board,color):
-    for a in range(8):
-        for b in range(8):
-            if (board[a][b].figure.type == 'king'):
-                if (board[a][b].figure.color == color) and (board[a][b].attacked):
-                    return True
-    return False
-
-def able_to_do_hod(board,color):
-    Res = False
-    for a in board:
-        for field in a:
-            if field.figure.type != 'empty' and field.figure.color == color:
-                if find_fields(board,field.figure) != []:
-                    Res = True
-                    break
-    return Res 
 
 def find_fields(board,figure):
     list2 = figure.first_list(board)
@@ -228,7 +209,6 @@ def is_end_of_game(board):
             draw()
         elif  Game.color_do_hod_now == 'black' and Game.want_draw['white']:
             draw()
-
 
 def change_color(time=None):
     if Game.with_time:
@@ -266,7 +246,8 @@ def do_hod(x,y,board):
     elif board[x][y].figure.color == Game.color_do_hod_now:
             choose_figure = board[x][y].figure
             Game.list_of_hod_field = find_fields(board,choose_figure)
-            gr_line.show_field(x,y)
+            if Game.state_game == 'one' or choose_figure.color == Game.play_by:
+                gr_line.show_field(x,y)
             if Game.make_tips:
                 delete_tips()
                 create_tips(x,y,board)
