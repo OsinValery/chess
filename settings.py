@@ -122,7 +122,8 @@ class __Settings():
         standart = [
             'classic','magik','fisher','horse_battle',
             'permutation','horde','week','kamikadze',
-            'bad_chess','rasing', 'haotic', 'schatranj'
+            'bad_chess','rasing', 'haotic', 'schatranj',
+            'dark_chess'
         ]
         if tipe in standart:
             file =  'board.png'

@@ -16,7 +16,7 @@ from translater import Get_text
 from connection import Connection
 import global_constants
 
-
+import classic
 import dark_figure
 Figure = dark_figure.Figure
 
@@ -91,6 +91,7 @@ def back(touch):
     del gr_line
     if Game.state_game != 'one':
         Connection.messages += ['leave']
+    Game.clear(Game)
     Game.renew()
     Main_Window.canvas.clear()
     Main_Window.create_start_game(touch)    
@@ -136,15 +137,15 @@ def pause(touch):
         Main_Window.add_widget(but)
 
 def create_tips(a,b,board):
+    if Game.state_game == 'one' and Game.color_do_hod_now != board[a][b].figure.color:
+        return
+    if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
+        return
     list1 = find_fields(board,board[a][b].figure)
     top_x= Sizes.x_top + Sizes.x_top_board
     top_y = Sizes.y_top + Sizes.y_top_board
     field = Sizes.field_size
-    color = [0,1,0, .8 ]
-    if Game.color_do_hod_now != board[a][b].figure.color:
-        color = [1, 0, 0, .8 ]
-    if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
-        color = [1,0,0,.8]
+    color = [0,1,0,.8 ]
     r = Sizes.field_size // 6
     with Main_Window.wid.canvas:
         Color(*color,mode='rgba')
@@ -162,16 +163,7 @@ def create_tips(a,b,board):
 def delete_tips():
     if Game.tips_drawed :
         Main_Window.wid.canvas.clear()
-        rect = Rectangle(
-            source=Settings.get_board_picture(Game.type_of_chess),
-            pos=[Sizes.x_top_board,Sizes.y_top_board],
-            size=Sizes.board_size)
-        Main_Window.wid.canvas.add(rect)
-        Game.tips_drawed = False
-        for x in range(8):
-            for y in range(8):
-                if Game.board[x][y].figure.type != 'empty':
-                    Main_Window.wid.canvas.add(Game.board[x][y].figure.rect)
+        draw_board()
 
 def copy_board(board):
     new_board = [[Field() for b in range(8)] for a in range(8)]
@@ -203,97 +195,40 @@ def able_to_do_hod(board,color):
     return Res 
 
 def find_fields(board,figure):
-    time_list = figure.first_list(board)
-    list2 = []
-
-    for element in time_list:
-        board2 = copy_board(board)
-        for a in board2:
-            for b in a:
-                b.attacked = False
-                
-        #как будто был сделан туда ход, и нет ли шаха королю ходящего цвета
-        board2[figure.x][figure.y].figure.type = 'empty'
-        board2[figure.x][figure.y].figure.color = ''
-        # взятие на проходе
-        if figure.type == 'pawn':
-            if board2[element[0]][element[1]].figure.type == 'empty':
-                if figure.x != element[0]:
-                    board2[element[0]][figure.y].figure.type = 'empty'
-                    board2[element[0]][figure.y].figure.color = ''
-        board2[element[0]][element[1]].figure.type = copy.copy(figure.type)
-        board2[element[0]][element[1]].figure.color = copy.copy(figure.color)
-        
-        for a in range(8):
-            for b in range(8):
-                if board2[a][b].figure.type != 'empty':
-                    if board2[a][b].figure.color != Game.color_do_hod_now:
-                        if board2[a][b].figure.type == board[a][b].figure.type:
-                            board2 = board[a][b].figure.do_attack(board2)
-
-        if not is_chax(board2,Game.color_do_hod_now):
-            list2.append(element)
-
+    list2 = figure.first_list(board)
     if figure.type == 'king' and not figure.do_hod_before :
-        list2 = Game.can_do_rocking(Game,board,figure,list2)
-    
-    if Game.type_of_chess == 'fisher':
-        if figure.type == 'rook' and not figure.do_hod_before:
-            board2 = copy_board(board)
-            for line in board:
-                for field in line:
-                    if field.figure.type != 'empty' and field.figure.color != figure.color:
-                        board2 = field.figure.do_attack(board2)
-            if not is_chax(board2,figure.color):
-                list2 = Game.rocking_do_rook(board,figure,list2)
+        c = figure.y
+        #короткая рокировка
+        if board[6][c].figure.type == 'empty' and board[5][c].figure.type == 'empty':
+            if board[7][c].figure.type == 'rook' and not board[7][c].figure.do_hod_before:
+                list2.append([6,c])
+        #длинная
+        if board[1][c].figure.type == 'empty' and board[2][c].figure.type == 'empty':
+            if board[3][c].figure.type == 'empty':
+                if board[0][c].figure.type == 'rook' and not board[0][c].figure.do_hod_before:
+                    list2.append([2,c])
     return list2
 
 def is_end_of_game(board):
-    is_mate = False
-    board2 = copy_board(board)
-    for x in range(8):
-        for y in range(8):
-            if board2[x][y].figure.color != Game.color_do_hod_now:
-                board2 = board[x][y].figure.do_attack(board2)
-    if Game.color_do_hod_now == 'white':
-        if is_chax(board2,'white'):
-            if not able_to_do_hod(board,'white'):
-                is_mate = True
-                interfase.do_info(Get_text('game_white_mate'))
-            else:
-                interfase.do_info(Get_text('game_white_chax'))
-    else:
-        if is_chax(board2,'black'):
-            if not able_to_do_hod(board,'black'):
-                interfase.do_info(Get_text('game_black_mate'))
-                is_mate = True
-            else:
-                interfase.do_info(Get_text('game_black_chax'))   
+    have = False
+    for line in board:
+        for field in line:
+            fig = field.figure
+            if fig.type == 'king' and fig.color == Game.color_do_hod_now:
+                have = True
+                break
 
-    if Game.type_of_chess == 'horde' and Game.color_do_hod_now == 'white':
-        n = 0
-        for row in Game.board:
-            for f in row:
-                if f.figure.color == 'white':
-                    n += 1
-        if n == 0:
-            is_mate = True
-            interfase.do_info(Get_text('game_white_nothing'))
-
-    if not is_mate:
-        if not able_to_do_hod(board,Game.color_do_hod_now):
-            interfase.do_info(Get_text('game_pat'))
-            is_mate = True
-    if is_mate :
+    if not have :
         Game.ind = False
         if Game.with_time:
             Game.time.cancel()
+        interfase.info.text = Get_text(f'game_{Game.color_do_hod_now}_lose')
     if Game.ind :
         if Game.color_do_hod_now == 'white' and Game.want_draw['black']:
             draw()
         elif  Game.color_do_hod_now == 'black' and Game.want_draw['white']:
             draw()
-    del board2
+
 
 def change_color(time=None):
     if Game.with_time:
@@ -329,11 +264,6 @@ def do_hod(x,y,board):
             delete_tips()
             create_tips(x,y,board)
     elif board[x][y].figure.color == Game.color_do_hod_now:
-        if Game.type_of_chess == 'fisher' and choose_figure.type == 'king' and [x,y] in Game.list_of_hod_field:
-            if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
-                return  board
-            board = move_figure(board,x,y)
-        else:
             choose_figure = board[x][y].figure
             Game.list_of_hod_field = find_fields(board,choose_figure)
             gr_line.show_field(x,y)
@@ -381,6 +311,9 @@ def move_figure(board,x,y,options=None):
             options = options[2:]
             change_color(options)
             is_end_of_game(board)
+            if Game.ind:
+                Main_Window.wid.canvas.clear()
+                draw_board()
         else:
             do_transformation(Game.color_do_hod_now,x,y,options)
     else:
@@ -390,7 +323,10 @@ def move_figure(board,x,y,options=None):
             Game.message = ''
         choose_figure = Figure('',0,0,'empty')
         change_color(options)
-        is_end_of_game(board)
+        is_end_of_game(board)       
+        if Game.ind:
+            Main_Window.wid.canvas.clear()
+            draw_board()
     
     delete_tips()
     gr_line.show_field(x=-1,y=-1)
@@ -436,6 +372,9 @@ def do_transformation(color,x,y,options=None):
         Game.message = ''
         change_color(options)
         is_end_of_game(Game.board)
+        if Game.ind:
+            Main_Window.wid.canvas.clear()
+            draw_board()
     
     # for buttons
     def change_q(click):
@@ -522,6 +461,7 @@ def build_game(game):
     game.list_of_hod_field = []
     game.do_hod = do_hod
     game.tips_drawed = False
+    classic.init_chess(game)
     if game.with_time:
         game.time = Clock.schedule_interval(tick,1)
     return game
@@ -592,6 +532,8 @@ def init_game():
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)
+    Main_Window.wid.canvas.clear()
+    draw_board()
 
 def create_message(text):
     def ok():
@@ -638,10 +580,37 @@ def draw_board():
         size=Sizes.board_size)
     Main_Window.wid.canvas.add(rect)
     Game.tips_drawed = False
+    draw_color = Game.color_do_hod_now 
+    if Game.state_game != 'one':
+        draw_color = Game.play_by
+
+    for line in Game.board:
+        for field in line:
+            field.attacked = False
+    for line in Game.board:
+        for field in line:
+            if field.figure.type !='empty'and field.figure.color == draw_color:
+                field.figure.do_attack(Game.board)
     for x in range(8):
         for y in range(8):
-            if Game.board[x][y].figure.type != 'empty':
+            fig = Game.board[x][y].figure
+            if fig.type != 'empty' and \
+                (fig.color == draw_color or Game.board[x][y].attacked):
                 Main_Window.wid.canvas.add(Game.board[x][y].figure.rect)
+            elif fig.type == 'empty' and Game.board[x][y].attacked:
+                pass
+            else:
+                # draw darkness
+                size = Sizes
+                pos_x = x * size.field_size + size.x_top + size.x_top_board
+                pos_y = y * size.field_size + size.y_top + size.y_top_board
+                with Main_Window.wid.canvas:
+                    Color(0,0,0)
+                    Rectangle(
+                        pos = [pos_x,pos_y],
+                        size = [size.field_size]*2
+                    )
+                    Color(1,1,1,1)
     if choose_figure.type != 'empty':
         x,y = choose_figure.x,choose_figure.y
         gr_line.show_field(x,y)

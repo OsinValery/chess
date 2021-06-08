@@ -30,6 +30,7 @@ import bad_chess
 import rasing
 import haotic
 import schatranj
+import dark_chess
 
 import time
 import os
@@ -60,6 +61,8 @@ def find_chess_module(tip):
         return haotic
     elif tip == 'schatranj':
         return schatranj
+    elif tip == 'dark_chess':
+        return dark_chess
     if game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')

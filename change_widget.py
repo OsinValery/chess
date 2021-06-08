@@ -457,7 +457,7 @@ positions =    [Chess_type(el)for el in['fisher','horse_battle']]
 with_effects = [Chess_type(el)for el in['magik', 'permutation', 'kamikadze', 'haotic']]
 honestless =   [Chess_type(el)for el in['horde', 'week', 'bad_chess']]
 boards =       [Chess_type(el)for el in['circle_chess', 'bizantion', 'glinskiy', 'kuej']]
-other_rules =  [Chess_type(el)for el in['rasing']]
+other_rules =  [Chess_type(el)for el in['rasing','dark_chess']]
 
 all_chess = classic_type + positions + with_effects + honestless + boards + other_rules
 
