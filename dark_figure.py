@@ -4,7 +4,6 @@ def get_widget(window,sizes):
     Basic_figure.get_widget(window,sizes)
 
 
-
 class Figure(Basic_figure.Figure):
     def first_list(self, board):
         if self.type != 'king':

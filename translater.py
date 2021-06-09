@@ -188,6 +188,13 @@ def bace_text(language,description):
         elif language == 'es': return 'Caótico'
         elif language == 'de': return 'Chaotisch'
     
+    elif description == 'dark_chess':
+        if language == 'ru':    return 'Тёмные \n шахматы'
+        elif language == 'en':  return 'Dark chess'
+        elif language == 'fr': return 'Sombre jeu d\'échecs'
+        elif language == 'es': return 'Ajedrez oscuro'
+        elif language == 'de': return 'Dunkles Schach'
+
     elif description == 'schatranj':
         if language == 'ru':    return 'Шатрандж'
         elif language == 'en':  return 'Shatranj'
