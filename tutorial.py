@@ -208,6 +208,8 @@ def tutorial(press):
         do_haos_tutorial()
     elif game.type_of_chess == 'schatranj':
         do_schatranj_tutorial()
+    elif game.type_of_chess == 'dark_chess':
+        do_dark_tutorial()
     else:
         lost_tutorial()
 
@@ -313,6 +315,8 @@ def classic_7(press):
         command = bad_2
     elif game.type_of_chess == 'rasing':
         command = do_racing_tutorial
+    elif game.type_of_chess in ['dark_chess']:
+        command = classic_8
     else:
         command = fisher1
 
@@ -373,6 +377,8 @@ def classic_9(press):
         but.bind(on_press = kami_2)
     elif game.type_of_chess == 'haotic':
         but.bind(on_press=do_haos_tutorial)
+    elif game.type_of_chess == 'dark_chess':
+        but.bind(on_press = dark2)
     else:
         but.bind(on_press=do_classic_tutorial)
     global_constants.Main_Window.add_widget(but)
@@ -1667,5 +1673,48 @@ def schat9(par=...):
 
 # end of schatranj tutorial
 
+def do_dark_tutorial(par=...):
+    help_tutorial()
+    static_interface(
+        repeat=False,
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_dark_start'),
+        btn_command=dark2
+    )
 
+def dark2(par=None):
+    size = global_constants.Main_Window.size
+    help_tutorial()
+    static_interface(
+        size = size,
+        label_text=Get_text('tutorial_dark_second'),
+        btn_command=dark3
+    )
+    global_constants.Main_Window.add_widget(Button(
+        text = Get_text('tutorial_see'),
+        pos = (size[0] * 0.32 , size[1] * 0.05),
+        background_normal = '',
+        background_color = (1,1,0,0.3),
+        color = (0,1,0,1),
+        on_press = classic_1
+    ))
+
+def dark3(par=None):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_dark_purpose'),
+        btn_command=dark4
+    )
+
+def dark4(par=...):
+    help_tutorial()
+    static_interface(
+        label_text = Get_text('tutorial_dark_last'),
+        repeat=True,
+        btn_command=do_dark_tutorial,
+        size = global_constants.Main_Window.size
+    )
+
+# end of dark tutorial
 

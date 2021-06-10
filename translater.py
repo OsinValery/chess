@@ -1032,6 +1032,9 @@ def tutorial(language,description):
     elif 'shcatranj' in description:
         return get_schatranj(language,description[10:])
 
+    elif 'dark' in description:
+        return get_dark(language,description[5:])
+
     else:
         return 'error_2'
 
@@ -2495,6 +2498,57 @@ def get_schatranj(language,description):
 
 
     return 'error in get_schatranj'
+
+def get_dark(language,description):
+    if description == 'start':
+        if language == 'ru':
+            return 'Пора вам научиться действовать в условиях реального боя! Добро пожаловать, Командиры!'
+        if language == 'en':
+            return 'It\'s time for you to learn how to act in a real battle! Welcome, Commanders!'
+        if language == 'fr':
+            return  'Il est temps pour vous d\'apprendre à agir dans un vrai combat! Bienvenue, Commandants!'
+        if language == 'es':
+            return '¡Es hora de que aprendas a actuar en un combate real! ¡Bienvenidos, Comandantes!'
+        if language == 'de':
+            return 'Es ist Zeit, dass Sie lernen, in einem echten Kampf zu handeln! Willkommen, Kommandeure!'
+    
+    if description == 'second':
+        if language == 'ru':
+            return 'Эти шахматы отличаются от обычных тем, что во время боя вы будете видеть только свои фигуры и поля, куда они атакуют. Во время обучения затемнение не работает.'
+        if language == 'en':
+            return 'This chess game differs from the usual ones in that during the battle you will only see your pieces and the fields where they attack. During training, the blackout does not work.'
+        if language == 'fr':
+            return  'Ces échecs sont différents de la normale en ce sens que pendant le combat, vous ne verrez que leurs pièces et les champs où ils attaquent. Pendant la formation, la gradation ne fonctionne pas.'
+        if language == 'es':
+            return 'Este ajedrez es diferente de lo normal en que durante la batalla solo verás tus piezas y los campos donde atacan. Durante el entrenamiento, el apagón no funciona.'
+        if language == 'de':
+            return 'Dieses Schach unterscheidet sich von den üblichen dadurch, dass Sie während des Kampfes nur Ihre Figuren und Felder sehen, wo sie angreifen. Während des Trainings funktioniert Blackout nicht.'
+    
+    if description == 'purpose':
+        if language == 'ru':
+            return 'Цель игры - срубить короля противника. Кстати, он может ходить на атакованное поле, так как он не знает об этом. Далее, рокировку можно делать, не проверяя промежуточные поля. Также приложение не сообщает, стоит ли шах. '
+        if language == 'en':
+            return 'The goal of the game is to cut down the opponent\'s king. By the way, he can go to the attacked field, since he does not know about it. Further, castling can be done without checking the intermediate fields. Also, the app doesn\'t tell you if the check is worth it. '
+        if language == 'fr':
+            return  'Le but du jeu est d\'abattre le roi de l\'ennemi. D\'ailleurs, il peut marcher sur le terrain attaqué puisqu\'il ne le sait pas. Ensuite, le Roque peut être fait sans vérifier les champs intermédiaires. L\'application ne dit pas non plus si le Shah vaut la peine. '
+        if language == 'es':
+            return 'El objetivo del juego es derribar al rey enemigo. Por cierto, puede ir al campo atacado, ya que no lo sabe. A continuación, el enroque se puede hacer sin verificar los campos intermedios. Además, la aplicación no informa si el Shah vale la pena. '
+        if language == 'de':
+            return 'Ziel des Spiels ist es, den gegnerischen König abzuschneiden. Übrigens kann er auf das angegriffene Feld gehen, da er nichts davon weiß. Als nächstes kann die Rochade durchgeführt werden, ohne die Zwischenfelder zu überprüfen. Auch die App sagt nicht, ob Shah es wert ist. '
+
+    if description == 'last':
+        if language == 'ru':
+            return 'Удачи в бою! А удача во тьме вам понадобится.'
+        if language == 'en':
+            return 'Good luck in the fight! And you will need luck in the darkness.'
+        if language == 'fr':
+            return  'Bonne chance au combat! Et vous aurez besoin de chance dans les ténèbres.'
+        if language == 'es':
+            return '¡Buena suerte en la batalla! Y necesitarás suerte en la oscuridad.'
+        if language == 'de':
+            return 'Viel Glück im Kampf! Und Sie brauchen Glück in der Dunkelheit.'
+
+    return description
 
 
 def for_copy(language,description):
