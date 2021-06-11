@@ -1,3 +1,4 @@
+from typing import Set
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
@@ -104,6 +105,15 @@ def create_worning():
     window.add_widget(wid)
     window.open()
 
+def sort_games(games):
+    if not Settings.must_sort_games:
+        return games
+    rule = Settings.get_sorting(all_chess)
+    def sol(game1):
+        return rule[game1.type]
+    return sorted(games,key=sol,reverse=True)
+
+
 ############################################################
 # useful classes
 #############################################################
@@ -192,19 +202,19 @@ class Chess_menu(Widget):
         if group == 0:
             random.choice(all_chess).set_chess(1)
         elif group == 1:
-            self.add_widget(Chess_view(all_chess))
+            self.add_widget(Chess_view(sort_games(all_chess)))
         elif group == 2:
-            self.add_widget(Chess_view(classic_type))
+            self.add_widget(Chess_view(sort_games(classic_type)))
         elif group == 3:
-            self.add_widget(Chess_view(positions))
+            self.add_widget(Chess_view(sort_games(positions)))
         elif group == 4:
-            self.add_widget(Chess_view(with_effects))
+            self.add_widget(Chess_view(sort_games(with_effects)))
         elif group == 5:
-            self.add_widget(Chess_view(honestless))
+            self.add_widget(Chess_view(sort_games(honestless)))
         elif group == 6:
-            self.add_widget(Chess_view(boards))
+            self.add_widget(Chess_view(sort_games(boards)))
         elif group == 7:
-            self.add_widget(Chess_view(other_rules))
+            self.add_widget(Chess_view(sort_games(other_rules)))
  
     def create_interface(self,arg=None):
         self.clear_widgets()

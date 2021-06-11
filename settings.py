@@ -4,7 +4,6 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color,Rectangle
 from kivy.uix.widget import Widget
 from kivy.uix.textinput import TextInput
-from kivy.clock import Clock
 from my_spinner import Spinner
 from switch import Switch_ as Switch
 
@@ -58,6 +57,7 @@ class __Settings():
         self.folder = ''
         self.user_folder = ''
         self.default_nick = 'Super Hero'
+        self.must_sort_games = True
         global_constants.Settings = self
     
     def read_settings(self):
@@ -79,6 +79,7 @@ class __Settings():
                 self.fig_set = sets[8]
                 self.boards = sets[9]
                 self.default_nick = sets[10]
+                self.must_sort_games = sets[11] == 'yes'
             except:
                 self.write_settings()
         else:
@@ -97,6 +98,7 @@ class __Settings():
         file_settings.write(self.fig_set+'\n')
         file_settings.write(self.boards+'\n')
         file_settings.write(self.default_nick+'\n')
+        file_settings.write('yes\n' if self.must_sort_games else 'no\n')
 
         file_settings.close()
 
@@ -154,6 +156,31 @@ class __Settings():
     def get_fig_set(self):
         return self.fig_set
 
+    def get_sorting(self,all_games):
+        if not 'sorting.txt' in os.listdir(Settings.user_folder):
+            file = open(os.path.join(self.user_folder,'sorting.txt'),mode='w')
+            cont = dict()
+            for game in all_games:
+                file.write(f'{game.type}=0\n')
+                cont[game.type] = 0
+            file.close()
+            return cont
+        else:
+            file = open(os.path.join(self.user_folder,'sorting.txt'),mode='r')
+            cont = file.readlines()
+            file.close()
+            rule = dict()
+            for line in cont:
+                game, value = line[:-1].split('=')
+                rule[game] = int(value)
+            file = open(os.path.join(self.user_folder,'sorting.txt'),mode='a')
+            for game in all_games:
+                if not game.type in rule:
+                    rule[game.type] = 0
+                    file.write(f'{game.type}=0\n')
+            file.close()
+            return rule
+
     def set_folder(self,fold):
         self.folder = fold
 
@@ -171,6 +198,10 @@ class __Settings():
     
     def set_volume(self,value):
         self.volume = value
+        self.write_settings()
+
+    def set_sorting(self,wid,value):
+        self.must_sort_games = value
         self.write_settings()
 
     def set_nick(self,wid,nick):
@@ -246,6 +277,28 @@ class __Settings():
         for wid in widget.children:
             if type(wid) == Button:
                 wid.text = Get_text('all_back')
+
+    def change_sorting(self,play:str):
+        if not 'sorting.txt' in os.listdir(Settings.user_folder):
+            file = open(os.path.join(self.user_folder,'sorting.txt'),mode='w')
+            file.write(f'{play}=1\n')
+            file.close()
+        else:
+            file = open(os.path.join(self.user_folder,'sorting.txt'),mode='r')
+            cont = file.readlines()
+            file.close()
+            rule = dict()
+            for line in cont:
+                game, value = line[:-1].split('=')
+                rule[game] = int(value)
+            if play in rule:
+                rule[play] += 1
+            else:
+                rule[play] = 1
+            file = open(os.path.join(self.user_folder,'sorting.txt'),mode='w')
+            for line in rule:
+                file.write(f'{line}={rule[line]}\n')
+            file.close()
 
 
 
@@ -515,6 +568,17 @@ def fill_2(content):
         font_size = 36,
         color = text_color,
         size = [.3 * content.size[0], text.size[1]]
+    ))
+    content.add_widget(Label(
+        text = 'sort?',
+        pos = [pos[0] + .2*cont_size[0],pos[1] + .6 * cont_size[1]],
+        font_size = 36,
+        color = text_color
+    ))
+    content.add_widget(Switch(
+        active = Settings.must_sort_games,
+        pos = [pos[0]+.5*cont_size[0],pos[1]+.63*cont_size[1]],
+        on_change = Settings.set_sorting
     ))
 
 

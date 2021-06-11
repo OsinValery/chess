@@ -151,6 +151,7 @@ class Game():
             self.name1 = connection.Connection.friend_nick  
         self.ind = True
         self.window = 'game' 
+        settings.Settings.change_sorting(self.type_of_chess)
         self.players_time = {'white':self.time_mode,'black':self.time_mode}   
         if self.time_mode != 0:
             self.with_time = True
@@ -217,6 +218,7 @@ class Game():
         main_widget.clear_widgets()
         main_widget.canvas.clear()
         self.window = 'game'
+        settings.Settings.change_sorting(self.type_of_chess)
         find_chess_module(self.type_of_chess).init_game()
 
     def work_message(self,message):
