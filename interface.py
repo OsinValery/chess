@@ -47,20 +47,8 @@ class Repeat_message(Popup):
 
         def repeat(par=...):
             self.dismiss()
-            game = global_constants.game
-            tip = game.type_of_chess
-            with_tips = game.make_tips
-            name1, name2 = game.name1, game.name2
-            add, mode = game.add_time, game.time_mode
-            with_time = game.with_time
-            command(1)
-            game.make_tips = with_tips
-            game.name1 = name1; game.name2= name2
-            game.with_time = with_time
-            game.time_mode = mode
-            game.add_time = add
-            global_constants.Main_Window.set_change(1)
-            change_widget.Chess_type(tip).set_chess(1)
+            global_constants.game.renew_game()
+
         
         def _exit(par=...):
             self.dismiss()

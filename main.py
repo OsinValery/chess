@@ -379,6 +379,24 @@ class Game():
                 fig.color, fig.x, fig.y
             )
 
+    def renew_game(self):
+        tip = self.type_of_chess
+        time_mode = self.time_mode
+        add_time = self.add_time
+        with_tips = self.make_tips
+        find_chess_module(self.type_of_chess).back(1)
+        self.type_of_chess = tip
+        self.add_time = add_time
+        self.make_tips = with_tips
+        self.time_mode = time_mode
+        self.players_time['white'] = self.time_mode
+        self.players_time['black'] = self.time_mode
+        global_constants.Main_Window.set_change(1)
+        change_widget.Chess_type(self.type_of_chess).set_chess(1)
+        
+
+        
+
 
 class GameWidget(Widget):
     def __init__(self,**kwargs):

@@ -25,7 +25,7 @@ import global_constants
 This module was created for realisation of interface of choosing type of chess
 """
 
-   
+
 def create_settings_interface(tap):
     global_constants.game.window = 'settings'
     main_widget = global_constants.Main_Window
@@ -311,7 +311,6 @@ class Frozen_Input(TextInput):
         else:
             return ''
 
-    
 
 class Settings_widget(Widget):
     def __init__(self, size,pos):
