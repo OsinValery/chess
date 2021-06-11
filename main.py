@@ -31,6 +31,7 @@ import rasing
 import haotic
 import schatranj
 import dark_chess
+import frozen_chess
 
 import time
 import os
@@ -63,6 +64,8 @@ def find_chess_module(tip):
         return schatranj
     elif tip == 'dark_chess':
         return dark_chess
+    elif tip == 'frozen':
+        return frozen_chess
     if game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')
@@ -87,6 +90,7 @@ class Game():
         self.name1 = 'Player1'
         self.name2 = 'Player2'
         self.magia_moves = 10
+        self.frozen_moves = 20
         global_constants.game = self
         connection.Game = self
 
@@ -160,6 +164,9 @@ class Game():
     def create_game(self,touch):
         main_widget = global_constants.Main_Window
         if self.type_of_chess == 'magik':
+            player1 = main_widget.children[1].children[5].text
+            player2 = main_widget.children[1].children[4].text
+        elif self.type_of_chess == 'frozen':
             player1 = main_widget.children[1].children[5].text
             player2 = main_widget.children[1].children[4].text
         else:

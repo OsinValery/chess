@@ -275,6 +275,34 @@ class Input(TextInput):
             return ''
 
 
+class Frozen_Input(TextInput):
+    def __init__(self,size,pos,text):
+        super(Frozen_Input,self).__init__()
+        self.size = size
+        self.pos = pos
+        self.text = text
+        self.multiline = False
+        def change_frozen(wid,value):
+            if value == '':
+                global_constants.game.frozen_moves = 20
+            elif int(value) > 0:
+                global_constants.game.frozen_moves = int(value)            
+            else:
+                global_constants.game.frozen_moves = 20
+                wid.text = '20'
+
+        self.bind(text = change_frozen)
+
+    def input_filter(self,text:str,ind):
+        if ind:
+            return text
+        if text.isdigit() and (self.text == '' or int(self.text) < 100):
+            return text
+        else:
+            return ''
+
+    
+
 class Settings_widget(Widget):
     def __init__(self, size,pos):
         super(Settings_widget,self).__init__()
@@ -299,6 +327,9 @@ class Settings_widget(Widget):
         if global_constants.game.type_of_chess == 'magik':
             texts.append(Get_text('change_magia'))
             poses.append([self.pos[0]+self.size[0]*.17, self.pos[1]+self.size[1]*.09])
+        if global_constants.game.type_of_chess == 'frozen':
+            texts.append(Get_text('change_frozen'))
+            poses.append([self.pos[0]+self.size[0]*.1, self.pos[1]+self.size[1]*.07])
         if global_constants.game.state_game == 'one':
             texts.append(Get_text('change_nik'))
             poses.append([self.pos[0]+.01*self.size[0], self.pos[1]+.8*self.size[1]])
@@ -393,6 +424,13 @@ class Settings_widget(Widget):
                 drop_spacing = 8,
                 drop_background_color = [.259, .66, 1, .8]
            ))
+        
+        if game.type_of_chess == 'frozen':
+            self.add_widget(Frozen_Input(
+                pos=[ pos[0] + .5 * size[0] , pos[1] + .1 * size[1]],
+                text=str(game.frozen_moves),
+                size=[.2 * self.size[0], 50]
+            ))
 
     def change_add(self,wid,value):
         value = int( value.split()[0] )
@@ -454,7 +492,9 @@ class Settings_widget(Widget):
 
 classic_type = [Chess_type(el)for el in['classic', 'los_alamos', 'garner','schatranj']]
 positions =    [Chess_type(el)for el in['fisher','horse_battle']]
-with_effects = [Chess_type(el)for el in['magik', 'permutation', 'kamikadze', 'haotic','dark_chess']]
+with_effects = [Chess_type(el)for el in['magik', 'permutation', 'kamikadze', 
+                            'haotic','dark_chess','frozen'
+                ]]
 honestless =   [Chess_type(el)for el in['horde', 'week', 'bad_chess']]
 boards =       [Chess_type(el)for el in['circle_chess', 'bizantion', 'glinskiy', 'kuej']]
 other_rules =  [Chess_type(el)for el in['rasing']]

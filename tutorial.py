@@ -343,7 +343,6 @@ def classic_8(press):
     ]
     video_interface(board,actions,1,classic_9,text)
 
-
 def classic_9(press):
     help_tutorial()   
     size = global_constants.Main_Window.size
@@ -1633,7 +1632,6 @@ def schat5(par=...):
         btn_command=schat6,
         label_text=Get_text('tutorial_shcatranj_rook')
     )
-
 
 def schat6(par=...):
     help_tutorial()

@@ -201,6 +201,13 @@ def bace_text(language,description):
         elif language == 'fr': return 'Shatrange'
         elif language == 'es': return 'Shatrange'
         elif language == 'de': return 'Shatrange'
+
+    elif description == 'frozen':
+        if language == 'ru':    return 'Ледниковый \n период'
+        elif language == 'en':  return 'Ice Period '
+        elif language == 'fr': return 'Âge de glace '
+        elif language == 'es': return 'Período glacial'
+        elif language == 'de': return 'Eiszeit'
     
     elif description == 'exit?':
         if language == 'ru':   return 'Выйти?'
@@ -505,6 +512,18 @@ def change_text(language,description):
             return 'otras normas'
         if language == 'de':
             return 'andere Regeln'
+    
+    if description == 'frozen':
+        if language == 'ru':
+            return 'Заморозка'
+        if language == 'en':
+            return 'Freeze'
+        if language == 'fr':
+            return  "Geler"
+        if language == 'es':
+            return 'Congelar'
+        if language == 'de':
+            return 'Frosten'
 
 
     else:
@@ -936,6 +955,43 @@ def game_text(language,description,params):
         elif language == 'fr':return 'Tirage au sort! \nLes deux rois sont sur la cible!'
         elif language == 'es':return '¡Empate! Ambos rey el objetivo!'
         elif language == 'de':return 'Unentschieden! \nBeide Könige sind am Ziel!'
+
+    # for frozen chess
+    elif description == 'both_frozen':
+        if language == 'ru':
+            return 'Оба короля погибли. \nНичья.'
+        if language == 'en':
+            return "Both kings are dead. \n Draw."
+        if language == 'fr':
+            return  "Les deux rois sont morts. \n Tirage au sort."
+        if language == 'es':
+            return "Ambos reyes murieron. \n Empate."
+        if language == 'de':
+            return "Beide Könige starben. \n Unentschieden."
+
+    if description == 'white_frozen':
+        if language == 'ru':
+            return 'Белый король погиб. \n Чёрные победили!'
+        if language == 'en':
+            return 'The White King is dead. \n Black won!'
+        if language == 'fr':
+            return  'Le roi blanc est mort. \n les Noirs ont gagné!'
+        if language == 'es':
+            return 'El rey blanco ha muerto. \n ¡los Negros ganaron!'
+        if language == 'de':
+            return 'Der Weiße König ist tot. \n Die Schwarzen haben gewonnen!'
+
+    if description == 'black_frozen':
+        if language == 'ru':
+            return 'Чёрный король погиб. \n Белые победили!'
+        if language == 'en':
+            return 'The Black King is dead. \n White won!'
+        if language == 'fr':
+            return  'Le roi noir est mort. \n les Blancs ont gagné!'
+        if language == 'es':
+            return 'El rey negro ha muerto. \n ¡los Blancos ganaron!'
+        if language == 'de':
+            return 'Der schwarze König ist tot. \n Die Weißen haben gewonnen!'
 
     else:
         print(description)
