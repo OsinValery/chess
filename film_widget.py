@@ -6,6 +6,7 @@ from copy import deepcopy as copy
 import global_constants
 import help_chess
 import glin_figure
+import frozen_figure
 
 Figure = help_chess.Figure
 
@@ -24,6 +25,7 @@ class VideoChess(Widget):
         self.cur_pos = copy(self.start_pos)
         help_chess.get_widget(widget=self,size_app=global_constants.Sizes)
         glin_figure.get_widget(self,global_constants.Sizes)
+        frozen_figure.get_widget(self,global_constants.Sizes)
         self.move = 0
         self.effects = []
         self.must = True        
@@ -153,6 +155,8 @@ class VideoChess(Widget):
         Figure = help_chess.Figure
         if global_constants.game.type_of_chess in ['glinskiy','kuej']:
             Figure = glin_figure.Figure
+        if global_constants.game.type_of_chess == 'frozen':
+            Figure = frozen_figure.Figure
         tip = 'classic'
         if global_constants.game.type_of_chess in ['kuej','glinskiy']:
             tip = 'glinskiy'
@@ -162,6 +166,13 @@ class VideoChess(Widget):
                 pos = [sizes.x_top_board, sizes.y_top_board],
                 size = sizes.board_size
             )
+
+        for line in self.cur_pos:
+            for fig in line:
+                if fig[-1] != 'empty':
+                    figure = Figure(*fig)
+        figure = None
+
         if len(self.effects) != 0:
             with self.canvas:
                 Color(*self.effects[0])
@@ -170,11 +181,5 @@ class VideoChess(Widget):
             self.effects = []
             with self.canvas:
                 Color(1,1,1,1)
-        
-        for line in self.cur_pos:
-            for fig in line:
-                if fig[-1] != 'empty':
-                    figure = Figure(*fig)
-        figure = None
 
 

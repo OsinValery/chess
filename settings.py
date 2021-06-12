@@ -570,7 +570,7 @@ def fill_2(content):
         size = [.3 * content.size[0], text.size[1]]
     ))
     content.add_widget(Label(
-        text = 'sort?',
+        text = Get_text('settings_sort'),
         pos = [pos[0] + .2*cont_size[0],pos[1] + .6 * cont_size[1]],
         font_size = 36,
         color = text_color

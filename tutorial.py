@@ -210,6 +210,8 @@ def tutorial(press):
         do_schatranj_tutorial()
     elif game.type_of_chess == 'dark_chess':
         do_dark_tutorial()
+    elif game.type_of_chess == 'frozen':
+        do_freeze_tutorial()
     else:
         lost_tutorial()
 
@@ -315,7 +317,7 @@ def classic_7(press):
         command = bad_2
     elif game.type_of_chess == 'rasing':
         command = do_racing_tutorial
-    elif game.type_of_chess in ['dark_chess']:
+    elif game.type_of_chess in ['dark_chess','frozen']:
         command = classic_8
     else:
         command = fisher1
@@ -378,6 +380,8 @@ def classic_9(press):
         but.bind(on_press=do_haos_tutorial)
     elif game.type_of_chess == 'dark_chess':
         but.bind(on_press = dark2)
+    elif game.type_of_chess == 'frozen':
+        but.bind(on_press = freeze4)
     else:
         but.bind(on_press=do_classic_tutorial)
     global_constants.Main_Window.add_widget(but)
@@ -1715,4 +1719,64 @@ def dark4(par=...):
     )
 
 # end of dark tutorial
+
+def do_freeze_tutorial(par=...):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_freeze_start'),
+        repeat=False,
+        btn_command=freeze2
+    )
+
+def freeze2(par=None):
+    help_tutorial()
+    figures = ['rook','horse','bishop','queen','king','bishop','horse','rook']
+    board = []
+    for x in range(8):
+        board.append(['white',x,0,figures[x]])
+        board.append(['black',x,7,figures[x]])
+        board.append(['white',x,1,'pawn'])
+        board.append(['black',x,6,'pawn'])
+        for y in 2,3,4,5:
+            board.append(['',x,y,'frozen'])
+    size = global_constants.Main_Window.size
+    text = get_text(Get_text('tutorial_freeze_2'),size[0]*0.9,normal_font_size/2)
+    actions = [
+        ['show',5,1,[[6,2],[4,2]]],    ['take',5,1,6,2],
+        ['show',3,6,[[2,5],[4,5]]],    ['take',3,6,2,5],
+        ['take',6,2,5,3],              ['take',6,7,5,5],
+        ['take',5,3,4,4],              ['take',2,7,4,5],
+        ['pause']
+    ]
+    video_interface(board,actions,1.1,freeze3,text)
+
+
+def freeze3(par=None):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_freeze_3'),
+        repeat=False,
+        btn_command=freeze4
+    )
+
+def freeze4(par=None):
+    help_tutorial()
+    size = global_constants.Main_Window.size
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_freeze_4'),
+        repeat=True,
+        btn_command=do_freeze_tutorial
+    )
+    global_constants.Main_Window.add_widget(Button(
+        text = Get_text('tutorial_see'),
+        pos = (size[0] * 0.32 , size[1] * 0.05),
+        background_normal = '',
+        background_color = (1,1,0,0.3),
+        color = (0,1,0,1),
+        on_press = classic_1
+    ))
+
 

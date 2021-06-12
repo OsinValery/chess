@@ -15,6 +15,7 @@ import garner_figure
 import horde_figure
 import bad_figure
 import rasing_figure
+import frozen_figure
 
 Figure = None
 
@@ -29,6 +30,7 @@ import gen_horde
 import week
 import bad_help
 import schatranj
+import frozen
 
 #Chess types
 import circle_chess
@@ -133,6 +135,11 @@ class Static_picture(Widget):
             Figure = rasing_figure.Figure
             if 'start' in self.options:
                 rasing.get_start_position()
+        elif self.type_of_chess == 'frozen':
+            frozen_figure.get_widget(self,self.app_size)
+            Figure = frozen_figure.Figure
+            if 'start' in self.options:
+                frozen.create_start_game_board()
 
             
         

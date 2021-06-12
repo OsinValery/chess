@@ -627,6 +627,13 @@ def settings_text(language,description):
         elif language == 'es': return 'Nick en \nla red'
         elif language == 'de': return 'Nick online'
 
+    elif description == 'sort':
+        if language == 'ru'   :return 'Сортироватьт\nигры'
+        elif language == 'en' :return 'Sort \ngames?'
+        elif language == 'es' :return 'Ordenar \njuegos?'
+        elif language == 'fr' :return 'Trier \nles jeux?'
+        elif language == 'de' :return 'Spiele \nsortieren?'
+
 
     else:
         print(description)
@@ -1090,6 +1097,9 @@ def tutorial(language,description):
 
     elif 'dark' in description:
         return get_dark(language,description[5:])
+
+    elif 'freeze' in description:
+        return get_freeze(language,description[7:])
 
     else:
         return 'error_2'
@@ -2603,6 +2613,57 @@ def get_dark(language,description):
             return '¡Buena suerte en la batalla! Y necesitarás suerte en la oscuridad.'
         if language == 'de':
             return 'Viel Glück im Kampf! Und Sie brauchen Glück in der Dunkelheit.'
+
+    return description
+
+def get_freeze(language,description):
+    if description == 'start':
+        if language == 'ru':
+            return 'Лучшие навыки приобретаются в самых суровых условиях! Поэтому в качестве бонуса вам предоставляется возможность поуправлять битвой в условиях Ледникового периода!'
+        if language == 'en':
+            return 'The best skills are acquired in the harshest conditions! Therefore, as a bonus, you are given the opportunity to control the battle in the conditions of the Ice Age!'
+        if language == 'fr':
+            return  'Les meilleures compétences sont acquises dans les environnements les plus difficiles! Par conséquent, en prime, vous avez la possibilité de gérer la bataille dans les conditions de l\'âge de Glace!'
+        if language == 'es':
+            return '¡Las mejores habilidades se adquieren en los entornos más duros! Por lo tanto, como un bono, se le da la oportunidad de controlar la batalla en las condiciones de la edad de Hielo!'
+        if language == 'de':
+            return 'Die besten Fähigkeiten werden unter den härtesten Bedingungen erworben! Also, als Bonus erhalten Sie die Möglichkeit, den Kampf in der Eiszeit zu verwalten!'
+
+    if description == '2':
+        if language == 'ru':
+            return 'Всё поле будет покрыто льдом. Чтобы его сломать, его нужно буквально атаковать! Но не спешите радоваться, сломав лёд: Через несколько ходов лёд вернётся и ЗАМОРОЗИТ ВСЁ ЗАНОВО!'
+        if language == 'en':
+            return 'The board will be covered in ice. To break it, you need to literally attack it! But do not rush to rejoice, breaking the ice: After a few moves, the ice will return and FREEZE EVERYTHING AGAIN!'
+        if language == 'fr':
+            return  'Tout le champ sera couvert de glace. Pour le casser, il faut littéralement l\'attaquer! Mais ne vous précipitez pas pour vous réjouir en brisant la glace: après quelques mouvements, la glace reviendra et GÈLERA à NOUVEAU!'
+        if language == 'es':
+            return 'Todo el campo estará cubierto de hielo. ¡Para romperlo, literalmente necesita ser atacado! Pero no se apresure a regocijarse rompiendo el hielo: ¡después de unos pocos movimientos, el hielo volverá y CONGELARÁ todo de NUEVO!'
+        if language == 'de':
+            return 'Das ganze Feld wird mit Eis bedeckt sein. Um es zu brechen, muss es buchstäblich angegriffen werden! Aber keine Eile, um sich zu freuen, brechen das Eis: Nach ein paar Zügen wird das Eis zurück und friert ALLES WIEDER!'
+
+    if description == '3':
+        if language == 'ru':
+            return 'Когда поле покрывается льдом, он морозит и все одинокие фигуры. Если это будет ваш король, вы проиграете. Лёд не может попасть на поля, окружённые с 4 сторон фигурами. '
+        if language == 'en':
+            return "When the field is covered with ice, it freezes all the lone figures. If it is your king, you will lose. The ice can't get on the fields surrounded on 4 sides by the figures. "
+        if language == 'fr':
+            return  'Quand le champ est recouvert de glace, il gèle et toutes les formes Solitaires. Si c\'est votre roi, vous perdrez. La glace ne peut pas atteindre les champs entourés de 4 côtés de figures. '
+        if language == 'es':
+            return 'Cuando el campo está cubierto de hielo, se congela y todas las figuras solitarias. Si es tu rey, perderás. El hielo no puede entrar en los campos rodeados de 4 lados por figuras. '
+        if language == 'de':
+            return 'Wenn das Feld mit Eis bedeckt ist, friert es und alle einsamen Figuren. Wenn es dein König ist, verlierst du. Das Eis kann nicht auf die Felder von 4 Seiten von Figuren umgeben bekommen. '
+
+    if description == '4':
+        if language == 'ru':
+            return 'Во всём остальном - обычные шахматы, только в необычных условиях! Играйте и получайте удовольствие!'
+        if language == 'en':
+            return 'In all other respects - ordinary chess, only in unusual conditions! Play and have fun!'
+        if language == 'fr':
+            return  'Dans tout le reste - échecs ordinaires, seulement dans des conditions inhabituelles! Jouez et amusez-vous!'
+        if language == 'es':
+            return 'En todo lo demás - ajedrez ordinario, sólo en condiciones inusuales! ¡Juega y diviértete!'
+        if language == 'de':
+            return 'In allem anderen-gewöhnliches Schach, nur unter ungewöhnlichen Bedingungen! Spielen und Spaß haben!'
 
     return description
 
