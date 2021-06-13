@@ -391,8 +391,12 @@ class Game():
         self.time_mode = time_mode
         self.players_time['white'] = self.time_mode
         self.players_time['black'] = self.time_mode
-        global_constants.Main_Window.set_change(1)
-        change_widget.Chess_type(self.type_of_chess).set_chess(1)
+        self.ind = True
+        global_constants.Main_Window.clear_widgets()
+        global_constants.Main_Window.canvas.clear()
+        self.window = 'game'
+        settings.Settings.change_sorting(self.type_of_chess)
+        find_chess_module(self.type_of_chess).init_game()
         
 
         
