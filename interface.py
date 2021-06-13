@@ -8,8 +8,8 @@ from kivy.uix.gridlayout import GridLayout
 
 import settings
 from translater import Get_text
+from Window_info import Window
 import global_constants
-import change_widget
 
 def time(sec):
     # convert seconds to min : sec
@@ -23,12 +23,17 @@ def time(sec):
         b = '0' + b
     return f'{a}:{b}'
 
+def empty(click=None):
+    pass
 
 def exit_command(command):
-    if not global_constants.game.ind :
+    if not global_constants.game.ind and global_constants.game.state_game == 'one':
         Repeat_message(command).open()
     elif global_constants.game.state_game != 'one':
-        command(1)
+        if not global_constants.game.ind:
+            command(1)
+        else:
+            Network_Exit(command).open()
     else:
         Message_exit(command=command).open()
 
@@ -118,6 +123,43 @@ class Message_exit(Popup):
         ))
 
         for i in 0,1,2:
+            but = Button(
+                text = texts[i],
+                size_hint_y = None,
+                on_press = commands[i],
+                background_color = [1,.1,1,.7]
+            )
+            grid.add_widget(but)
+
+
+class Network_Exit(Popup):
+    def __init__(self, command, **kwargs):
+        self.background_color = [1,1,0,1/4]
+        self.background = 'window_fon.png'
+        super(Network_Exit,self).__init__(**kwargs)
+        self.auto_dismiss = False
+        self.pos = [0,0]
+        self.title = Get_text('bace_exit') + '?'
+
+        size = global_constants.Main_Window.size
+        self.size = [.7 * size[0], .5 * size[1]]
+        self.size_hint = [None,None]
+
+        def _exit(par=...):
+            self.dismiss()
+            command(1)
+        
+        commands = [self.dismiss,_exit]
+        texts = [Get_text('all_back'), Get_text('bace_exit')]
+
+        grid = GridLayout(cols = 1,spacing=[0,15])
+        self.add_widget(grid)
+        grid.add_widget(Label(
+            text = Get_text('bace_repeat_text'),
+            color = [0,1,1,1]
+        ))
+
+        for i in 0,1:
             but = Button(
                 text = texts[i],
                 size_hint_y = None,

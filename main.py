@@ -150,8 +150,8 @@ class Game():
             self.name2 = connection.Connection.my_nick
             self.name1 = connection.Connection.friend_nick  
         self.ind = True
-        self.window = 'game' 
-        settings.Settings.change_sorting(self.type_of_chess)
+        self.window = 'game'
+        global_constants.Settings.change_sorting(self.type_of_chess)
         self.players_time = {'white':self.time_mode,'black':self.time_mode}   
         if self.time_mode != 0:
             self.with_time = True
