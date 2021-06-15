@@ -1000,6 +1000,30 @@ def game_text(language,description,params):
         if language == 'de':
             return 'Der schwarze König ist tot. \n Die Weißen haben gewonnen!'
 
+    # for nuclear chess
+    elif description == 'boom_white_king':
+        if language == 'ru':
+            return 'Белый король взорван. \n Чёрные победили!'
+        if language == 'en':
+            return 'The White King was blown up. \n Black won!'
+        if language == 'fr':
+            return  'Le roi blanc est soufflé. \n les Noirs ont gagné!'
+        if language == 'es':
+            return 'El rey blanco volado. \n ¡los Negros ganaron!'
+        if language == 'de':
+            return 'Der Weiße König ist gesprengt. \n Die Schwarzen haben gewonnen!'
+
+    elif description == 'boom_black_king':
+        if language == 'ru':
+            return 'Чёрный король взорван. \n Белые победили!'
+        if language == 'en':
+            return 'The Black King was blown up. \n White won!'
+        if language == 'fr':
+            return  'Le roi noir est soufflé. \n les Blancs ont gagné!'
+        if language == 'es':
+            return 'El rey negro volado. \n ¡los Blancos ganaron!'
+        if language == 'de':
+            return 'Der schwarze König ist gesprengt. \n Die Weißen haben gewonnen!'
     else:
         print(description)
         return 'error_2'

@@ -1,6 +1,7 @@
 import os
 import Basic_figure
 import settings
+from kivy.graphics import Rectangle
 
 
 def get_widget(widget,size_app):

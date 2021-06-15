@@ -32,6 +32,7 @@ import haotic
 import schatranj
 import dark_chess
 import frozen_chess
+import nuclear_chess
 
 import time
 import os
@@ -66,6 +67,8 @@ def find_chess_module(tip):
         return dark_chess
     elif tip == 'frozen':
         return frozen_chess
+    elif tip == 'nuclear':
+        return nuclear_chess
     if game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')

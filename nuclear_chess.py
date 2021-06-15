@@ -3,26 +3,32 @@ from kivy.graphics import Rectangle,Ellipse,Color,Line
 from kivy.uix.button import Button
 from kivy.uix.bubble import Bubble,BubbleButton
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.clock import Clock
-from kivy.uix.popup import Popup
 
 import copy
+import os
+
 import interface
-from Window_info import Window
+from  Window_info import Window
 from sounds import Music
 from settings import Settings
 from translater import Get_text
 from connection import Connection
 import global_constants
 
+import classic
 
-import garner_figure 
-Figure = garner_figure.Figure
+import kamikadze_figure
+import Basic_figure
+Figure = kamikadze_figure.Figure
 
 class Game_rect(Widget):
     def on_touch_down(self,touch):
         Game.do_sf(touch)
+    
+    def __del__(self):
+        self.canvas.clear()
+        self.clear_widgets()
 
 
 class Field():
@@ -65,7 +71,6 @@ class Green_line(Line):
 
 
 def back(touch):
-    # close game 
     global choose_figure,interfase,gr_line
 
     Main_Window.wid.canvas.clear()
@@ -76,6 +81,7 @@ def back(touch):
     if Game.with_time:
         Game.time.cancel()
         del Game.time
+
     del Game.board
     del interfase
     del Game.color_do_hod_now
@@ -87,38 +93,30 @@ def back(touch):
     del gr_line
     if Game.state_game != 'one':
         Connection.messages += ['leave']
+    Game.clear(Game)
     Game.renew()
     Main_Window.canvas.clear()
     Main_Window.create_start_game(touch)    
-    
+
 def return_board(press):
-    # exit from pause
     global but
-    if not Game.pause :
+    if not Game.pause or Game.voyaje_message:
         return
     if Game.state_game != 'one':
         Connection.messages += [f'pause off {Game.players_time["white"]} {Game.players_time["black"]}']
-    Main_Window.remove_widget(but)
-    del but
-    rect = Rectangle(source=Settings.get_board_picture(Game.type_of_chess),
-            pos=[Sizes.x_top_board,Sizes.y_top_board],
-            size=Sizes.board_size)
-    Main_Window.wid.canvas.add(rect)
-    Game.tips_drawed = False
-    for x in range(len(Game.board)):
-        for y in range(len(Game.board[x])):
-            if Game.board[x][y].figure.type != 'empty':
-                Main_Window.wid.canvas.add(Game.board[x][y].figure.rect)
+    try:
+        Main_Window.remove_widget(but)
+        del but
+    except:
+        pass
+    draw_board()
     if Game.with_time:
         Game.time = Clock.schedule_interval(tick,1)
-    if choose_figure.type != 'empty':
-        x,y = choose_figure.x,choose_figure.y
-        gr_line.show_field(x,y)
     Game.pause = False
 
 def pause(touch):
     global but
-    if Game.ind == False:
+    if Game.ind == False :
         return
     # antibug with many buttons "return"
     if not Game.pause and not Game.need_change_figure :
@@ -145,58 +143,57 @@ def create_tips(a,b,board):
     top_x= Sizes.x_top + Sizes.x_top_board
     top_y = Sizes.y_top + Sizes.y_top_board
     field = Sizes.field_size
-
-    r = field // 6
-    color = [0, 1, 0, .8 ]
+    color = [0,1,0, .8 ]
     if Game.color_do_hod_now != board[a][b].figure.color:
         color = [1, 0, 0, .8 ]
     if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
         color = [1,0,0,.8]
+    r = Sizes.field_size // 6
     with Main_Window.wid.canvas:
         Color(*color,mode='rgba')
-    Game.tips_drawed = len(list1) != 0 
+    Game.tips_drawed = True
 
     for el in list1:
-        x , y = el[0] , el[1]
-        if board[a][b].figure.color == Game.color_do_hod_now:
-            Main_Window.wid.canvas.add(Ellipse(
-                    pos=[top_x-r/2+(x+0.5)*field,top_y+(y+0.5)*field -r/2],
-                    size=(r,r)     ))
-
+        x, y = el
+        Main_Window.wid.canvas.add(Ellipse(
+            pos=[top_x - r/2 +(x+0.5)*field,top_y -r/2 +(y+0.5)*field],
+            size=[r,r]
+        ))
     with Main_Window.wid.canvas:
         Color(1,1,1,1,mode='rgba')
-    
+
 def delete_tips():
     if Game.tips_drawed :
         Main_Window.wid.canvas.clear()
-        rect = Rectangle(source=Settings.get_board_picture(Game.type_of_chess),
+        rect = Rectangle(
+            source=Settings.get_board_picture(Game.type_of_chess),
             pos=[Sizes.x_top_board,Sizes.y_top_board],
             size=Sizes.board_size)
         Main_Window.wid.canvas.add(rect)
         Game.tips_drawed = False
-        for x in range(len(Game.board)):
-            for y in range(len(Game.board[x])):
+        for x in range(8):
+            for y in range(8):
                 if Game.board[x][y].figure.type != 'empty':
                     Main_Window.wid.canvas.add(Game.board[x][y].figure.rect)
 
 def copy_board(board):
-    x = len(board)
-    y = len(board[0])
-    new_board = [[Field() for b in range(y)] for a in range(x)]
-    for a in range(x):
-        for b in range(y):
-            new_board[a][b].figure = Figure('',a,b,'empty')
+    new_board = [[Field() for b in range(8)] for a in range(8)]
+    for a in range(8):
+        for b in range(8):
+            new_board[a][b].figure = Figure('white',0,0,'')
             new_board[a][b].figure.color = copy.copy(board[a][b].figure.color)
             new_board[a][b].figure.type = copy.copy(board[a][b].figure.type)
+            new_board[a][b].figure.do_hod_before = copy.copy(board[a][b].figure.do_hod_before)
+
     return new_board
 
 def is_chax(board,color):
-    res = False
-    for a in range(len(board)):
-        for b in range(len(board[0])):
-            if (board[a][b].figure.type == 'king') and (board[a][b].figure.color == color) and (board[a][b].attacked):
-                res = True
-    return res
+    for a in range(8):
+        for b in range(8):
+            if (board[a][b].figure.type == 'king'):
+                if (board[a][b].figure.color == color) and (board[a][b].attacked):
+                    return True
+    return False
 
 def able_to_do_hod(board,color):
     Res = False
@@ -208,48 +205,86 @@ def able_to_do_hod(board,color):
                     break
     return Res 
 
+def have_king(board,color):
+    for line in board:
+        for field in line:
+            fig = field.figure
+            if fig.type == 'king' and fig.color == color:
+                return True
+    return False
+
+
 def find_fields(board,figure):
     time_list = figure.first_list(board)
     list2 = []
 
     for element in time_list:
-        board2 = []
         board2 = copy_board(board)
+        for a in board2:
+            for b in a:
+                b.attacked = False
+                
         #как будто был сделан туда ход, и нет ли шаха королю ходящего цвета
         board2[figure.x][figure.y].figure.type = 'empty'
         board2[figure.x][figure.y].figure.color = ''
-        board2[element[0]][element[1]].figure.type = copy.copy(figure.type)
-        board2[element[0]][element[1]].figure.color = copy.copy(figure.color)
-
-        for a in range(len(board)):
-            for b in range(len(board[0])):
-                if board2[a][b].figure.type != 'empty':
-                    if board2[a][b].figure.color != Game.color_do_hod_now:
-                        if board2[a][b].figure.type == board[a][b].figure.type:
-                            board2 = board[a][b].figure.do_attack(board2)
-
-        if not is_chax(board2,Game.color_do_hod_now):
+        burst = False
+        # взятие на проходе
+        if figure.type == 'pawn':
+            if board2[element[0]][element[1]].figure.type == 'empty':
+                if figure.x != element[0]:
+                    board2[element[0]][figure.y].figure.type = 'empty'
+                    board2[element[0]][figure.y].figure.color = ''
+                    burst = True
+        if board2[element[0]][element[1]].figure.type != 'empty':
+            burst = True
+        if burst:
+            board2[element[0]][element[1]].figure.type = 'empty'
+            board2[element[0]][element[1]].figure.color = ''
+            for dx in -1,0,1:
+                for dy in -1,0,1:
+                    nx, ny = dx + element[0], dy + element[1]
+                    if nx > -1 and nx < 8 and ny > -1 and ny < 8:
+                        if board2[nx][ny].figure.type not in ['empty','pawn']:
+                            board2[nx][ny].figure.type = 'empty'
+                            board2[nx][ny].figure.color = ''
+        else:
+            board2[element[0]][element[1]].figure.type = copy.copy(figure.type)
+            board2[element[0]][element[1]].figure.color = copy.copy(figure.color)
+        
+        if not have_king(board2,figure.color):
+            continue
+        
+        color = 'white'
+        if figure.color == color:
+            color = 'black'
+        
+        if not have_king(board2,color):
             list2.append(element)
+        else:
+            for a in range(8):
+                for b in range(8):
+                    if board2[a][b].figure.type != 'empty':
+                        if board2[a][b].figure.color != Game.color_do_hod_now:
+                            if board2[a][b].figure.type == board[a][b].figure.type:
+                                board2 = board[a][b].figure.do_attack(board2)
+
+            if not is_chax(board2,Game.color_do_hod_now):
+                list2.append(element)
+
+    if figure.type == 'king' and not figure.do_hod_before :
+        list2 = Game.can_do_rocking(Game,board,figure,list2)
+
     return list2
 
-def create_start_game_board():
-    board = [[Field() for t in range(5)] for a in range(5)]
-    for x in range(5):
-        for y in range(5):
-            board[x][y].figure = Figure('',0,0,'empty')
-    line = ['king','queen','bishop','horse','rook']    
-    for x in range(5):
-        board[x][1].figure = Figure('white',x,1,'pawn')
-        board[x][3].figure = Figure('black',x,3,'pawn')
-        board[x][0].figure = Figure('white',x,0,line[x])
-        board[x][4].figure = Figure('black',x,4,line[x])
-    return board
-
 def is_end_of_game(board):
+    if not have_king(board,Game.color_do_hod_now):
+        Game.ind = False
+        interfase.do_info(Get_text(f'game_boom_{Game.color_do_hod_now}_king'))
+        return 
     is_mate = False
     board2 = copy_board(board)
-    for x in range(len(board)):
-        for y in range(len(board[0])):
+    for x in range(8):
+        for y in range(8):
             if board2[x][y].figure.color != Game.color_do_hod_now:
                 board2 = board[x][y].figure.do_attack(board2)
     if Game.color_do_hod_now == 'white':
@@ -265,14 +300,14 @@ def is_end_of_game(board):
                 interfase.do_info(Get_text('game_black_mate'))
                 is_mate = True
             else:
-                interfase.do_info(Get_text('game_black_chax') )   
+                interfase.do_info(Get_text('game_black_chax'))
+
     if not is_mate:
         if not able_to_do_hod(board,Game.color_do_hod_now):
             interfase.do_info(Get_text('game_pat'))
             is_mate = True
     if is_mate :
         Game.ind = False
-    if not Game.ind:
         if Game.with_time:
             Game.time.cancel()
     if Game.ind :
@@ -285,11 +320,11 @@ def is_end_of_game(board):
 def change_color(time=None):
     if Game.with_time:
         Game.time.cancel()
+        Game.time = Clock.schedule_interval(tick,1)
         if time != None:
             if Game.color_do_hod_now != Game.play_by:
                 Game.players_time['white'] = int(time[0])
                 Game.players_time['black'] = int(time[1])
-        Game.time = Clock.schedule_interval(tick,1)
         Game.players_time[Game.color_do_hod_now] += Game.add_time
     if Game.color_do_hod_now == 'white':
         if Game.ind:
@@ -297,7 +332,7 @@ def change_color(time=None):
         Game.color_do_hod_now = 'black'
     elif Game.color_do_hod_now == 'black':
         if Game.ind:
-            interfase.do_info(Get_text('game_white_move'))
+            interfase.do_info(Get_text('game_white_move') )
         Game.color_do_hod_now = 'white'
     if Game.with_time:
         interfase.set_time(Game.players_time)
@@ -316,6 +351,11 @@ def do_hod(x,y,board):
             delete_tips()
             create_tips(x,y,board)
     elif board[x][y].figure.color == Game.color_do_hod_now:
+        if Game.type_of_chess == 'fisher' and choose_figure.type == 'king' and [x,y] in Game.list_of_hod_field:
+            if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
+                return  board
+            board = move_figure(board,x,y)
+        else:
             choose_figure = board[x][y].figure
             Game.list_of_hod_field = find_fields(board,choose_figure)
             gr_line.show_field(x,y)
@@ -336,11 +376,36 @@ def move_figure(board,x,y,options=None):
     if choose_figure.color == 'white':
         Game.made_moves += 1
 
-    a , b = choose_figure.x , choose_figure.y
-    board[a][b].figure = Figure('',0,0,'empty')
-    board[x][y].figure.destroy()
-    board[x][y].figure = choose_figure
-    board[x][y].figure.set_coords_on_board(x,y)
+    burst = False
+    if choose_figure.type == 'pawn':
+        if x != choose_figure.x:
+            if board[x][y].figure.type == 'empty':
+                burst = True
+                board[x][choose_figure.y].figure.destroy()
+    if board[x][y].figure.type != 'empty':
+        burst = True
+
+    if choose_figure.type == 'king' and not choose_figure.do_hod_before:
+        board = Game.do_rocking(board,x,y,choose_figure)
+    else:
+        a , b = choose_figure.x , choose_figure.y
+        board[a][b].figure = Figure('',0,0,'empty')
+        board[x][y].figure.destroy()
+        board[x][y].figure = choose_figure
+        board[x][y].figure.set_coords_on_board(x,y)
+            
+    if choose_figure.type == 'pawn' and abs(y-b) == 2:
+        choose_figure.do_hod_now = True
+    board[x][y].figure.do_hod_before = True
+
+    if burst:
+        choose_figure.destroy()
+        for dx in -1,0,1:
+            for dy in -1,0,1:
+                nx, ny = dx + x, dy + y
+                if nx > -1 and nx < 8 and ny > -1 and ny < 8:
+                    if board[nx][ny].figure.type not in ['empty','pawn']:
+                        board[nx][ny].figure.destroy()
 
     if choose_figure.type == 'pawn' and board[x][y].figure.pawn_on_last_line():
             if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
@@ -359,10 +424,15 @@ def move_figure(board,x,y,options=None):
             Game.message = ''
         choose_figure = Figure('',0,0,'empty')
         change_color(options)
-        is_end_of_game(board)  
-
+        is_end_of_game(board)
+    
     delete_tips()
     gr_line.show_field(x=-1,y=-1)
+    for a in range(8):
+        for b in range(8):
+            if board[a][b].figure.type == 'pawn':
+                if board[a][b].figure.color == Game.color_do_hod_now:
+                    board[a][b].figure.do_hod_now = False
     Game.list_of_hod_field = []
     return board
 
@@ -372,8 +442,8 @@ def fit_field(event):
     s = Sizes
     if e_x <= s.x_top + s.x_top_board or e_y <= s.y_top + s.y_top_board:
         return -1,-1
-    elif (e_y >= -s.y_top + s.y_top_board + s.board_size[1]) or \
-        (e_x >= -s.x_top + s.x_top_board + s.board_size[0]) :
+    elif (e_y >= s.y_top + s.y_top_board + s.field_size * 8) or \
+        (e_x >= s.x_top + s.x_top_board + s.field_size * 8) :
         return -1,-1
     else:
         e_x -= (s.x_top + s.x_top_board)
@@ -384,21 +454,20 @@ def fit_field(event):
         y = round(y)
         return x,y
 
-def do_transformation(color,x,y,options):
-
+def do_transformation(color,x,y,options=None):
     def complete(ftype):
         global choose_figure
         x , y = choose_figure.x , choose_figure.y
-        #Game.board[x][y].figure.destroy()
         Game.board[x][y].figure.transform_to(ftype)
         choose_figure = Figure('',0,0,'empty')
         Main_Window.remove_widget(Game.bub)
         del Game.bub
-        if Game.state_game != 'one':
-            Connection.messages += [Game.message + ' = ' + ftype + \
-            f" {Game.players_time['white']} {Game.players_time['black']}"]
-        Game.message = ''
         Game.need_change_figure = False
+        if Game.state_game != 'one':
+            Game.message += ' = ' + ftype
+            Game.message += f" {Game.players_time['white']} {Game.players_time['black']}"
+            Connection.messages += [Game.message]
+        Game.message = ''
         change_color(options)
         is_end_of_game(Game.board)
     
@@ -421,23 +490,25 @@ def do_transformation(color,x,y,options):
         pos = [wid,height],
         size=[3*Sizes.field_size]*2
     )
-    box = GridLayout(rows=2,cols=2)
-    box.padding = [Sizes.field_size*0.05]*4
+    box = GridLayout(
+        rows=2,
+        cols=2,
+        padding = [Sizes.field_size*0.05]*4
+    )
     if color == 'white':
         names = ['qw.png','bw.png','hw.png','rw.png']
     else:
         names = ['qb.png','bb.png','hb.png','rb.png']
     commands = [change_q,change_b,change_h,change_r]
-    folder = Settings.get_folder()
-    d = folder[-1]
-    folder += 'pictures{0}fig_set1{0}'.format(d)
+    d = os.path.sep
+    folder = Settings.get_folder() + f'pictures{d}fig_set1{d}'
     for x in range(4):
-        but = BubbleButton(
+        box.add_widget(BubbleButton(
             text='',
             background_normal=folder + names[x],
-            size=[Sizes.field_size]*2)
-        but.bind(on_press=commands[x])
-        box.add_widget(but)
+            size=[Sizes.field_size]*2,
+            on_press = commands[x]
+        ))
 
     Game.bub.add_widget(box)
     Main_Window.add_widget(Game.bub)
@@ -445,11 +516,11 @@ def do_transformation(color,x,y,options):
 def draw():
     if not Game.ind:
         return
-    def no():
+    def no(press=None):
         Game.want_draw['black'] = False
         Game.want_draw['white'] = False
-    
-    def yes():
+
+    def yes(press=None):
         Game.ind = False
         if Game.with_time:
             Game.time.cancel()
@@ -464,14 +535,14 @@ def draw():
             title_color = [.1,0,1,1],
             background_color = [.1,1,.1,.15]
     ).open()
-
+    
 def tick(cd):
     Game.players_time[Game.color_do_hod_now]-=1
     interfase.set_time(Game.players_time)
     if Game.players_time[Game.color_do_hod_now] == 0:
         Game.ind = False
         Music.time_passed()
-        text = Get_text('game_end_time')+'!\n'
+        text = Get_text('game_end_time') + '!\n'
         if Game.color_do_hod_now == 'white':
             text += Get_text('game_white_lose')
         else:
@@ -483,7 +554,7 @@ def build_game(game):
     game.fit_field = fit_field
     game.color_do_hod_now = 'white'
     game.list_of_hod_field = []
-    game.board = create_start_game_board()
+    classic.init_chess(game)
     game.do_hod = do_hod
     game.tips_drawed = False
     if game.with_time:
@@ -491,17 +562,15 @@ def build_game(game):
     return game
 
 def surrend(click):
-    if Game.ind == False:
+    if not Game.ind:
         return
     def yes():
         Game.ind = False
         if Game.state_game == 'one':
             if Game.color_do_hod_now == 'white' :  
-                f = Get_text('game_white_surrend')
-            else :  
-                f = Get_text('game_black_surrend')
-        else:
-            f = Get_text('game_you_surrend')
+                    f = Get_text('game_white_surrend')
+            else:   f = Get_text('game_black_surrend')
+        else:       f = Get_text('game_you_surrend')
         interfase.do_info(f)
         if Game.with_time:
             Game.time.cancel()
@@ -527,6 +596,8 @@ def surrend(click):
 def create_interface(main_widget,app_size,Game):
     global interfase
     def set_draw(press):
+        if not Game.ind:
+            return
         if Game.made_moves > 3 or (Game.color_do_hod_now == 'white' and Game.made_moves == 3):
             draw_message()
         else:
@@ -547,12 +618,12 @@ def init_game():
     global choose_figure, gr_line
     global Game, Sizes, Main_Window
     Game = global_constants.game
-    Sizes = global_constants.Sizes
     Main_Window = global_constants.Main_Window
-
+    Sizes = global_constants.Sizes
     choose_figure = Figure('white',0,0,'empty')
+    
     create_interface(Main_Window,Sizes,Game)
-    garner_figure.get_widget(Main_Window.wid,Sizes)
+    Basic_figure.get_widget(Main_Window.wid,Sizes)
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)
@@ -560,7 +631,6 @@ def init_game():
 def create_message(text):
     def ok():
         Game.voyaje_message = False
-
     Game.voyaje_message = True
     Window(
             btn_texts=[Get_text('game_ok')],
@@ -597,17 +667,17 @@ def draw_message():
     ).open()
 
 def draw_board():
-    rect = Rectangle(source=Settings.get_board_picture(Game.type_of_chess),
-            pos=[Sizes.x_top_board,Sizes.y_top_board],
-            size=Sizes.board_size)
+    rect = Rectangle(
+        source=Settings.get_board_picture(Game.type_of_chess),
+        pos=[Sizes.x_top_board,Sizes.y_top_board],
+        size=Sizes.board_size)
     Main_Window.wid.canvas.add(rect)
     Game.tips_drawed = False
-    for x in range(len(Game.board)):
-        for y in range(len(Game.board[0])):
+    for x in range(8):
+        for y in range(8):
             if Game.board[x][y].figure.type != 'empty':
                 Main_Window.wid.canvas.add(Game.board[x][y].figure.rect)
     if choose_figure.type != 'empty':
         x,y = choose_figure.x,choose_figure.y
         gr_line.show_field(x,y)
-
 

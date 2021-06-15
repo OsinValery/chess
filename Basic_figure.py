@@ -272,8 +272,6 @@ class Figure():
             return False
 
     def transform_to(self,fig_type):
-        if self.type == 'pawn':
-            del self.do_hod_now
         self.type = fig_type
         self.rect.source = folder + fig_type[0] + self.color[0] + '.png'
         if fig_type == 'pawn':

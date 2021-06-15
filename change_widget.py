@@ -502,7 +502,7 @@ class Settings_widget(Widget):
 classic_type = [Chess_type(el)for el in['classic', 'los_alamos', 'garner','schatranj']]
 positions =    [Chess_type(el)for el in['fisher','horse_battle']]
 with_effects = [Chess_type(el)for el in['magik', 'permutation', 'kamikadze', 
-                            'haotic','dark_chess','frozen'
+                            'haotic','dark_chess','frozen','nuclear'
                 ]]
 honestless =   [Chess_type(el)for el in['horde', 'week', 'bad_chess']]
 boards =       [Chess_type(el)for el in['circle_chess', 'bizantion', 'glinskiy', 'kuej']]
