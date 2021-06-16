@@ -16,10 +16,8 @@ from translater import Get_text
 from connection import Connection
 import global_constants
 
-import classic
-
+import nuclear
 import kamikadze_figure
-import Basic_figure
 Figure = kamikadze_figure.Figure
 
 class Game_rect(Widget):
@@ -554,7 +552,7 @@ def build_game(game):
     game.fit_field = fit_field
     game.color_do_hod_now = 'white'
     game.list_of_hod_field = []
-    classic.init_chess(game)
+    nuclear.init_chess(game)
     game.do_hod = do_hod
     game.tips_drawed = False
     if game.with_time:
@@ -623,7 +621,7 @@ def init_game():
     choose_figure = Figure('white',0,0,'empty')
     
     create_interface(Main_Window,Sizes,Game)
-    Basic_figure.get_widget(Main_Window.wid,Sizes)
+    kamikadze_figure.get_widget(Main_Window.wid,Sizes)
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

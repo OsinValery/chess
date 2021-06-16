@@ -226,6 +226,8 @@ def find_fields(board,figure):
     list2 = []
 
     for element in time_list:
+        if board[element[0]][element[1]].figure.type == 'king':
+            continue
         board2 = []
         board2 = copy_board(board)
         for a in board2:

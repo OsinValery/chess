@@ -1,4 +1,3 @@
-from typing import Set
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
@@ -501,7 +500,8 @@ class Settings_widget(Widget):
 
 classic_type = [Chess_type(el)for el in['classic', 'los_alamos', 'garner','schatranj']]
 positions =    [Chess_type(el)for el in['fisher','horse_battle']]
-with_effects = [Chess_type(el)for el in['magik', 'permutation', 'kamikadze', 
+with_effects = [Chess_type(el)for el in[
+                            'magik', 'permutation', 'kamikadze', 
                             'haotic','dark_chess','frozen','nuclear'
                 ]]
 honestless =   [Chess_type(el)for el in['horde', 'week', 'bad_chess']]

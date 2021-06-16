@@ -70,7 +70,7 @@ class Static_picture(Widget):
         standart = [
             'classic','fisher','horse_battle','magik',
             'permutation','week','kamikadze','haotic',
-            'schatranj','dark_chess'
+            'schatranj','dark_chess','nuclear'
             ]
         if self.type_of_chess in standart:
             help_chess.get_widget(self,self.app_size)
@@ -78,7 +78,8 @@ class Static_picture(Widget):
             if 'start' in self.options:
                 if self.type_of_chess in [
                     'classic', 'magik', 'permutation', 
-                    'kamikadze','haotic','dark_chess'
+                    'kamikadze','haotic','dark_chess',
+                    'nuclear',
                         ]:
                     classic.create_start_game_board()
                 elif self.type_of_chess == 'fisher':

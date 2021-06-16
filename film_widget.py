@@ -140,7 +140,13 @@ class VideoChess(Widget):
             self.cur_pos[0][y],self.cur_pos[3][y] = self.cur_pos[3][y],self.cur_pos[0][y]            
             self.cur_pos[2][y][1] = 2
             self.cur_pos[3][y][1] = 3
-
+        elif self.actions[self.move][0] == 'boom':
+            x,y = self.actions[self.move][1:3]
+            for dx in -1,0,1:
+                for dy in -1,0,1:
+                    nx, ny = x + dx, y + ny
+                    if nx > -1 and nx < 8 and ny >= 0 and ny < 8:
+                        self.cur_pos[nx][ny] = ['',nx,ny,'empty']
 
 
         if self.actions[self.move][0] != 'pause':

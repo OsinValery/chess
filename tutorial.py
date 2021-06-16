@@ -212,6 +212,8 @@ def tutorial(press):
         do_dark_tutorial()
     elif game.type_of_chess == 'frozen':
         do_freeze_tutorial()
+    elif game.type_of_chess == 'nuclear':
+        do_nuclear_tutorial()
     else:
         lost_tutorial()
 
@@ -1778,5 +1780,23 @@ def freeze4(par=None):
         color = (0,1,0,1),
         on_press = classic_1
     ))
+
+# end of freeze tutorial
+
+def do_nuclear_tutorial(par=None):
+    help_tutorial()
+    static_interface(
+        size=global_constants.Main_Window.size,
+        label_text='hello text',
+        repeat=False,
+        btn_command=nuc2
+    )
+
+def nuc2(par=...):
+    pass
+
+
+# я умею взрывать в film      'boom',x,y
+# сделать обучение, я сделал во всех 3 модулях изменения, осталось написать
 
 

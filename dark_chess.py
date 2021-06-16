@@ -295,6 +295,8 @@ def move_figure(board,x,y,options=None):
             if Game.ind:
                 Main_Window.wid.canvas.clear()
                 draw_board()
+            else:
+                draw_full_board()
         else:
             do_transformation(Game.color_do_hod_now,x,y,options)
     else:
@@ -308,6 +310,8 @@ def move_figure(board,x,y,options=None):
         if Game.ind:
             Main_Window.wid.canvas.clear()
             draw_board()
+        else:
+            draw_full_board()
     
     delete_tips()
     gr_line.show_field(x=-1,y=-1)
@@ -356,6 +360,8 @@ def do_transformation(color,x,y,options=None):
         if Game.ind:
             Main_Window.wid.canvas.clear()
             draw_board()
+        else:
+            draw_full_board()
     
     # for buttons
     def change_q(click):
@@ -555,6 +561,9 @@ def draw_message():
     ).open()
 
 def draw_board():
+    if not Game.ind:
+        draw_full_board()
+        return
     rect = Rectangle(
         source=Settings.get_board_picture(Game.type_of_chess),
         pos=[Sizes.x_top_board,Sizes.y_top_board],
@@ -596,3 +605,14 @@ def draw_board():
         x,y = choose_figure.x,choose_figure.y
         gr_line.show_field(x,y)
 
+def draw_full_board():
+    Main_Window.wid.canvas.clear()
+    rect = Rectangle(
+        source=Settings.get_board_picture(Game.type_of_chess),
+        pos=[Sizes.x_top_board,Sizes.y_top_board],
+        size=Sizes.board_size)
+    Main_Window.wid.canvas.add(rect)
+    for line in Game.board:
+        for field in line:
+            if field.figure.type != 'empty':
+                Main_Window.wid.canvas.add(field.figure.rect)

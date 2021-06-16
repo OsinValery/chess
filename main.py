@@ -1,4 +1,4 @@
-__version__ = '0.0.46'
+__version__ = '0.0.47'
 
 from kivy.app import App
 from kivy.clock import Clock
@@ -400,9 +400,6 @@ class Game():
         self.window = 'game'
         settings.Settings.change_sorting(self.type_of_chess)
         find_chess_module(self.type_of_chess).init_game()
-        
-
-        
 
 
 class GameWidget(Widget):

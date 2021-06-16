@@ -3,7 +3,6 @@ import Basic_figure
 def get_widget(widget,size_app):
     Basic_figure.get_widget(widget,size_app)
 
-# I use whis class also for nuclear chess
 class Figure(Basic_figure.Figure):
     def first_list(self,board):
         if self.type in ['horse', 'rook', 'bishop', 'queen', 'pawn']:

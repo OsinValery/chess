@@ -57,7 +57,11 @@ class Tutorial_Widget(Widget):
             pos = [self.app_size.x_top_board,self.app_size.y_top_board],
             source = Settings.get_board_picture(game.type_of_chess)
         ))
-        if game.type_of_chess in ['classic','fisher','horse_battle','magik','week','haotic','dark_chess']:
+        usual = [
+            'classic','fisher','horse_battle','magik',
+            'week','haotic','dark_chess','nuclear',
+        ]
+        if game.type_of_chess in usual:
             help_chess.get_widget(self,self.app_size)
             Figure = help_chess.Figure   
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
@@ -154,7 +158,7 @@ class Tutorial_Widget(Widget):
             'classic','fisher','horse_battle','magik',
             'permutation','horde','week','kamikadze',
             'bad_chess', 'rasing','haotic','schatranj',
-            'dark_chess','frozen'
+            'dark_chess','frozen','nuclear'
             ]
         if self.type_of_chess in eight_fields:
             pos[0] -= (self.app_size.x_top_board + self.app_size.x_top)
@@ -209,7 +213,7 @@ class Tutorial_Widget(Widget):
                     'classic','fisher','horse_battle','magik',
                     'permutation','los_alamos','garner','horde',
                     'week','kamikadze','bad_chess','rasing','haotic',
-                    'schatranj','dark_chess','frozen'
+                    'schatranj','dark_chess','frozen','nuclear'
                 ]
                 if self.type_of_chess in squared :
                     simple_tips(self.app_size,self.canvas,may)

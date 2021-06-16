@@ -209,6 +209,13 @@ def bace_text(language,description):
         elif language == 'es': return 'Período glacial'
         elif language == 'de': return 'Eiszeit'
     
+    elif description == 'nuclear':
+        if language == 'ru':    return 'Атомные \n шахматы'
+        elif language == 'en':  return 'Nuclear chess '
+        elif language == 'fr': return 'echecs \nnucléaires '
+        elif language == 'es': return 'ajedrez \nnuclear'
+        elif language == 'de': return 'nukleares \nSchach'
+    
     elif description == 'exit?':
         if language == 'ru':   return 'Выйти?'
         elif language == 'en': return 'Leave?'

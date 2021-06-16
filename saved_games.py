@@ -189,7 +189,7 @@ class Interface(Widget):
             [Get_text('interface_mode'),       Chess_type(data[0]).text],
             [Get_text('interface_saved'),      creation_date(path)],
             [Get_text('interface_playtime'),   'time'],
-            [Get_text('interface_cur_move'),   str(int(data[3].split()[0])+1)],
+            [Get_text('interface_cur_move'),   str(1+int(data[3].split()[0]))],
             [Get_text('interface_color_move'), 'moves']
         ]
         # time in game

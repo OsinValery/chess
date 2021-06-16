@@ -104,25 +104,3 @@ class Switch_(Widget):
             return True
         else:
             return super(Switch_,self).on_touch_down(touch)
-
-
-__all__ = [Switch_.__name__]
-if __name__ == '__main__':
-    from kivy.app import App
-    from kivy.graphics import Rectangle
-
-    class Test_App(App):
-        def build(self):
-            wid = Widget()
-            with wid.canvas:
-                Color(1,0,0,1)
-                Rectangle(size=[700,700])
-
-            wid.add_widget(Switch_(
-                pos=[100,100],
-                size = [100,40],
-                active=False
-            ))
-            return wid
-        
-    Test_App().run()
