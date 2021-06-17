@@ -144,9 +144,10 @@ class VideoChess(Widget):
             x,y = self.actions[self.move][1:3]
             for dx in -1,0,1:
                 for dy in -1,0,1:
-                    nx, ny = x + dx, y + ny
+                    nx, ny = x + dx, y + dy
                     if nx > -1 and nx < 8 and ny >= 0 and ny < 8:
-                        self.cur_pos[nx][ny] = ['',nx,ny,'empty']
+                        if self.cur_pos[nx][ny][3] not in ['empty','pawn']:
+                            self.cur_pos[nx][ny] = ['',nx,ny,'empty']
 
 
         if self.actions[self.move][0] != 'pause':
