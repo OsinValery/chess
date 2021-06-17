@@ -37,7 +37,7 @@ osx.kivy_version = 1.9.1
 #
 
 fullscreen = 0
-#android.presplash_color = #FFFFFF
+android.presplash_color = #FFFFFF
 android.permissions = INTERNET
 
 # (int) Target Android API, should be as high as possible.
