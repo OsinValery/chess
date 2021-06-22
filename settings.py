@@ -50,7 +50,7 @@ class __Settings():
         self.with_sound = True
         self.with_effects = True
         self.volume = .5
-        self.fon_music = 'sound1.ogg'
+        self.fon_music = 'sound6.ogg'
         self.move_music = 'move1.ogg'
         self.bace_fon = 'pic4.png'
         self.game_fon = 'fon1.png'
@@ -129,7 +129,7 @@ class __Settings():
             'classic', 'magik', 'fisher', 'horse_battle',
             'permutation', 'horde', 'week', 'kamikadze',
             'bad_chess', 'rasing', 'haotic', 'schatranj',
-            'dark_chess', 'frozen', 'nuclear'
+            'dark_chess', 'frozen', 'nuclear', 'legan'
         ]
         if tipe in standart:
             file = 'board.png'

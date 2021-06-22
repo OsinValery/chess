@@ -323,6 +323,18 @@ def bace_text(language, description):
             return 'Período glacial'
         elif language == 'de':
             return 'Eiszeit'
+    
+    elif description == 'legan':
+        if language == 'ru' :
+            return 'Шахматы Легана'
+        elif language == 'es':
+            return 'Ajedrez \nDe Leganés'
+        elif language == 'en':
+            return 'Legan Chess'
+        elif language == 'de':
+            return 'Legan Schach'
+        elif language == 'fr':
+            return 'Legan\'S Chess'
 
     elif description == 'nuclear':
         if language == 'ru':
@@ -1645,6 +1657,9 @@ def tutorial(language, description):
 
     elif 'nuclear' in description:
         return get_nuclear(language, description[8:])
+    
+    elif 'legan' in description:
+        return get_legan(language,description[6:])
 
     else:
         return 'error_2'
@@ -3297,6 +3312,71 @@ def get_nuclear(language, description):
             return 'Die Kurzanleitung ist fertig. Vor Ihnen warten grausame Kombinationen und schwierige Entscheidungen! Spiele und entwickle dich!'
 
     return description
+
+def get_legan(language, description):
+    if description == 'start':
+        if language == 'ru':
+            return 'Были придуманы Леганом в 1920 году для развлечения. Больше ничего интересного нет! Желаем удачи!'
+        if language == 'en':
+            return 'Were invented by Legan in 1920 for entertainment. There is nothing more interesting! Good luck!'
+        if language == 'fr':
+            return 'Ont été inventés par Legan en 1920 pour le divertissement. Rien d\'autre n\'est intéressant! Souhaitons bonne chance!'
+        if language == 'es':
+            return 'Fueron inventados por Leganés en 1920 para el entretenimiento. ¡No hay nada más interesante! ¡Buena suerte!'
+        if language == 'de':
+            return 'Wurden 1920 von Legan zur Unterhaltung erfunden. Es gibt nichts Interessantes mehr! Viel Glück!'
+
+    if description == '2':
+        if language == 'ru':
+            return 'Постойте! Как играть то? А как обычно! Можете глянуть, если до сих пор не знаете. Правила изменили только ход пешки.'
+        if language == 'en':
+            return 'Wait! How to play something? And as usual! You can take a look if you still don\'t know. The rules only changed the pawn\'s move.'
+        if language == 'fr':
+            return 'Attendez! Comment jouer alors? Et comme d\'habitude! Vous pouvez regarder si vous ne savez toujours pas. Les règles n\'ont changé que le mouvement du pion.'
+        if language == 'es':
+            return '¡Espera! Cómo jugar entonces? ¡Como siempre! Puedes mirar si aún no lo sabes. Las reglas solo cambiaron el movimiento del peón.'
+        if language == 'de':
+            return "Warten Sie! Wie dann zu spielen? Und wie immer! Sie können sehen, wenn Sie es noch nicht wissen. Die Regeln änderten nur den Zug des Bauern."
+
+    if description == '3':
+        if language == 'ru':
+            return 'Пешки теперь ходят наискосок, в сторону врага, а рубят по вертикали и по горизонтали в сторону врага. '
+        if language == 'en':
+            return 'Pawns now move obliquely towards the enemy, and chop vertically and horizontally towards the enemy. '
+        if language == 'fr':
+            return 'Les pions vont maintenant obliquement vers l\'ennemi et sont coupés verticalement et horizontalement vers l\'ennemi. '
+        if language == 'es':
+            return 'Los peones ahora caminan oblicuamente hacia el enemigo, y cortan verticalmente y horizontalmente hacia el enemigo. '
+        if language == 'de':
+            return 'Bauern gehen jetzt schräg in Richtung des Feindes und schneiden vertikal und horizontal in Richtung des Feindes. '
+
+    if description == '4':
+        if language == 'ru':
+            return 'Пешки могут превратиться в ферзя только там, где сейчас стоят пешки. Логично же?'
+        if language == 'en':
+            return 'Pawns can only turn into queens where the pawns are currently standing. Isn\'t that logical?'
+        if language == 'fr':
+            return 'Les pions ne peuvent se transformer en reine que là où les pions sont maintenant. Logique même?'
+        if language == 'es':
+            return 'Los peones solo pueden convertirse en reinas donde están los peones ahora. ¿Es lógico?'
+        if language == 'de':
+            return 'Bauern können nur dort, wo Bauern jetzt stehen, zu einer Königin werden. Logisch, oder?'
+
+    if description == 'end':
+        if language == 'ru':
+            return 'Приятное время болтовни закончилось. Теперь в путь! А удачи вам уже пожелали!'
+        if language == 'en':
+            return 'The pleasant chatter time is over. Now let\'s go! And good luck to you already wished!'
+        if language == 'fr':
+            return 'Le bon temps de bavardage est terminé. Maintenant sur la route! Et bonne chance vous avez déjà souhaité!'
+        if language == 'es':
+            return 'El momento agradable de la charla ha terminado. ¡Ahora en camino! ¡Y buena suerte ya te han deseado!'
+        if language == 'de':
+            return 'Die angenehme Zeit des Geschwätzes ist vorbei. Jetzt auf den Weg! Und viel Glück haben Sie bereits gewünscht!'
+    
+    return description
+
+
 
 
 def for_copy(language, description):

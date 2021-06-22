@@ -109,7 +109,7 @@ class connection():
                             if self.my_nick == self.friend_nick:
                                 self.connected = False
                                 try:
-                                    if not conn._closed:
+                                    if not self.conn._closed:
                                         self.conn.close()
                                 except:
                                     pass
@@ -162,6 +162,7 @@ class connection():
                                 except socket.timeout:
                                     pass
 
+                    self.messages = []
 
                 # if self.state == 0 it will
                 print('stop')

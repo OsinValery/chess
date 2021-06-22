@@ -21,6 +21,7 @@ import bad_figure
 import schatranj_figure
 import rasing_figure
 import frozen_figure
+import legan_figure
 Figure = None
 
 import rasing
@@ -133,6 +134,11 @@ class Tutorial_Widget(Widget):
             frozen_figure.get_widget(self,self.app_size)
             Figure = frozen_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
+        
+        elif self.type_of_chess == 'legan':
+            legan_figure.get_widget(self,self.app_size)
+            Figure = legan_figure.Figure
+            self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
 
 
 
@@ -158,7 +164,7 @@ class Tutorial_Widget(Widget):
             'classic','fisher','horse_battle','magik',
             'permutation','horde','week','kamikadze',
             'bad_chess', 'rasing','haotic','schatranj',
-            'dark_chess','frozen','nuclear'
+            'dark_chess','frozen','nuclear','legan'
             ]
         if self.type_of_chess in eight_fields:
             pos[0] -= (self.app_size.x_top_board + self.app_size.x_top)
@@ -213,7 +219,7 @@ class Tutorial_Widget(Widget):
                     'classic','fisher','horse_battle','magik',
                     'permutation','los_alamos','garner','horde',
                     'week','kamikadze','bad_chess','rasing','haotic',
-                    'schatranj','dark_chess','frozen','nuclear'
+                    'schatranj','dark_chess','frozen','nuclear','legan'
                 ]
                 if self.type_of_chess in squared :
                     simple_tips(self.app_size,self.canvas,may)

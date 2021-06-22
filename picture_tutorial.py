@@ -16,6 +16,7 @@ import horde_figure
 import bad_figure
 import rasing_figure
 import frozen_figure
+import legan_figure
 
 Figure = None
 
@@ -31,6 +32,7 @@ import week
 import bad_help
 import schatranj
 import frozen
+import legan_chess
 
 #Chess types
 import circle_chess
@@ -141,6 +143,11 @@ class Static_picture(Widget):
             Figure = frozen_figure.Figure
             if 'start' in self.options:
                 frozen.create_start_game_board()
+        elif self.type_of_chess == 'legan':
+            legan_figure.get_widget(self,self.app_size)
+            Figure = legan_figure.Figure
+            if 'start' in self.options:
+                legan_chess.create_start_game_board()
 
             
         

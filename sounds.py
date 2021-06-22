@@ -65,10 +65,13 @@ class Music_collector():
                 self.effect.volume = Settings.volume
 
             if Settings.with_sound:
-                self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
-                self.fon.loop = True
-                self.fon.volume = Settings.volume
-                self.start()
+                def new(arg=None):
+                    self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
+                    self.fon.loop = True
+                    self.fon.volume = Settings.volume
+                    self.start()
+                way = Thread(target=new,daemon=1)
+                way.start()
         except:
             pass
 

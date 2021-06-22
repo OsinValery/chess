@@ -26,6 +26,7 @@ import nuclear_chess
 import rasing
 import schatranj
 import week_chess
+import legan_chess
 
 import sizes
 import global_constants
@@ -69,6 +70,8 @@ def find_chess_module(tip):
         return frozen_chess
     elif tip == 'nuclear':
         return nuclear_chess
+    elif tip == 'legan':
+        return legan_chess
     if game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')

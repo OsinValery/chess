@@ -181,24 +181,24 @@ class Graphical_interfase():
         self.white_time = Label(
             text=line,
             pos=[ sizes.x_top_board + sizes.board_size[0] * 0.9 - sizes.field_size,
-                        sizes.y_top_board - sizes.y_top * 2 ],
-            size=[sizes.board_size[0],2*sizes.y_top],
+                        sizes.y_top_board - sizes.board_size[1]/10],
+            size=[sizes.board_size[0],sizes.board_size[1] / 10],
             color=(1,0,0,1),
-            text_size = [sizes.board_size[0],2*sizes.y_top],
+            text_size = [sizes.board_size[0], sizes.board_size[1]/10],
             valign='middle'
         )
         self.black_time = Label(
             text=line,
-            size= [sizes.board_size[0],2*sizes.y_top],
+            size= [sizes.board_size[0],sizes.board_size[1]/10],
             pos=[sizes.x_top_board + sizes.board_size[0] * 0.9 - sizes.field_size, 
                         sizes.y_top_board + sizes.board_size[1] ],
             color=(1,0,0,1),
-            text_size=[sizes.board_size[0],2*sizes.y_top],
+            text_size=[sizes.board_size[0],sizes.board_size[1]/10],
             valign='middle'
             ) 
         self.info = Label(
-            size=[sizes.board_size[0],2*sizes.field_size],
-            pos = [sizes.x_top_board,sizes.y_top_board-3*sizes.field_size],
+            size=[sizes.board_size[0], 2 * sizes.board_size[1] / 10],
+            pos = [sizes.x_top_board,sizes.y_top_board-3*sizes.board_size[0]/10],
             text = Get_text('game_white_move'),
             font_size = 40,
             color = [0.1,0.8,1,2]
@@ -234,32 +234,35 @@ class Graphical_interfase():
             size=(sizes.window_size[0]*0.15,sizes.window_size[1]*0.07),
             on_press = lambda par:exit_command(commands[0])
         ))
+
+        # add clock - nick rectangle
         names = [game.name2,game.name1]
         mas = [  [sizes.x_top_board , sizes.y_top_board + sizes.board_size[1]  ],
-                 [sizes.x_top_board , sizes.y_top_board - 2 * sizes.y_top  ]
+                 [sizes.x_top_board , sizes.y_top_board - sizes.board_size[1] / 10  ]
         ]
         for x in 0,1:
             with main_widget.canvas:
                 Color(.1,.1,.1,.3)
                 Rectangle(
-                    size= [sizes.board_size[0] , 2 * sizes.y_top],
+                    size= [sizes.board_size[0] , sizes.board_size[1] / 10],
                     pos=mas[x]
                 )
 
             main_widget.add_widget(Label(
                 pos=mas[x],
-                size=[ sizes.board_size[0] , 2 * sizes.y_top ],
+                size=[ sizes.board_size[0] , sizes.board_size[1] / 10 ],
                 color=(1,0,0,1),
-                text_size = [ sizes.board_size[0] , 2 * sizes.y_top ],
+                text_size = [ sizes.board_size[0] , sizes.board_size[1] / 10 ],
                 valign='middle',
-                text=names[x]
+                text=' '+names[x]
             ))
 
+        # add purple rectangle
         with main_widget.canvas:
-            Color(1,0,0.8,0.2,mode = 'rgba')
+            Color(1,0,0.8,0.3,mode = 'rgba')
             Rectangle(
-                size=[sizes.board_size[0],2*sizes.field_size],
-                pos = [sizes.x_top_board,sizes.y_top_board-3*sizes.field_size]
+                size=[sizes.board_size[0],2*sizes.board_size[1] / 10],
+                pos = [sizes.x_top_board,sizes.y_top_board-3*sizes.board_size[1] / 10]
             )
             Color(1,1,1,1)
 

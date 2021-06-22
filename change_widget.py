@@ -177,7 +177,7 @@ class Card(Widget):
             font_size=25,
             background_color=(0, 1, 0, 0.65),
             size=(size1[0]//3.7, size1[1]//5),
-            pos=(self.pos[0] + self.size[0]*.6, self.pos[1]),
+            pos=(self.pos[0], self.pos[1]),
             color=(1, 1, 0, 0.9),
             on_press=command
         ))
@@ -520,7 +520,7 @@ class Settings_widget(Widget):
 classic_type = [Chess_type(el)for el in [
     'classic', 'los_alamos', 'garner', 'schatranj'
 ]]
-positions = [Chess_type(el)for el in ['fisher', 'horse_battle']]
+positions = [Chess_type(el)for el in ['fisher', 'horse_battle', 'legan']]
 with_effects = [Chess_type(el)for el in [
     'magik', 'permutation', 'kamikadze',
     'haotic', 'dark_chess', 'frozen', 'nuclear'

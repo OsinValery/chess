@@ -219,6 +219,8 @@ def tutorial(press):
         do_freeze_tutorial()
     elif game.type_of_chess == 'nuclear':
         do_nuclear_tutorial()
+    elif game.type_of_chess == 'legan':
+        do_legan_tutorial()
     else:
         lost_tutorial()
 
@@ -271,7 +273,7 @@ def classic_3(press):
 def classic_4(press):
     help_tutorial()
     command = classic_5
-    if global_constants.game.type_of_chess in ['horde', 'rasing', 'los_alamos']:
+    if global_constants.game.type_of_chess in ['horde', 'rasing', 'los_alamos', 'legan']:
         command = classic_7
     interactive_interface(
         size=global_constants.Main_Window.size,
@@ -327,7 +329,7 @@ def classic_7(press):
     game = global_constants.game
     if game.type_of_chess in ['classic', 'magik', 'permutation', 'horde', 'kamikadze', 'haotic']:
         command = classic_8
-    elif game.type_of_chess in ['los_alamos']:
+    elif game.type_of_chess in ['los_alamos', 'legan']:
         command = classic_9
     elif game.type_of_chess == 'week':
         command = do_weak_tutorial
@@ -406,6 +408,8 @@ def classic_9(press):
         but.bind(on_press=freeze4)
     elif game.type_of_chess == 'nuclear':
         but.bind(on_press=do_nuclear_tutorial)
+    elif game.type_of_chess == 'legan':
+        but.bind(on_press=do_legan_tutorial)
     else:
         but.bind(on_press=do_classic_tutorial)
     global_constants.Main_Window.add_widget(but)
@@ -1976,8 +1980,7 @@ def nuc3(par=...):
     board = [
         ['black', 7, 6, 'pawn'], ['black', 6, 6, 'pawn'], ['black', 5, 6, 'pawn'],
         ['black', 6, 7, 'king'], ['white', 7, 1, 'pawn'], ['white', 6, 1, 'pawn'],
-        ['white', 6, 0, 'king'], ['white', 3, 0,
-                                  'rook'], ['black', 1, 6, 'bishop'],
+        ['white', 6, 0, 'king'], ['white', 3, 0, 'rook'], ['black', 1, 6, 'bishop'],
         ['black', 0, 6, 'pawn'], ['black', 1, 5, 'pawn'], ['black', 2, 6, 'pawn'],
         ['white', 0, 1, 'pawn'], ['white', 1, 1, 'pawn'], ['white', 2, 1, 'pawn']
     ]
@@ -2115,3 +2118,115 @@ def nuc8(par=...):
         btn_command=do_nuclear_tutorial,
         repeat=True
     )
+
+# end of nuclear tutorial
+
+
+def do_legan_tutorial(par=...):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_legan_start'),
+        btn_command=legan2,
+        repeat=False
+    )
+
+
+def legan2(par=...):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_legan_2'),
+        btn_command=legan3,
+        repeat=False
+    )
+    size = global_constants.Main_Window.size
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_see'),
+        pos=(size[0] * 0.32, size[1] * 0.05),
+        background_normal='',
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=classic_1
+    ))
+
+
+def legan3(par=None):
+    help_tutorial()
+    board = [
+        ['white',5,1,'pawn'], ['black',4,3,'horse'],
+        ['black',2,5,'pawn'], ['white',3,6,'pawn'],
+        ['black',0,3,'pawn']
+    ]
+    actions = [
+        ['show',5,1,[[4,2]]], ['move', 5,1,4,2], ['show',2,5,[[3,4]]],
+        ['move',2,5,3,4], ['show_attack',4,2,4,3], ['take', 4,2,4,3],
+        ['move',0,3,1,2], ['move',3,6,2,7], ['change',2,7,'queen'],
+        ['pause']
+    ]
+    size = global_constants.Main_Window.size
+    text = get_text(Get_text('tutorial_legan_3'),
+                    size[0]*0.9, normal_font_size/2)
+    video_interface(
+        board = board,
+        actions=actions,
+        speed=1.3,
+        command=legan4,
+        text=text
+    )
+
+
+def legan4(par=None):
+    help_tutorial()
+    size = global_constants.Main_Window.size
+    label_text = Get_text('tutorial_legan_4')
+    global_constants.Main_Window.add_widget(Label(
+        text=get_text(label_text, size[0]*0.9, normal_font_size/2),
+        shorten=True,
+        font_size=normal_font_size,
+        color=(0, 0, 0, 1),
+        pos=(size[0]*0.05, size[1]*0.55),
+        size=(size[0]*0.9, size[1]*0.4),
+        halign="center",
+        valign="middle",
+    ))
+    pos = []
+    for x in 4,5,6,7:
+        pos.append(['pawn',x,0,'white'])
+        pos.append(['pawn',0,x,'black'])
+    for i in 1,2,3:
+        pos.append(['pawn',7,i,'white'])
+        pos.append(['pawn',i,7,'black'])
+    global_constants.Main_Window.add_widget(Static_picture(
+        size=[0.7*size[0]]*2,
+        game=global_constants.game,
+        options=[],
+        position=pos
+    ))
+
+    button_text = Get_text('tutorial_next')
+    global_constants.Main_Window.add_widget(Button(
+        text=button_text,
+        pos=(size[0] * 0.65, size[1] * 0.05),
+        background_normal='',
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=legan5
+    ))
+
+
+def legan5(par=None):
+    help_tutorial()
+    static_interface(
+        size = global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_legan_end'),
+        btn_command=do_legan_tutorial,
+        repeat=1
+    )
+
+# end of legan tutorial
+
+
+
+
+
