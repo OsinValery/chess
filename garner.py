@@ -3,9 +3,7 @@ from kivy.graphics import Rectangle,Ellipse,Color,Line
 from kivy.uix.button import Button
 from kivy.uix.bubble import Bubble,BubbleButton
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.clock import Clock
-from kivy.uix.popup import Popup
 
 import copy
 import interface
@@ -396,7 +394,7 @@ def do_transformation(color,x,y,options):
         del Game.bub
         if Game.state_game != 'one':
             Connection.messages += [Game.message + ' = ' + ftype + \
-            f" {Game.players_time['white']} {Game.players_time['black']}"]
+                f" {Game.players_time['white']} {Game.players_time['black']}"]
         Game.message = ''
         Game.need_change_figure = False
         change_color(options)
@@ -552,7 +550,7 @@ def init_game():
 
     choose_figure = Figure('white',0,0,'empty')
     create_interface(Main_Window,Sizes,Game)
-    garner_figure.get_widget(Main_Window.wid,Sizes)
+    global_constants.current_figure_canvas = Main_Window.wid.canvas
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

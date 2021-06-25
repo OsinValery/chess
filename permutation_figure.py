@@ -2,14 +2,6 @@ import os
 import Basic_figure
 import settings
 
-def get_widget(widget,size_app):
-    global folder
-    path = settings.Settings.get_folder()
-    d = os.path.sep
-    fig = settings.Settings.get_fig_set()
-    folder = path + f'pictures{d}{fig}{d}'
-    Basic_figure.get_widget(widget,size_app)
-    
 
 class Figure(Basic_figure.Figure):
     board_size = [8,8]
@@ -26,6 +18,11 @@ class Figure(Basic_figure.Figure):
             tip = 'horse'
         self.type = tip
         name = tip[0] + self.color[0] + '.png'
+        path = settings.Settings.get_folder()
+        d = os.path.sep
+        fig = settings.Settings.get_fig_set()
+        folder = path + f'pictures{d}{fig}{d}'
+
         self.rect.source = folder + name
 
 

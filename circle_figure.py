@@ -1,19 +1,15 @@
 from kivy.graphics import Rectangle
 from math import sin,cos,radians
 from settings import Settings
+import global_constants
 import os
 
 import Basic_figure
 
-def get_widget(widget,size_app):
-    global main_widget,size,folder
-    size = size_app 
-    main_widget = widget
-
+def get_folder():
     d = os.path.sep
     f_set = Settings.get_fig_set()
-    folder = Settings.get_folder() + f'pictures{d}{f_set}{d}'
-    Basic_figure.get_widget(widget,size_app)
+    return Settings.get_folder() + f'pictures{d}{f_set}{d}'
 
 
 class Figure(Basic_figure.Figure):
@@ -27,13 +23,16 @@ class Figure(Basic_figure.Figure):
         # some time i create empty figure named chose_figure
         if self.type != 'empty' and fig_type != '':
             name = fig_type[0] + col[0] + '.png'
+            size = global_constants.Sizes
+            folder = get_folder()
             self.rect = Rectangle(source=folder+name,size=[size.r*0.9]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(x,y)
 
     def set_coords_on_board(self,x,y):
         self.x = x
         self.y = y
+        size = global_constants.Sizes
         agle = y * 22.5 + 11.25
         r = size.r_min + size.r * x + size.r * .5
         bx = cos(radians(agle)) * r - self.rect.size[0] / 2
@@ -88,8 +87,10 @@ class Figure(Basic_figure.Figure):
             if self.type == 'pawn':
                 self.moving = info[-1]
             name = self.type[0] + self.color[0] + '.png'
+            folder = get_folder()
+            size = global_constants.Sizes
             self.rect = Rectangle(source=folder+name,size=[size.r*0.9]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(self.x,self.y)
 
 

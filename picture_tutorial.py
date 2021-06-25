@@ -59,6 +59,7 @@ class Static_picture(Widget):
         self.app_size = global_constants.Sizes
         self.options = options
         self.position = position
+        global_constants.current_figure_canvas = self.canvas
         self.create_interface()
 
     def create_interface(self):
@@ -75,7 +76,6 @@ class Static_picture(Widget):
             'schatranj','dark_chess','nuclear'
             ]
         if self.type_of_chess in standart:
-            help_chess.get_widget(self,self.app_size)
             Figure = help_chess.Figure   
             if 'start' in self.options:
                 if self.type_of_chess in [
@@ -94,57 +94,48 @@ class Static_picture(Widget):
                     horse_battle.create_start_game_board()
 
         elif self.type_of_chess == 'los_alamos':
-            figure_alamos.get_widget(self,self.app_size)
             Figure = figure_alamos.Figure
             if 'start' in self.options:
                 los_alamos.create_start_game_board()
 
         elif self.type_of_chess == 'glinskiy':
-            glin_figure.get_widget(self,self.app_size)
             Figure = glin_figure.Figure
             if 'start' in self.options:
                 gen_glinskiy.create_start_game_board()
 
         elif self.type_of_chess == 'kuej':
-            kuej_figure.get_widget(self,self.app_size)
             Figure = glin_figure.Figure
             if 'start' in self.options:
                 gen_kuej.create_start_game_board()
 
         elif self.type_of_chess in ['circle_chess','bizantion']:
-            circle_figure.get_widget(self,self.app_size)
             Figure = circle_figure.Figure
             if 'start' in self.options:
                 circle_chess.create_round_board()
 
         elif self.type_of_chess == 'garner':
-            garner_figure.get_widget(self,self.app_size)
             Figure = garner_figure.Figure
             if 'start' in self.options:
                 garner.create_start_game_board()
             
         elif self.type_of_chess == 'horde':
-            horde_figure.get_widget(self,self.app_size)
             Figure = horde_figure.Figure
             if 'start' in self.options:
                 gen_horde.create_start_game_board()
+
         elif self.type_of_chess == 'bad_chess':
-            bad_figure.get_widget(self,self.app_size)
             Figure = bad_figure.Figure
             if 'start' in self.options:
                 bad_help.create_start_game_board()
         elif self.type_of_chess == 'rasing':
-            rasing_figure.get_widget(self,self.app_size)
             Figure = rasing_figure.Figure
             if 'start' in self.options:
                 rasing.get_start_position()
         elif self.type_of_chess == 'frozen':
-            frozen_figure.get_widget(self,self.app_size)
             Figure = frozen_figure.Figure
             if 'start' in self.options:
                 frozen.create_start_game_board()
         elif self.type_of_chess == 'legan':
-            legan_figure.get_widget(self,self.app_size)
             Figure = legan_figure.Figure
             if 'start' in self.options:
                 legan_chess.create_start_game_board()
@@ -159,7 +150,7 @@ class Static_picture(Widget):
             y = el[2]
             color = el[3]
             tip = el[0]
-            fig = Figure(color,x,y,tip)
+            Figure(color,x,y,tip)
 
     def __del__(self):
         self.canvas.clear()

@@ -4,13 +4,10 @@ import Basic_figure
 import global_constants
 
 
-def get_widget(window,size):
-    global folder, main_widget
-    Basic_figure.get_widget(window,size)
-    main_widget = window
+def get_folder():
     path = global_constants.Settings.get_folder()
     f_set = global_constants.Settings.get_fig_set()
-    folder =  os.path.join(path,'pictures',f_set) + os.sep
+    return  os.path.join(path,'pictures',f_set) + os.sep
 
 
 class Figure(Basic_figure.Figure):
@@ -30,13 +27,14 @@ class Figure(Basic_figure.Figure):
                 source = file,
                 size=[global_constants.Sizes.field_size]*2
             )
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(x,y)
         elif self.type != 'empty' and fig_type != '':
             name = fig_type[0] + color[0] + '.png'
             Sizes = global_constants.Sizes
+            folder = get_folder()
             self.rect = Rectangle(source=folder+name,size=[Sizes.field_size]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(x,y)
 
     def freeze(self):
@@ -50,12 +48,12 @@ class Figure(Basic_figure.Figure):
             source = file,
             size=[global_constants.Sizes.field_size]*2
         )
-        main_widget.canvas.add(self.rect)
+        global_constants.current_figure_canvas.add(self.rect)
         self.set_coords_on_board(self.x, self.y)
     
     def destroy(self):
         if self.type != 'empty':
-            main_widget.canvas.remove(self.rect)
+            global_constants.current_figure_canvas.remove(self.rect)
             del self.rect
         self.type = 'empty'
         self.color = ''

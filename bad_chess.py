@@ -17,8 +17,8 @@ from translater import Get_text
 from connection import Connection
 import global_constants
 
-import bad_figure as help_chess
-Figure = help_chess.Figure
+import bad_figure
+Figure = bad_figure.Figure
 
 class Game_rect(Widget):
     def on_touch_down(self,touch):
@@ -568,7 +568,7 @@ def init_game():
 
     choose_figure = Figure('white',0,0,'empty')
     create_interface(Main_Window,Sizes,Game)
-    help_chess.get_widget(Main_Window.wid,Sizes)
+    global_constants.current_figure_canvas = Main_Window.wid.canvas
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

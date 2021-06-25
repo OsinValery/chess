@@ -2,17 +2,14 @@ import os
 from kivy.graphics import Rectangle
 from settings import Settings
 import Basic_figure
+import global_constants
 
 
-def get_widget(widget,size_app):
-    global main_widget,size,folder
-    Basic_figure.get_widget(widget,size_app)
-    size = size_app 
-    main_widget = widget
+def get_folder():
     path = Settings.get_folder()
     d = os.sep
     f_set = Settings.get_fig_set()
-    folder =  path + f'pictures{d}{f_set}{d}'
+    return  path + f'pictures{d}{f_set}{d}'
 
 
 class Figure(Basic_figure.Figure):
@@ -59,8 +56,10 @@ class Figure(Basic_figure.Figure):
         if self.type != 'empty':
             self.color = info[3]
             name = self.type[0] + self.color[0] + '.png'
+            size = global_constants.Sizes
+            folder = get_folder()
             self.rect = Rectangle(source=folder+name,size=[size.field_size]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(self.x,self.y)
 
 

@@ -4,7 +4,6 @@ from kivy.uix.button import Button
 from kivy.uix.bubble import Bubble,BubbleButton
 from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
-import kivy.utils
 
 import copy
 import os
@@ -18,7 +17,7 @@ from translater import Get_text
 from connection import Connection
 import global_constants
 
-import kamikadze_figure 
+import kamikadze_figure
 Figure = kamikadze_figure.Figure
 
 class Game_rect(Widget):
@@ -590,7 +589,7 @@ def init_game():
 
     choose_figure = Figure('white',0,0,'empty')
     create_interface(Main_Window,Sizes,Game)
-    kamikadze_figure.get_widget(Main_Window.wid,Sizes)
+    global_constants.current_figure_canvas = Main_Window.wid.canvas
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

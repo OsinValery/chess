@@ -916,7 +916,7 @@ def settings_text(language, description):
 
     elif description == 'sort':
         if language == 'ru':
-            return 'Сортироватьт\nигры'
+            return 'Сортировать\nигры'
         elif language == 'en':
             return 'Sort \ngames?'
         elif language == 'es':

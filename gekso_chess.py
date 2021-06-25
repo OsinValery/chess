@@ -3,7 +3,6 @@ from kivy.graphics import Rectangle,Ellipse,Color,Line
 from kivy.uix.button import Button
 from kivy.uix.bubble import Bubble,BubbleButton
 from kivy.uix.gridlayout import GridLayout
-from kivy.uix.label import Label
 from kivy.clock import Clock
 
 import copy
@@ -698,8 +697,7 @@ def init_game():
 
     choose_figure = Figure('white',0,0,'empty')
     create_interface(Main_Window,Sizes,Game)
-    glin_figure.get_widget(Main_Window.wid,Sizes)
-    kuej_figure.get_widget(Main_Window.wid,Sizes)
+    global_constants.current_figure_canvas = Main_Window.wid.canvas
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

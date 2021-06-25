@@ -9,4 +9,5 @@ Main_Window = Widget()
 Sizes = None
 Settings = None
 Music = None
+current_figure_canvas = None
 

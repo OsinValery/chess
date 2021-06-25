@@ -1,7 +1,5 @@
 import Basic_figure
 
-def get_widget(widget,size_app):
-    Basic_figure.get_widget(widget,size_app)
 
 class Figure(Basic_figure.Figure):
     def first_list(self,board):

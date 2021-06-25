@@ -4,7 +4,6 @@ from kivy.uix.button import Button
 from kivy.uix.bubble import Bubble,BubbleButton
 from kivy.uix.gridlayout import GridLayout
 from kivy.clock import Clock
-from kivy.utils  import platform
 
 import interface
 from Window_info import Window
@@ -495,8 +494,6 @@ def build_game(game):
     # change modules of chess
     if game.type_of_chess == 'los_alamos':
         los_alamos.init_chess(game)
-    elif game.type_of_chess == '':
-        fisher.init_chess(game)
     
     game.do_hod = do_hod
     game.tips_drawed = False
@@ -566,7 +563,7 @@ def init_game():
 
     choose_figure = Figure('white',0,0,'empty')
     create_interface(Main_Window,Sizes,Game)
-    figure_alamos.get_widget(Main_Window.wid,Sizes)
+    global_constants.current_figure_canvas = Main_Window.wid.canvas
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

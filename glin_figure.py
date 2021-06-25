@@ -1,20 +1,15 @@
 from kivy.graphics import Rectangle
 import settings
 import os
-
+import global_constants
 import Basic_figure
 
-def get_widget(widget,size_app):
-    global main_widget,size,folder
-    size = size_app 
-    main_widget = widget
 
+def get_folder():
     d = os.path.sep
     path = settings.Settings.get_folder()
     fig = settings.Settings.get_fig_set()
-
-    folder = path + f'pictures{d}{fig}{d}'
-    Basic_figure.get_widget(widget,size_app)
+    return path + f'pictures{d}{fig}{d}'
 
 
 class Figure(Basic_figure.Figure):
@@ -26,14 +21,16 @@ class Figure(Basic_figure.Figure):
         if fig_type == 'pawn':
             self.do_hod_now = False
         if self.type != 'empty' and fig_type != '':
-            name = fig_type[0] + col[0] + '.png'        
-            self.rect = Rectangle(source=folder+name,size=[size.field_len]*2)
-            main_widget.canvas.add(self.rect)
+            name = fig_type[0] + col[0] + '.png'
+            size = global_constants.Sizes
+            self.rect = Rectangle(source=get_folder()+name,size=[size.field_len]*2)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(x,y)
     
     def set_coords_on_board(self,x,y):
         self.x = x
         self.y = y
+        size = global_constants.Sizes
         dy = (size.field_h - size.field_len) / 2
         self.rect.pos = ((.5 + 1.5 * x) * size.field_len +size.x_top_board,
             y * size.field_h + size.y_top_board + abs(5-x) * .5 * size.field_h + dy)
@@ -113,8 +110,10 @@ class Figure(Basic_figure.Figure):
             if self.type == 'pawn':
                 self.do_hod_now = info[4] == 'y'
             name = self.type[0] + self.color[0] + '.png'
+            size = global_constants.Sizes
+            folder = get_folder()
             self.rect = Rectangle(source=folder+name,size=[size.field_len]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(self.x,self.y)
 
 

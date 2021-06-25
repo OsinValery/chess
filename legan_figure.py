@@ -1,8 +1,5 @@
 import Basic_figure
 
-def get_widget(wid,size):
-    Basic_figure.get_widget(wid,size)
-
 
 class Figure(Basic_figure.Figure):
     def pawn_on_last_line(self):

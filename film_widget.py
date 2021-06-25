@@ -23,9 +23,7 @@ class VideoChess(Widget):
             x,y = figure[1:3]
             self.start_pos[x][y] = figure
         self.cur_pos = copy(self.start_pos)
-        help_chess.get_widget(widget=self,size_app=global_constants.Sizes)
-        glin_figure.get_widget(self,global_constants.Sizes)
-        frozen_figure.get_widget(self,global_constants.Sizes)
+        global_constants.current_figure_canvas = self.canvas
         self.move = 0
         self.effects = []
         self.must = True        

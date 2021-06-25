@@ -1,3 +1,4 @@
+import threading
 from kivy.core.audio import SoundLoader
 import os
 from settings import Settings
@@ -54,24 +55,22 @@ class Music_collector():
 
             if self.fon.state == 'play':
                 self.fon.stop()
-                del self.proc
         except:
             pass
     
     def renew(self):
+        # этот метод нигде не используется, возможно, нужно удалить
+        print('now i am in renew')
         try:
             self.stop()
             if Settings.with_effects:
                 self.effect.volume = Settings.volume
 
             if Settings.with_sound:
-                def new(arg=None):
-                    self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
-                    self.fon.loop = True
-                    self.fon.volume = Settings.volume
-                    self.start()
-                way = Thread(target=new,daemon=1)
-                way.start()
+                self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
+                self.fon.loop = True
+                self.fon.volume = Settings.volume
+                self.start()
         except:
             pass
 
@@ -81,19 +80,24 @@ class Music_collector():
             self.fon.volume = value
         except:
             pass
-    
+
     def change_music(self,music):
         try:
             self.stop()
-            self.fon = SoundLoader.load(os.path.join(music_dir,music))
-            self.fon.loop = True
-            self.fon.volume = Settings.volume
-            self.start()
+            self.fon.unload()
+            def load(par=None):
+                self.fon = SoundLoader.load(os.path.join(music_dir,music))
+                self.fon.loop = True
+                self.fon.volume = Settings.volume
+                self.start()
+            th = threading.Thread(target=load,daemon=1)
+            th.start()
         except:
             pass
 
     def change_move(self,move):
         try:
+            self.effect.unload()
             self.effect = SoundLoader.load(os.path.join(music_dir,move))
             self.effect.volume = Settings.volume
             if Settings.with_effects:

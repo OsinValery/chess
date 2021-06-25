@@ -58,6 +58,7 @@ class Tutorial_Widget(Widget):
             pos = [self.app_size.x_top_board,self.app_size.y_top_board],
             source = Settings.get_board_picture(game.type_of_chess)
         ))
+        global_constants.current_figure_canvas = self.canvas
         usual = [
             'classic','fisher','horse_battle','magik',
             'week','haotic','dark_chess','nuclear',
@@ -71,72 +72,58 @@ class Tutorial_Widget(Widget):
         # for example, board 8x8 -> 6x6 for los_alamos if user goes from tutorial los alamos to 
         # tutorial of classic chess
         elif self.type_of_chess == 'permutation':
-            permutation_figure.get_widget(self,self.app_size)
             Figure = permutation_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'los_alamos':
-            figure_alamos.get_widget(self,self.app_size)
             Figure = figure_alamos.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(6)] for x in range(6)]
         
         elif self.type_of_chess == 'circle_chess':
-            circle_figure.get_widget(self,self.app_size)
             Figure = circle_figure.Figure
             self.board = [[ Field(x,y,'empty','') for x in range(16) ] for y in range(4) ]
         
         elif self.type_of_chess == 'bizantion':
-            bizantion_figure.get_widget(self,self.app_size)
             Figure = bizantion_figure.Figure
             self.board = [[ Field(x,y,'empty','') for x in range(16) ] for y in range(4) ]
 
         elif self.type_of_chess == 'glinskiy':
-            glin_figure.get_widget(self,self.app_size)
             Figure = glin_figure.Figure
             self.board = [[ Field(a,t,'empty','') for t in range(11)] for a in range(11)]
         
         elif self.type_of_chess == 'kuej':
-            kuej_figure.get_widget(self,self.app_size)
             Figure = kuej_figure.Figure
             self.board = [[ Field(a,t,'empty','') for t in range(11)] for a in range(11)]
         
         elif self.type_of_chess == 'garner':
-            garner_figure.get_widget(self,self.app_size)
             Figure = garner_figure.Figure
             self.board = [[Field(t,a,'empty','') for t in range(5)] for a in range(5)]
 
         elif self.type_of_chess == 'horde':
-            horde_figure.get_widget(self,self.app_size)
             Figure = horde_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'kamikadze':
-            kamikadze_figure.get_widget(self,self.app_size)
             Figure = kamikadze_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'bad_chess':
-            bad_figure.get_widget(self,self.app_size)
             Figure = bad_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'rasing':
-            rasing_figure.get_widget(self,self.app_size)
             Figure = rasing_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'schatranj':
-            schatranj_figure.get_widget(self,self.app_size)
             Figure = schatranj_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'frozen':
-            frozen_figure.get_widget(self,self.app_size)
             Figure = frozen_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         
         elif self.type_of_chess == 'legan':
-            legan_figure.get_widget(self,self.app_size)
             Figure = legan_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
 

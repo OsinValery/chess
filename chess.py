@@ -24,7 +24,6 @@ import gen_horde
 
 import permutation_figure
 import help_chess
-import Basic_figure
 Figure = None
 
 
@@ -656,8 +655,7 @@ def init_game():
     choose_figure = Figure('white', 0, 0, 'empty')
 
     create_interface(Main_Window, Sizes, Game)
-    Basic_figure.get_widget(Main_Window.wid, Sizes)
-    permutation_figure.get_widget(Main_Window.wid, Sizes)
+    global_constants.current_figure_canvas = Main_Window.wid.canvas
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.canvas)

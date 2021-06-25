@@ -1,19 +1,14 @@
 from kivy.graphics import Rectangle
+import global_constants
 import settings 
 import os
 
-folder = ''
-main_widget = None
-size = None
-d = os.path.sep
 
-def get_widget(widget,size_app):
-    global main_widget,size,folder
-    size = size_app 
-    main_widget = widget
+def get_folder():
     path = settings.Settings.get_folder()
     f_set = settings.Settings.get_fig_set()
-    folder =  path + f'pictures{d}{f_set}{d}'
+    d = os.path.sep
+    return   path + f'pictures{d}{f_set}{d}'
 
 
 class Figure():
@@ -30,13 +25,16 @@ class Figure():
         # some time i create empty figure named chose_figure
         if self.type != 'empty' and fig_type != '':
             name = fig_type[0] + color[0] + '.png'
+            size = global_constants.Sizes
+            folder = get_folder()
             self.rect = Rectangle(source=folder+name,size=[size.field_size]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(x,y)
 
     def set_coords_on_board(self,x,y):
         self.x = x
         self.y = y
+        size = global_constants.Sizes
         pos_x = x * size.field_size + size.x_top + size.x_top_board
         pos_y = y * size.field_size + size.y_top + size.y_top_board
         self.rect.pos = (pos_x, pos_y)
@@ -257,7 +255,7 @@ class Figure():
 
     def destroy(self):
         if self.type != 'empty':
-            main_widget.canvas.remove(self.rect)
+            global_constants.current_figure_canvas.remove(self.rect)
             del self.rect
         self.type = 'empty'
         self.color = ''
@@ -273,6 +271,7 @@ class Figure():
 
     def transform_to(self,fig_type):
         self.type = fig_type
+        folder = get_folder()
         self.rect.source = folder + fig_type[0] + self.color[0] + '.png'
         if fig_type == 'pawn':
             self.do_hod_now = False
@@ -312,8 +311,10 @@ class Figure():
         if self.type != 'empty' :
             fig_type = self.type
             name = fig_type[0] + self.color[0] + '.png'
+            size = global_constants.Sizes
+            folder = get_folder()
             self.rect = Rectangle(source=folder+name,size=[size.field_size]*2)
-            main_widget.canvas.add(self.rect)
+            global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(self.x,self.y)
 
 
