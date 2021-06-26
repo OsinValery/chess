@@ -1,14 +1,15 @@
-import threading
 from kivy.core.audio import SoundLoader
 import os
 from settings import Settings
 import global_constants
-from threading import Thread
 
 
 class Music_collector():
     def __init__(self):
         global_constants.Music = self
+        self.fon = None
+        self.effect = None
+
     def create(self):
         try:
             global music_dir
@@ -18,13 +19,10 @@ class Music_collector():
             self.effect.volume = Settings.volume
             self.end_time = SoundLoader.load(os.path.join(music_dir,'timeend.ogg'))
 
-            def load(arg=None):
-                self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
-                self.fon.loop = True
-                self.fon.volume = Settings.volume
-                self.start()
-            sound = Thread(target=load,daemon=True)
-            sound.start()
+            self.fon = SoundLoader.load(os.path.join(music_dir,Settings.fon_music))
+            self.fon.loop = True
+            self.fon.volume = Settings.volume
+            self.start()
         except:
             pass
 
@@ -85,13 +83,10 @@ class Music_collector():
         try:
             self.stop()
             self.fon.unload()
-            def load(par=None):
-                self.fon = SoundLoader.load(os.path.join(music_dir,music))
-                self.fon.loop = True
-                self.fon.volume = Settings.volume
-                self.start()
-            th = threading.Thread(target=load,daemon=1)
-            th.start()
+            self.fon = SoundLoader.load(os.path.join(music_dir,music))
+            self.fon.loop = True
+            self.fon.volume = Settings.volume
+            self.start()
         except:
             pass
 

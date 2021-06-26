@@ -459,8 +459,8 @@ class GameWidget(Widget):
         game.window = 'main'
         size = app_size.window_size
         # background texture
-        self.canvas.add(
-            Rectangle(source=settings.Settings.get_bace_picture(), size=size))
+        with self.canvas:
+            Rectangle(source=settings.Settings.get_bace_picture(), size=size)
         # button's params
         colors = [(0.7, 0, 0.7, 0.5), (.5, .3, .7, .4), (.5, .3, .7, .4),
                   (.5, .3, .7, .4), (.5, .3, .7, .4)]

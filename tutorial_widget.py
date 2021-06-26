@@ -64,7 +64,6 @@ class Tutorial_Widget(Widget):
             'week','haotic','dark_chess','nuclear',
         ]
         if game.type_of_chess in usual:
-            help_chess.get_widget(self,self.app_size)
             Figure = help_chess.Figure   
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
         

@@ -120,7 +120,9 @@ def static_interface(size, label_text, btn_command, repeat=False):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.folder + '/fonts/20851.ttf'
     ))
+
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
         game=global_constants.game,

@@ -46,8 +46,7 @@ def create_settings_interface(tap):
         size=[.5 * size.window_size[0], .5 * size.window_size[1]],
         pos=[.5 * size.window_size[0], .2 * size.window_size[1]]))
 
-    names = [Get_text('all_back'), Get_text(
-        'change_study'), Get_text('all_start')]
+    names = [Get_text('all_back'), Get_text('change_study'), Get_text('all_start')]
     commands = [main_widget.set_change, tutorial.tutorial, create_game_process]
     colors = [(0.5, 0.01, 0.2, 0.7),
               (1, 1, 0, 0.5),
@@ -60,7 +59,7 @@ def create_settings_interface(tap):
         size=[size.window_size[0]*0.6, size.window_size[1]*0.065],
         pos=[size.window_size[0]*0.3, size.window_size[1]*0.05],
         cols=3)
-
+    main_widget.add_widget(grid)
     for a in range(3):
         grid.add_widget(Button(
             text=names[a],
@@ -70,7 +69,7 @@ def create_settings_interface(tap):
             color=colors2[a],
             on_press=commands[a]
         ))
-    main_widget.add_widget(grid)
+    
 
 
 def create_game_process(click):
@@ -135,12 +134,13 @@ class Chess_type():
 
     @property
     def picture(self):
+        path = os.path.join(Settings.get_folder(), 'pictures', 'presentations' )
         if self.type == 'horse_battle':
-            return 'presentation_horse.png'
+            return os.path.join(path, 'presentation_horse.png')
         elif self.type == 'bad_chess':
-            return 'presentation_bad.png'
+            return os.path.join(path, 'presentation_bad.png')
         else:
-            return f'presentation_{self.type}.png'
+            return os.path.join(path, f'presentation_{self.type}.png')
 
     @property
     def text(self):
@@ -164,11 +164,9 @@ class Card(Widget):
         self.size = (size.window_size[0]*0.8, size.window_size[0]*.6)
         self.size_hint = [None, None]
         self.pos = pos
-        path = os.path.join(Settings.get_folder(),
-                            'pictures', 'presentations', picture)
         self.canvas.add(Rectangle(
             size=[self.width, self.height],
-            source=path,
+            source=picture,
             pos=pos
         ))
         size1 = (size.window_size[0]*0.95, size.window_size[0]*.6)
