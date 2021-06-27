@@ -1,5 +1,6 @@
 from kivy.uix.button import Button
 from kivy.graphics import Color,Line
+import settings
 
 
 class Button_(Button):
@@ -7,6 +8,8 @@ class Button_(Button):
         super().__init__(**kwargs)
         if not 'size' in kwargs:
             self.size = [200,100]
+        if not 'font_name' in kwargs:
+            self.font_name = settings.Settings.get_font()
         with self.canvas:
             Color(*self.color)
             Line(rectangle=tuple([*self.pos,*self.size]),width=2)

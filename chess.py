@@ -144,7 +144,9 @@ def pause(touch):
             color=(1, 0, 1, 0.5),
             background_normal='',
             background_color=(0, 1, 0, 0.5),
-            on_press=return_board
+            on_press=return_board,
+            font_name =global_constants.Settings.get_font(),
+            font_size = 50,
         )
         Main_Window.add_widget(but)
 

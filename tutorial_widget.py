@@ -138,6 +138,7 @@ class Tutorial_Widget(Widget):
 
         self.add_widget(Label(
             text = Get_text('tutorial_move'),
+            font_name = Settings.get_font(),
             pos = [self.app_size.x_top_board,self.app_size.y_top_board - 0.1 * self.size[1]],
             size = [self.app_size.board_size[0],self.app_size.board_size[1]/10]
         ))

@@ -13,11 +13,11 @@ import random
 import os
 
 
-normal_font_size = 24
+normal_font_size = 20
 
 
 def get_text(text, width, leng):
-    sim = width // leng - 1
+    sim = width // leng - 10
     pos = 0
     end_text = ''
     words = text.split()
@@ -56,6 +56,7 @@ def help_tutorial():
 
     global_constants.Main_Window.add_widget(Button(
         text=Get_text('tutorial_to_game'),
+        font_name = global_constants.Settings.get_font(),
         background_color=(0, 1, 0, 0.3),
         color=(1, 1, 0, 1),
         size=(size[0]*0.15, size[1]*0.05),
@@ -68,6 +69,7 @@ def lost_tutorial():
     help_tutorial()
     global_constants.Main_Window.add_widget(Label(
         text='Я бы мог вас обучить, \nно не знаю как!',
+        font_name = global_constants.Settings.get_font(),
         color=[1, 0, 0, 1],
         font_size=40,
         center=global_constants.Main_Window.center
@@ -91,6 +93,7 @@ def interactive_interface(size, figure, btn_command, label_text='', fig_pos=[4, 
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font()
     ))
 
     global_constants.Main_Window.add_widget(Tutorial_Widget(
@@ -102,6 +105,7 @@ def interactive_interface(size, figure, btn_command, label_text='', fig_pos=[4, 
 
     global_constants.Main_Window.add_widget(Button(
         text=Get_text('tutorial_next'),
+        font_name = Settings.get_font(),
         pos=(size[0] * 0.65, size[1] * 0.05),
         background_normal='',
         background_color=(1, 1, 0, 0.3),
@@ -120,7 +124,7 @@ def static_interface(size, label_text, btn_command, repeat=False):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.folder + '/fonts/20851.ttf'
+        font_name = Settings.get_font()
     ))
 
     global_constants.Main_Window.add_widget(Static_picture(
@@ -153,6 +157,7 @@ def video_interface(board, actions=[], speed=1, command=print, text=''):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font()
     ))
 
     video = VideoChess(
@@ -379,6 +384,7 @@ def classic_9(press):
                       size[0]*0.8, normal_font_size/2),
         shorten=True,
         font_size=normal_font_size,
+        font_name = Settings.get_font(),
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.3),
         size=(size[0]*0.9, size[1]*0.4),
@@ -477,6 +483,7 @@ def fisher3(press):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Button(
         text=Get_text('tutorial_repeat'),
@@ -567,6 +574,7 @@ def horse5(press):
                       size[0]*0.8, normal_font_size/2),
         shorten=True,
         font_size=normal_font_size,
+        font_name = Settings.get_font(),
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.3),
         size=(size[0]*0.9, size[1]*0.4),
@@ -636,7 +644,8 @@ def permut_2(click=None):
         pos=(size[0]*0.05, size[1]*0.55),
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
-        valign="middle"
+        valign="middle",
+        font_name = Settings.get_font(),
     ))
 
     global_constants.Main_Window.add_widget(Tutorial_Widget(
@@ -760,6 +769,7 @@ def glinskiy8(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -853,6 +863,7 @@ def round6(par=0):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Tutorial_Widget(
         size=[0.7*size[0]]*2,
@@ -895,6 +906,7 @@ def biz1(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Tutorial_Widget(
         size=[0.7*size[0]]*2,
@@ -979,6 +991,7 @@ def biz7(clicl):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1013,6 +1026,7 @@ def pawn_kuej_tutorial(click):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1059,6 +1073,7 @@ def garner2(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1100,6 +1115,7 @@ def garner3(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle"
     ))
@@ -1179,6 +1195,7 @@ def garner9(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1223,6 +1240,7 @@ def horde3(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1247,6 +1265,7 @@ def horde4(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1303,6 +1322,7 @@ def week3(click):
         font_size=normal_font_size,
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
+        font_name = Settings.get_font(),
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
@@ -1352,6 +1372,7 @@ def kami_2(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1399,6 +1420,7 @@ def kami_4(click=None):
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
+        font_name = Settings.get_font(),
         valign="middle",
     ))
     global_constants.Main_Window.add_widget(Static_picture(
@@ -1430,6 +1452,7 @@ def kami_5(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     pos = [
         ['king', 5, 4, 'white'], ['king', 5, 7, 'black'],
@@ -1464,6 +1487,7 @@ def kami_6(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
@@ -1521,6 +1545,7 @@ def bad_3(clic=None):
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
         halign="left",
+        font_name = Settings.get_font(),
         valign="middle",
     ))
     global_constants.Main_Window.add_widget(Static_picture(
@@ -1550,6 +1575,7 @@ def bad_4(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
+        font_name = Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1606,6 +1632,7 @@ def rase2(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
@@ -1638,6 +1665,7 @@ def rase3(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Tutorial_Widget(
         size=[0.7*size[0]]*2,
@@ -1669,6 +1697,7 @@ def rase4(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
@@ -2037,6 +2066,7 @@ def nuc5(par=...):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
 
     global_constants.Main_Window.add_widget(Static_picture(
@@ -2092,6 +2122,7 @@ def nuc7(par=...):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
 
     global_constants.Main_Window.add_widget(Static_picture(
@@ -2191,6 +2222,7 @@ def legan4(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
+        font_name = Settings.get_font(),
     ))
     pos = []
     for x in 4,5,6,7:

@@ -8,7 +8,6 @@ from kivy.uix.gridlayout import GridLayout
 
 import settings
 from translater import Get_text
-from Window_info import Window
 import global_constants
 
 def time(sec):
@@ -185,6 +184,7 @@ class Graphical_interfase():
             size=[sizes.board_size[0],sizes.board_size[1] / 10],
             color=(1,0,0,1),
             text_size = [sizes.board_size[0], sizes.board_size[1]/10],
+            font_name = global_constants.Settings.get_font(),
             valign='middle'
         )
         self.black_time = Label(
@@ -194,6 +194,7 @@ class Graphical_interfase():
                         sizes.y_top_board + sizes.board_size[1] ],
             color=(1,0,0,1),
             text_size=[sizes.board_size[0],sizes.board_size[1]/10],
+            font_name = global_constants.Settings.get_font(),
             valign='middle'
             ) 
         self.info = Label(
@@ -201,7 +202,8 @@ class Graphical_interfase():
             pos = [sizes.x_top_board,sizes.y_top_board-3*sizes.board_size[0]/10],
             text = Get_text('game_white_move'),
             font_size = 40,
-            color = [0.1,0.8,1,2]
+            color = [0.1,0.8,1,2],
+            font_name = global_constants.Settings.get_font()
         )
 
         global_constants.Main_Window.add_widget(self.white_time)
@@ -228,6 +230,7 @@ class Graphical_interfase():
             text=Get_text('all_exit'),
             font_size = 30,
             background_normal='',
+            font_name = global_constants.Settings.get_font(),
             background_color=(1,0,0,0.5),
             color=(1,1,0,1),
             pos =  [sizes.window_size[0]*0.85,sizes.window_size[1]*.93],
@@ -253,6 +256,7 @@ class Graphical_interfase():
                 size=[ sizes.board_size[0] , sizes.board_size[1] / 10 ],
                 color=(1,0,0,1),
                 text_size = [ sizes.board_size[0] , sizes.board_size[1] / 10 ],
+                font_name = global_constants.Settings.get_font(),
                 valign='middle',
                 text=' '+names[x]
             ))

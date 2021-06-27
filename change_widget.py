@@ -38,9 +38,11 @@ def create_settings_interface(tap):
 
     main_widget.add_widget(Label(
         text=find_name(),
-        color=(0.8, 0.5, 0, 1),
+        color=(0.6, 0.1, 0.8, 1),
         pos=[size.window_size[0]*.35, size.window_size[1]*.8],
-        font_size=70))
+        font_size=80,
+        font_name = global_constants.Settings.get_font()
+        ))
 
     main_widget.add_widget(Settings_widget(
         size=[.5 * size.window_size[0], .5 * size.window_size[1]],
@@ -67,7 +69,8 @@ def create_settings_interface(tap):
             background_color=colors[a],
             background_normal='',
             color=colors2[a],
-            on_press=commands[a]
+            on_press=commands[a],
+            font_name = Settings.get_font()
         ))
     
 
@@ -102,7 +105,8 @@ def create_worning():
     wid.add_widget(Button(
         text=Get_text('all_ok'),
         on_press=lambda par: window.dismiss(),
-        size_hint_y=None
+        size_hint_y=None,
+        font_name = Settings.get_font()
     ))
     window.add_widget(wid)
     window.open()
@@ -177,7 +181,8 @@ class Card(Widget):
             size=(size1[0]//3.7, size1[1]//5),
             pos=(self.pos[0], self.pos[1]),
             color=(1, 1, 0, 0.9),
-            on_press=command
+            on_press=command,
+            font_name = Settings.get_font(),
         ))
 
 
@@ -196,6 +201,7 @@ class Chess_menu(Widget):
         size = self.parent.size
         self.add_widget(Button(
             text=Get_text('all_back'),
+            font_name = Settings.get_font(),
             pos=[size[0]*0.8, size[1]*0.9],
             size=[size[0]*0.2, size[1]*0.07],
             background_color=(1, 0.2, 1, 0.5),
@@ -231,6 +237,7 @@ class Chess_menu(Widget):
             background_color=(1, 0.2, 1, 0.5),
             font_size=20,
             color=(0, 1, 0.1, 1),
+            font_name = Settings.get_font(),
             on_press=global_constants.Main_Window.create_start_game))
 
         texts = ['random', 'all', 'classic', 'positions',
@@ -363,7 +370,8 @@ class Settings_widget(Widget):
             self.add_widget(Label(
                 text=texts[i],
                 color=(1, 1, 0, 1),
-                pos=poses[i]
+                pos=poses[i],
+                font_name = global_constants.Settings.get_font(),
             ))
 
     def create_active(self):

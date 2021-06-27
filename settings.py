@@ -38,6 +38,35 @@ max_fig_set = 12
 game_fon_files = ['fon{0}'.format(i) for i in range(1, 13)]
 boards_files = [str(i) for i in range(11)]
 languages = ['Русский', 'English', 'Español', 'Deutsch', 'Français']
+fonts_support = {
+    'ru': [
+        '20851.ttf', 'teddy-bear.ttf',  'GOST 2.304 81.ttf',
+        'arial.ttf', 'Roboto.ttf'
+        ],
+    'en': [
+        '20851.ttf', 'Florabet.ttf', 'Roboto.ttf',
+        'Odense SmallCaps.ttf', 'arial.ttf',
+        'Sabril.ttf',  'DragonSerial Bold.ttf', 
+        'Black Magic.ttf', 'GOST 2.304 81.ttf'
+        ],
+    'fr': [
+        '20851.ttf', 'Odense SmallCaps.ttf', 
+        'Sabril.ttf',  'DragonSerial Bold.ttf', 
+        'GOST 2.304 81.ttf','arial.ttf',
+        'Roboto.ttf'
+        ],
+    'de': [
+        '20851.ttf', 'teddy-bear.ttf', 'arial.ttf',
+        'Odense SmallCaps.ttf', 'Sabril.ttf', 
+        'DragonSerial Bold.ttf', 'Black Magic.ttf', 
+        'Roboto.ttf'
+        ],
+    'es': [
+        '20851.ttf', 'Odense SmallCaps.ttf', 'Sabril.ttf', 
+        'DragonSerial Bold.ttf',  'GOST 2.304 81.ttf',
+        'arial.ttf', 'Roboto.ttf'
+        ]
+}
 
 
 text_color = [1, .9, 0, 1]
@@ -55,6 +84,7 @@ class __Settings():
         self.bace_fon = 'pic4.png'
         self.game_fon = 'fon1.png'
         self.fig_set = 'fig_set1'
+        self.font = 'Roboto.ttf'
         self.boards = '0'
         self.folder = ''
         self.user_folder = ''
@@ -83,6 +113,7 @@ class __Settings():
                 self.boards = sets[9]
                 self.default_nick = sets[10]
                 self.must_sort_games = sets[11] == 'yes'
+                self.font = sets[12]
             except:
                 self.write_settings()
         else:
@@ -103,6 +134,7 @@ class __Settings():
         file_settings.write(self.boards+'\n')
         file_settings.write(self.default_nick+'\n')
         file_settings.write('yes\n' if self.must_sort_games else 'no\n')
+        file_settings.write(self.font+'\n')
 
         file_settings.close()
 
@@ -187,6 +219,31 @@ class __Settings():
                     file.write(f'{game.type}=0\n')
             file.close()
             return rule
+
+    def get_font(self):
+        if self.font not in fonts_support[self.lang]:
+            self.font = fonts_support[self.lang][0]
+            self.write_settings()
+        return os.path.join(self.folder, 'fonts', self.font)
+
+    def set_font(self, wid, value):
+        global settings_widget
+        for el in fonts_support[self.lang]:
+            if el[:-4] == value:
+                self.font = el
+                break
+        self.write_settings()
+        widget = global_constants.Main_Window
+        widget.remove_widget(settings_widget)
+        settings_widget.clear_widgets()
+        settings_widget.canvas.clear()
+        del settings_widget.widgets
+        del settings_widget
+        settings_widget = Settings_Widget(2)
+        widget.add_widget(settings_widget)
+        for wid in widget.children:
+            if type(wid) == Button:
+                wid.text = Get_text('all_back')
 
     def set_folder(self, fold):
         self.folder = fold
@@ -324,6 +381,7 @@ def create_interface(click):
     size = widget.size
     widget.add_widget(Button(
         text=Get_text('all_back'),
+        font_name=global_constants.Settings.get_font(),
         pos=[size[0]*0.8, size[1]*0.9],
         size=[size[0]*0.2, size[1]*0.07],
         background_color=(1, 0.2, 1, 0.5),
@@ -343,7 +401,7 @@ class Settings_Widget(Widget):
         self.widgets = []
 
         with self.canvas:
-            Color(0, 1, 1, .3)
+            Color(0.5, 0.5, 1, .5)
             Rectangle(
                 size=self.size,
                 pos=self.pos
@@ -424,6 +482,7 @@ def fill_0(content):
     for i in range(len(label_poses)):
         content.add_widget(Label(
             size=[.3*cont_size[0], .1*cont_size[1]],
+            font_name=Settings.get_font(),
             pos=label_poses[i],
             text=label_texts[i],
             color=text_color
@@ -538,6 +597,7 @@ def fill_1(content: Widget):
         content.add_widget(Label(
             color=text_color,
             text=texts[i],
+            font_name=Settings.get_font(),
             pos=[pos[0]+cont_size[0]/10, pos[1]+cont_size[1]*(9-i)/10],
             font_size=36
         ))
@@ -546,12 +606,26 @@ def fill_1(content: Widget):
 def fill_2(content):
     cont_size = content.size
     pos = content.pos
-    content.add_widget(Label(
-        text=Get_text('settings_language'),
-        pos=[pos[0] + .2*cont_size[0], pos[1] + .8 * cont_size[1]],
-        font_size=36,
-        color=text_color
-    ))
+    label_poses = [
+        [pos[0] + .2*cont_size[0], pos[1] + .8 * cont_size[1]],
+        [pos[0] + .15 * cont_size[0], pos[1] + .7 * cont_size[1]],
+        [pos[0] + .2*cont_size[0], pos[1] + .6 * cont_size[1]],
+        [pos[0] + .2*cont_size[0], pos[1] + .5 * cont_size[1]],
+    ]
+    label_texts = [
+        Get_text('settings_language'),
+        Get_text('settings_nick'),
+        Get_text('settings_sort'),
+        'my fonts',
+    ]
+    for i in range(len(label_texts)):
+        content.add_widget(Label(
+            text=label_texts[i],
+            font_name=Settings.get_font(),
+            pos=label_poses[i],
+            font_size=36,
+            color=text_color
+        ))
     content.add_widget(Spinner(
         on_change=Settings.change_language,
         text=Settings.get_lang(),
@@ -573,23 +647,25 @@ def fill_2(content):
     )
     text.bind(text=Settings.set_nick)
     content.add_widget(text)
-    content.add_widget(Label(
-        text=Get_text('settings_nick'),
-        pos=[pos[0] + .15 * cont_size[0], pos[1] + .7 * cont_size[1]],
-        font_size=36,
-        color=text_color,
-        size=[.3 * content.size[0], text.size[1]]
-    ))
-    content.add_widget(Label(
-        text=Get_text('settings_sort'),
-        pos=[pos[0] + .2*cont_size[0], pos[1] + .6 * cont_size[1]],
-        font_size=36,
-        color=text_color
-    ))
+
     content.add_widget(Switch(
         active=Settings.must_sort_games,
         pos=[pos[0]+.6*cont_size[0], pos[1]+.63*cont_size[1]],
         on_change=Settings.set_sorting
+    ))
+    content.add_widget(Spinner(
+        on_change=Settings.set_font,
+        text=Settings.font[:-4],
+        values=[text[:-4] for text in fonts_support[Settings.lang]],
+        color=text_color,
+        drop_color=text_color,
+        drop_height=50,
+        pos=[pos[0] + .54*cont_size[0], pos[1] + .5 * cont_size[1]],
+        drop_background_normal='',
+        background_normal='',
+        drop_background_color=[.4, 0, 1, .5],
+        background_color=[1, .6, 0, .7],
+        size = [250,50]
     ))
 
 

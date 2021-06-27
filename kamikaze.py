@@ -140,6 +140,8 @@ def pause(touch):
             size = (0.5*Sizes.window_size[0],0.1*Sizes.window_size[0]),
             pos  = (0.25*Sizes.window_size[0],0.4*Sizes.window_size[1]),
             text = Get_text('game_return'),
+            font_name = global_constants.Settings.get_font(),
+            font_size=40,
             color = (1,0,1,0.5),
             background_normal = '',
             background_color = (0,1,0,0.5),

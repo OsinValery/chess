@@ -512,6 +512,7 @@ class GameWidget(Widget):
             size=[size[0]*0.2, size[1]*0.07],
             background_color=(1, 0.2, 1, 0.5),
             font_size=20,
+            font_name = settings.Settings.get_font(),
             color=(0, 1, 0.1, 1),
             on_press=self.create_start_game
         )
@@ -539,6 +540,7 @@ class GameWidget(Widget):
             pos=[size[0]*0.8, size[1]*0.9],
             size=[size[0]*0.2, size[1]*0.07],
             background_color=(1, 0.2, 1, 0.5),
+            font_name = settings.Settings.get_font(),
             font_size=20,
             color=(0, 1, 0.1, 1),
             on_press=self.create_start_game

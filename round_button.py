@@ -1,7 +1,7 @@
 from kivy.graphics import Color,Line
 from kivy.uix.label import Label
 from kivy.uix.widget import Widget
-
+import global_constants
 
 def empty_action(touch):
     pass
@@ -25,6 +25,7 @@ class RoundButton(Widget):
         self.color = [1,1,1,1]
         self.on_press = empty_action
         self.font_size = 30
+        self.font_name = global_constants.Settings.get_font()
         if 'text' in kwargs:
             self.text = kwargs['text']
         if 'size' in kwargs:
@@ -59,7 +60,8 @@ class RoundButton(Widget):
             pos = self.pos,
             color = self.color,
             text = self.text,
-            font_size=self.font_size
+            font_size=self.font_size,
+            font_name=self.font_name
         ))
 
     def on_touch_down(self,touch):
