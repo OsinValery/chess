@@ -302,7 +302,7 @@ class Figure():
         if info[0] == 'n':
             self.do_hod_before = False
         if info[0] == 'y':
-            self.do_hod_before = False
+            self.do_hod_before = True
         if info[1] == 'y':
             self.do_hod_now = True
         if info[1] == 'n':

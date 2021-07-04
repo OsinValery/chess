@@ -27,6 +27,7 @@ import rasing
 import schatranj
 import week_chess
 import legan_chess
+import sovereign_chess
 
 import sizes
 import global_constants
@@ -72,6 +73,8 @@ def find_chess_module(tip):
         return nuclear_chess
     elif tip == 'legan':
         return legan_chess
+    elif tip == 'sovereign':
+        return sovereign_chess
     if game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')
@@ -237,7 +240,13 @@ class Game():
     def work_message(self, message):
         """ this function create game by message from partner \n
         also this work all messages at time of game"""
+        # эта функция выполняется в потоке сетки
         if message[:4] == 'move':
+            if self.type_of_chess == 'sovereign':
+                def action(timeout):
+                    sovereign_chess.work_network_message(message[5:])
+                Clock.schedule_once(action)
+                return
             data = message[5:].split()
             x0 = int(data[0])
             y0 = int(data[1])
@@ -358,8 +367,11 @@ class Game():
         for line in self.board:
             for field in line:
                 data += field.figure.save_data
+        if self.type_of_chess == 'sovereign':
+            data += self.game_state.save_data
 
         return data
+
 
     def from_saves(self, data):
         self.type_of_chess = data[0]
@@ -394,6 +406,8 @@ class Game():
             for y1 in range(y):
                 self.board[x1][y1].figure.from_saves(data[n])
                 n += 1
+        if self.type_of_chess == 'sovereign':
+            self.game_state.from_save_data(data[n:])
         if self.need_change_figure:
             fig = None
             for y1 in 0, y-1:
@@ -401,9 +415,7 @@ class Game():
                     if self.board[x1][y1].figure.type == 'pawn':
                         fig = self.board[x1][y1].figure
             find_chess_module(self.type_of_chess).choose_figure = fig
-            find_chess_module(self.type_of_chess).do_transformation(
-                fig.color, fig.x, fig.y
-            )
+            find_chess_module(data[0]).do_transformation(fig.color, fig.x, fig.y)
 
     def renew_game(self):
         tip = self.type_of_chess

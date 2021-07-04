@@ -173,6 +173,8 @@ class __Settings():
             file = 'gekso_board.png'
         elif tipe == 'garner':
             file = 'board5x5.png'
+        elif tipe == 'sovereign':
+            return os.path.join(self.get_folder(), 'pictures', 'boards', 'board16x16.png')
         return os.path.join(self.get_folder(), 'pictures', 'boards', self.boards, file)
 
     def get_music(self):

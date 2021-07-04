@@ -534,7 +534,7 @@ with_effects = [Chess_type(el)for el in [
 honestless = [Chess_type(el)for el in ['horde', 'week', 'bad_chess']]
 boards = [Chess_type(el)
           for el in ['circle_chess', 'bizantion', 'glinskiy', 'kuej']]
-other_rules = [Chess_type(el)for el in ['rasing']]
+other_rules = [Chess_type(el)for el in ['rasing', 'sovereign']]
 
 all_chess = classic_type + positions + \
     with_effects + honestless + boards + other_rules

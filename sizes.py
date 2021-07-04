@@ -25,10 +25,21 @@ class Size():
             return [self.window_size[0]*.75]*2
     
     @property
+    def virtual_board_size(self):
+        return self.board_size
+        if global_constants.game.type_of_chess == 'sovereign':
+                return [900, 900]
+        return [900, 900]
+
+
+
+    @property
     def x_top(self):
         game = global_constants.game
         if game.type_of_chess == 'los_alamos':
             return self.board_size[0]//16
+        if game.type_of_chess == 'sovereign':
+            return self.virtual_board_size[0] / 65
         if game.type_of_chess == 'garner':
             return self.board_size[0]//12
         return self.board_size[0]//20
@@ -38,6 +49,8 @@ class Size():
         game = global_constants.game
         if game.type_of_chess == 'los_alamos':
             return self.board_size[0]//16
+        if game.type_of_chess == 'sovereign':
+            return self.virtual_board_size[0] / 63
         if game.type_of_chess == 'garner':
             return self.board_size[1]//12
         return self.board_size[1]//20
@@ -47,6 +60,8 @@ class Size():
         game = global_constants.game
         if game.type_of_chess == 'los_alamos':
             return (self.board_size[0]-2*self.x_top)//6
+        if game.type_of_chess == 'sovereign':
+            return (self.virtual_board_size[0] -2 * self.x_top) / 16
         if game.type_of_chess == 'garner':
             return (self.board_size[0]-2*self.x_top)//5
         return (self.board_size[0]-2*self.x_top)//8

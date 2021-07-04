@@ -122,6 +122,7 @@ class connection():
 
                     # valid connection
                     # it is exectly friend now
+                    self.messages = []
                     while self.connected:
                         # server must be manager
                         if self.conn._closed == True:
