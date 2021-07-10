@@ -205,13 +205,13 @@ def move_figure(board, x, y, options=None):
     board[x][y].figure.set_coords_on_board(x, y)
     if board[x][y].figure.type == 'king':
         sovereign.do_rocking(a,b,x,y,board)
+    board[x][y].figure.do_hod_before = True
 
     if choose_figure.type == 'pawn' and board[x][y].figure.pawn_on_last_line():
         if Game.state_game != 'one' and Game.color_do_hod_now != Game.play_by:
             n, m = choose_figure.x, choose_figure.y
             Game.board[n][m].figure.transform_to(options[1])
             if options[1] == 'king':
-                
                 transform_to_king(n,m,board)
             choose_figure = Figure('', 0, 0, 'empty')
             options = options[2:]
@@ -469,12 +469,17 @@ def create_interface(main_widget, app_size, Game):
         size=app_size.virtual_board_size))
     scroll = ScrollView(
         size = global_constants.Sizes.board_size,
-        pos = [global_constants.Sizes.x_top_board, global_constants.Sizes.y_top_board],
+        pos = [global_constants.Sizes.x_top_board, 
+                global_constants.Sizes.y_top_board],
     )
     scroll.add_widget(wid)
     wid.size_hint = [None] * 2
     main_widget.add_widget(scroll)
     main_widget.wid = wid
+    main_widget.add_widget(sovereign.Color_dropDown(
+        pos =  [Sizes.window_size[0]*0.4,Sizes.window_size[1]*.93],
+        size=(Sizes.window_size[0]*0.16,Sizes.window_size[1]*0.07),
+    ))
 
 
 def init_game():

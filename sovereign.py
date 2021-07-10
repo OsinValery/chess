@@ -1,5 +1,11 @@
 
+from kivy.uix.widget import Widget
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.label import Label
+from kivy.graphics import Rectangle,Color
+
 import copy
+import global_constants
 import sovereign_figure
 Figure = sovereign_figure.Figure
 
@@ -194,6 +200,80 @@ class Game_State():
             self.colors_state[color] = value
 
 
+class Color_dropDown(Widget):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.state = 'closed'
+        with self.canvas:
+            Color(0,0,1,.5)
+            Rectangle(pos=self.pos,size=self.size)
+            Color(1,1,1,1)
+        self.add_widget(Label(
+            pos = self.pos,
+            size = self.size,
+            text = 'colors'
+        ))
+        cols_color = 2
+        self.grid = GridLayout(cols=2*cols_color)
+        padding = 0
+        self.grid.size = [2*cols_color*self.size[0],(self.size[1]+padding)*12/cols_color]
+        self.grid.pos = [
+            self.center[0]-0.5*self.grid.size[0],
+            self.pos[1]-self.grid.size[1]
+            ]
+        self.grid.spacing = [0,padding]
+        self.add_widget(self.grid)
+    
+    def on_touch_down(self, touch):
+        if self.collide_point(*touch.pos):
+            if self.state == 'closed':
+                self.open()
+            else:
+                self.close()
+            return True
+        elif self.state == 'opened'and self.grid.collide_point(*touch.pos):
+            self.close()
+            return True
+        elif self.state == 'opened':
+            self.close()
+            return False
+        return super().on_touch_down(touch)
+    
+    def open(self):
+        if self.state == 'opened':
+            return
+        with self.grid.canvas:
+            Color(0,0,0,1)
+            Rectangle(size=self.grid.size,pos=self.grid.pos)
+            Color(1,1,1,1)
+        self.grid.clear_widgets()
+        owners = [global_constants.game.game_state.white_player,global_constants.game.game_state.black_player]
+        for color in global_constants.game.game_state.colors_state:
+            self.grid.add_widget(Label(
+                text=color,
+                color=[1,0,0,1] if color not in owners else [0,1,0,1]
+                ))
+            text = '-'
+            owner = global_constants.game.game_state.get_owner(color)
+            if owner == 'white':
+                text = '1'
+            elif owner == 'black':
+                text = '2'
+            self.grid.add_widget(Label(
+                text=text,
+                color=[1,0,0,1] if color not in owners else [0,1,0,1]
+                ))
+        self.state = 'opened'
+    
+
+    def close(self):
+        if self.state == 'closed':
+            return
+        self.state = 'closed'
+        self.grid.clear_widgets()
+        self.grid.canvas.clear()
+
+
 def copy_board(board):
     new_board = [[Field() for t in range(16)] for a in range(16)]
     for a in range(16):
@@ -264,14 +344,19 @@ def create_start_game_board():
     return board
 
 
-def find_rocking(figure,board,state):
+def find_rocking(figure,board,state:Game_State):
     x, y = figure.x, figure.y
-    result = []
     if figure.do_hod_before:
-        return result
-    result = [[x+2,y]]
-
-    return result
+        return []
+    new_board = copy_board(board)
+    for a in range(16):
+        for b in range(16):
+            if board[a][b].figure.type != 'empty':
+                if state.get_owner(new_board[a][b].figure.color) != state.get_owner(figure.color):
+                    new_board = board[a][b].figure.do_attack(new_board,state)
+    if new_board[x][y].attacked:
+        return []
+    return check_left_rocking(board,x,y,state) + check_right_rocking(board,x,y,state)
 
 
 def do_rocking(a,b,x,y,board):
@@ -281,7 +366,103 @@ def do_rocking(a,b,x,y,board):
         board[x+1][y].figure.set_coords_on_board(x+1,y)
 
 
+def check_right_rocking(board,x,y,state:Game_State):
+    if board[x+3][y].figure.type not in ['rook','empty']:
+        return []
+    if board[x+3][y].figure.type == 'rook':
+        if board[x+3][y].figure.do_hod_before:
+            return []
+        if state.get_owner(board[x][y].figure.color) != state.get_owner(board[x+3][y].figure.color):
+            return []
+        for i in range(x+1,x+3):
+            if board[i][y].figure.type != 'empty':
+                return []
+            new_board = copy_board(board)
+            new_board[i][y].figure.type = 'king'
+            new_board[i][y].figure.color = board[x][y].figure.color
+            new_board[x][y].figure.color = ''
+            new_board[x][y].figure.type = 'empty'
+            for a in range(16):
+                for b in range(16):
+                    if new_board[a][b].figure.type != 'empty':
+                        if state.get_owner(new_board[a][b].figure.color) != state.get_owner(board[x][y].figure.color):
+                            new_board = board[a][b].figure.do_attack(new_board,state)
+            if new_board[i][y].attacked:
+                return []
+        return [[x+2,y]]
+    else:
+        if board[x+5][y].figure.type != 'rook':
+            return []
+        if state.get_owner(board[x][y].figure.color) != state.get_owner(board[x+5][y].figure.color):
+            return []
+        if board[x+5][y].figure.do_hod_before:
+            return []
+        for i in range(x+1,x+5):
+            if board[i][y].figure.type != 'empty':
+                return []
+            new_board = copy_board(board)
+            new_board[i][y].figure.type = 'king'
+            new_board[i][y].figure.color = board[x][y].figure.color
+            new_board[x][y].figure.color = ''
+            new_board[x][y].figure.type = 'empty'
+            for a in range(16):
+                for b in range(16):
+                    if new_board[a][b].figure.type != 'empty':
+                        if state.get_owner(new_board[a][b].figure.color) != state.get_owner(board[x][y].figure.color):
+                            new_board = board[a][b].figure.do_attack(new_board,state)
+            if new_board[i][y].attacked:
+                return []
+        return [[x+4,y]]
 
+
+def check_left_rocking(board,x,y,state):
+    result = []
+    if board[x-4][y].figure.type not in ['empty','rook']:
+        return []
+    if board[x-4][y].figure.type == 'rook':
+        if board[x-4][y].figure.do_hod_before:
+            return []
+        if state.get_owner(board[x][y].figure.color) != state.get_owner(board[x-4][y].figure.color):
+            return []
+        for i in range(x-3,x):
+            if board[i][y].figure.type != 'empty':
+                return []
+            new_board = copy_board(board)
+            new_board[i][y].figure.type = 'king'
+            new_board[i][y].figure.color = board[x][y].figure.color
+            new_board[x][y].figure.color = ''
+            new_board[x][y].figure.type = 'empty'
+            for a in range(16):
+                for b in range(16):
+                    if new_board[a][b].figure.type != 'empty':
+                        if state.get_owner(new_board[a][b].figure.color) != state.get_owner(board[x][y].figure.color):
+                            new_board = board[a][b].figure.do_attack(new_board,state)
+            if new_board[i][y].attacked:
+                return []
+        return [[x-3, y]]
+    else:
+        if board[x-6][y].figure.type != 'rook':
+            return []
+        if state.get_owner(board[x][y].figure.color) != state.get_owner(board[x-6][y].figure.color):
+            return []
+        if board[x-6][y].figure.do_hod_before:
+            return []
+        for i in range(x-5,x):
+            if board[i][y].figure.type != 'empty':
+                return []
+            new_board = copy_board(board)
+            new_board[i][y].figure.type = 'king'
+            new_board[i][y].figure.color = board[x][y].figure.color
+            new_board[x][y].figure.color = ''
+            new_board[x][y].figure.type = 'empty'
+            for a in range(16):
+                for b in range(16):
+                    if new_board[a][b].figure.type != 'empty':
+                        if state.get_owner(new_board[a][b].figure.color) != state.get_owner(board[x][y].figure.color):
+                            new_board = board[a][b].figure.do_attack(new_board,state)
+            if new_board[i][y].attacked:
+                return []
+        return [[x-5, y]]
 
 
 

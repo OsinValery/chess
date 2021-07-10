@@ -372,7 +372,6 @@ class Game():
 
         return data
 
-
     def from_saves(self, data):
         self.type_of_chess = data[0]
         times = data[1].split()

@@ -323,9 +323,9 @@ def bace_text(language, description):
             return 'Período glacial'
         elif language == 'de':
             return 'Eiszeit'
-    
+
     elif description == 'legan':
-        if language == 'ru' :
+        if language == 'ru':
             return 'Шахматы Легана'
         elif language == 'es':
             return 'Ajedrez \nDe Leganés'
@@ -347,6 +347,18 @@ def bace_text(language, description):
             return 'ajedrez \nnuclear'
         elif language == 'de':
             return 'nukleares \nSchach'
+
+    elif description == 'sovereign':
+        if language == 'ru':
+            return 'Cуверенные\n шахматы'
+        elif language == 'en':
+            return 'Sovereign chess '
+        elif language == 'fr':
+            return 'echecs \nsouverains'
+        elif language == 'es':
+            return 'ajedrez \nsoberanoq'
+        elif language == 'de':
+            return 'souveränes\nSchach'
 
     elif description == 'exit?':
         if language == 'ru':
@@ -1657,9 +1669,12 @@ def tutorial(language, description):
 
     elif 'nuclear' in description:
         return get_nuclear(language, description[8:])
-    
+
     elif 'legan' in description:
-        return get_legan(language,description[6:])
+        return get_legan(language, description[6:])
+
+    elif 'sovereign' in description:
+        return get_sovereign(language, description[10:])
 
     else:
         return 'error_2'
@@ -1737,18 +1752,6 @@ def interface_text(language, description, params=None):
             return 'Color mover'
         if language == 'de':
             return 'Color bewegen'
-
-    if description == '':
-        if language == 'ru':
-            return ''
-        if language == 'en':
-            return ''
-        if language == 'fr':
-            return ''
-        if language == 'es':
-            return ''
-        if language == 'de':
-            return ''
 
     print(description)
     return 'error in interface'
@@ -3313,6 +3316,7 @@ def get_nuclear(language, description):
 
     return description
 
+
 def get_legan(language, description):
     if description == 'start':
         if language == 'ru':
@@ -3373,10 +3377,168 @@ def get_legan(language, description):
             return 'El momento agradable de la charla ha terminado. ¡Ahora en camino! ¡Y buena suerte ya te han deseado!'
         if language == 'de':
             return 'Die angenehme Zeit des Geschwätzes ist vorbei. Jetzt auf den Weg! Und viel Glück haben Sie bereits gewünscht!'
-    
+
     return description
 
 
+def get_sovereign(language, description):
+    if description == 'start':
+        if language == 'ru':
+            return 'Перед вами игра, которая полностью изменит ваше представление о тактике боя! Встречайте! Суверенные шахматы!'
+        if language == 'en':
+            return 'Here is a game that will completely change your idea of combat tactics! Meet me! Sovereign chess!'
+        if language == 'fr':
+            return 'Voici un jeu qui va complètement changer votre idée de la tactique de combat! Rencontrez! Echecs souverains!'
+        if language == 'es':
+            return '¡Aquí tienes un juego que cambiará completamente tu idea de las tácticas de combate! ¡Saluden! ¡Ajedrez soberano!'
+        if language == 'de':
+            return 'Vor dir ist ein Spiel, das deine Vorstellung von der Taktik des Kampfes komplett verändern wird! Treffen! Souveränes Schach!'
+
+    if description == '2':
+        if language == 'ru':
+            return 'Вы не играете за конкретный цвет! Это простое правило поможет вам понять суть происходящего. Ваша собственность - король, который является сувереном. Его нужно защитить от мата.'
+        if language == 'en':
+            return 'You\'re not playing for a specific color! This simple rule will help you understand the essence of what is happening. Your property is the king, who is the sovereign. It needs to be protected from the checkmate.'
+        if language == 'fr':
+            return 'Vous ne jouez pas pour une couleur spécifique! Cette règle simple vous aidera à comprendre l\'essence de ce qui se passe. Votre propriété est un roi qui est souverain. il doit être protégé de l\'échec et mat'
+        if language == 'es':
+            return '¡No juegas para un color en particular! Esta simple regla te ayudará a entender la esencia de lo que está sucediendo. Su propiedad es un rey que es soberano. necesita ser protegido del jaque mate'
+        if language == 'de':
+            return 'Sie spielen nicht für eine bestimmte Farbe! Diese einfache Regel wird Ihnen helfen, die Essenz dessen, was geschieht, zu verstehen. Ihr Eigentum ist ein König, der ein Souverän ist.es muss vor dem Schachmatt geschützt werden'
+
+    if description == '3':
+        if language == 'ru':
+            return 'Всеми остальными фигурами вы можете только управлять. Король всегда умеет управлять фигурами своего цвета. Вы можете захватить контроль над другим цветом временно, тогда вы сможете управлять и фигурами других цветов.'
+        if language == 'en':
+            return 'You can only control all the other pieces. The king always knows how to control the pieces of his own color. You can take control of another color temporarily, then you can control the shapes of other colors as well.'
+        if language == 'fr':
+            return 'Toutes les autres formes que vous ne pouvez contrôler. Le roi sait toujours gérer les formes de sa couleur. Vous pouvez prendre le contrôle d\'une autre couleur temporairement, alors vous pouvez contrôler les formes d\'autres couleurs.'
+        if language == 'es':
+            return 'Todas las demás figuras solo puedes controlar. El rey siempre sabe cómo controlar las figuras de su color. Usted puede tomar el control de otro color temporalmente, entonces usted será capaz de controlar y formas de otros colores.'
+        if language == 'de':
+            return 'Alle anderen Figuren können Sie nur verwalten. Der König ist immer in der Lage, die Formen seiner Farbe zu verwalten. Sie können die Kontrolle über eine andere Farbe vorübergehend zu erfassen, dann können Sie die Formen und andere Farben zu verwalten.'
+
+    if description == '4':
+        if language == 'ru':
+            return 'Чтобы захватить контроль над цветом, нужно захванить нужный цветной квадрат. Пока вы стоите на цветном квадрате, противник не может наступать на другой цветной квадрат этого цвета'
+        if language == 'en':
+            return 'To take control of the color, you need to capture the desired color square. While you are standing on a colored square, the enemy cannot step on another colored square of this color'
+        if language == 'fr':
+            return 'Pour prendre le contrôle de la couleur, vous devez saisir le carré de couleur souhaité. Tant que vous vous tenez sur un carré de couleur, l\'adversaire ne peut pas marcher sur un autre carré de couleur de cette couleur'
+        if language == 'es':
+            return 'Para tomar el control del color, uno debe capturar el cuadrado de color deseado. Mientras estás parado en un cuadrado de color, el enemigo no puede pisar otro cuadrado de color de ese color'
+        if language == 'de':
+            return 'Um die Kontrolle über die Farbe zu übernehmen, müssen Sie das gewünschte Farbquadrat erfassen. Während du auf einem farbigen Quadrat stehst, kann ein Gegner nicht auf ein anderes farbiges Quadrat dieser Farbe treten'
+
+    if description == '5':
+        if language == 'ru':
+            return 'Дезертирство. Король может поменять цвет. Для этого нужно выбрать короля и кликнуть на него ещё раз. Контроль над старым цветом будет потерян до захвата. Это считается, как ход. '
+        if language == 'en':
+            return 'Desertion. The king can change the color. To do this, select the king and click on it again. Control over the old color will be lost before the capture. This counts as a move. '
+        if language == 'fr':
+            return 'Désertion. Le roi peut changer de couleur. Pour ce faire, sélectionnez le roi et cliquez à nouveau dessus. Le contrôle de l\'ancienne couleur sera perdu avant la capture. Cela compte comme un mouvement. '
+        if language == 'es':
+            return 'Deserción. El rey puede cambiar de color. Para ello, seleccione el rey y haga clic en él de nuevo. El control sobre el color anterior se perderá antes de la captura. Esto cuenta como un movimiento. '
+        if language == 'de':
+            return 'Desertion. Der König kann die Farbe ändern. Um dies zu tun, wählen Sie einen König und klicken Sie erneut auf ihn. Die Kontrolle über die alte Farbe wird vor der Erfassung verloren. Dies gilt als ein Zug. '
+
+    if description == '6':
+        if language == 'ru':
+            return 'Чтобы сменить цвет короля, нужно контролировать выбираемый цвет. В начале это лучше не делать, а в конце это может вас спасти. '
+        if language == 'en':
+            return 'To change the color of the king, you need to control the selected color. In the beginning, it is better not to do this, but in the end it can save you. '
+        if language == 'fr':
+            return 'Pour changer la couleur du roi, vous devez contrôler la couleur sélectionnée. Au début, il vaut mieux ne pas le faire, et à la fin, il peut vous sauver. '
+        if language == 'es':
+            return 'Para cambiar el color del rey, debes controlar el color que elijas. Al principio es mejor no hacerlo, y al final puede salvarte. '
+        if language == 'de':
+            return 'Um die Farbe des Königs zu ändern, müssen Sie die ausgewählte Farbe steuern. Am Anfang ist es besser, es nicht zu tun, und am Ende kann es dich retten. '
+
+    if description == '7':
+        if language == 'ru':
+            return 'Слон, ладья и ферзь ходят, как обычно, но только на 8 полей в 1 сторону. Посмотрите. Ещё линия их хода может прерываться цветным полем, если оно такого же цвета, как фигура, или этот цвет захвачен врагом. '
+        if language == 'en':
+            return 'The bishop, rook and queen move as usual, but only 8 fields in 1 direction. Look. Their turn line can also be interrupted by a colored field if it is the same color as the piece, or this color is captured by the enemy. '
+        if language == 'fr':
+            return 'L\'éléphant, la tour et la reine marchent comme d\'habitude, mais seulement sur 8 champs dans un sens. Regardez voir. Une autre ligne de leur mouvement peut être interrompue par un champ de couleur s\'il est de la même couleur que la figure, ou cette couleur est capturée par l\'ennemi. '
+        if language == 'es':
+            return 'El elefante, la torre y la reina caminan como de costumbre, pero solo en 8 campos en 1 dirección. Veis. Otra línea de su movimiento puede ser interrumpida por un campo de color, si es del mismo color que la figura, o este color es capturado por el enemigo. '
+        if language == 'de':
+            return 'Der Elefant, der Turm und die Königin gehen wie gewohnt, aber nur auf 8 Feldern in 1 Richtung. Sehen Sie. Eine andere Linie ihres Zuges kann durch ein Farbfeld unterbrochen werden, wenn es die gleiche Farbe wie die Figur hat oder diese Farbe vom Feind gefangen wird. '
+
+    if description == '8':
+        if language == 'ru':
+            return 'Любая фигура не может ходить на поле своего цвета. Можно ходить на поле цвета короля любого, при этом вы не получите контроль над ним и его фигурами. Если цветное поле захвачено вами, вы можете посетить его. Если поле захватил враг, вы не можете посетить второе цветное поле, но можете попытаться срубить фигуру на захваченном. '
+        if language == 'en':
+            return 'Any piece cannot walk on a field of its own color. You can walk on the field of the color of the king of any, while you do not get control over him and his pieces. If the color field is captured by you, you can visit it. If the field is captured by an enemy, you can not visit the second colored field, but you can try to cut down a figure on the captured one.'
+        if language == 'fr':
+            return 'Toute figure ne peut pas marcher sur le champ de sa couleur. Vous pouvez aller sur le terrain de la couleur du roi de n\'importe qui, alors que vous n\'obtenez pas le contrôle sur lui et ses chiffres. Si le champ de couleur est capturé par vous, vous pouvez le visiter. Si le champ est capturé par l\'ennemi, vous ne pouvez pas visiter le deuxième champ de couleur, mais vous pouvez essayer de couper la figure sur le capturé. '
+        if language == 'es':
+            return 'Cualquier figura no puede caminar en un campo de su color. Es posible caminar en el campo de color del rey de cualquier persona, mientras que usted no consigue el control sobre él y sus figuras. Si el campo de color es capturado por usted, puede visitarlo. Si el campo es capturado por un enemigo, no puedes visitar el segundo campo de color, pero puedes intentar cortar la pieza en el capturado. '
+        if language == 'de':
+            return 'Jede Figur kann nicht auf dem Feld ihrer Farbe gehen. Sie können auf dem Feld der Farbe König jeder gehen, während Sie nicht die Kontrolle über ihn und seine Figuren zu bekommen. Wenn das Farbfeld von Ihnen erfasst wird, können Sie es besuchen. Wenn das Feld von einem Feind erfasst wird, kannst du das zweite Farbfeld nicht besuchen, aber du kannst versuchen, die Figur auf dem gefangenen zu schneiden. '
+
+    if description == '9':
+        if language == 'ru':
+            return 'Пешка движется по направлению к коричневым линиям и превращается в другую фигуру в чёрном квадрате 4х4. Пешка не может сама покинуть коричневый квадрат, только когда рубит. Двойной ход возможен с 1 и 2 линии, где стоят фигуры, взятия на проходе нет. '
+        if language == 'en':
+            return 'The pawn moves towards the brown lines and turns into another piece in the black 4x4 square. The pawn cannot leave the brown square by itself, only when it cuts. A double move is possible from the 1st and 2nd lines, where there are pieces, there is no capture on the pass.'
+        if language == 'fr':
+            return 'Le pion se déplace vers les lignes brunes et se transforme en une autre pièce dans un carré noir 4x4. Un pion ne peut pas quitter le carré brun lui-même, seulement quand il coupe. Le double mouvement est possible avec les lignes 1 et 2, où se trouvent les chiffres, il n\'y a pas de prise sur le passage. '
+        if language == 'es':
+            return 'El peón se mueve hacia las líneas marrones y se transforma en otra figura en un cuadrado negro 4x4. El peón no puede dejar el cuadrado marrón solo cuando corta. El doble movimiento es posible desde la línea 1 y 2, donde están las figuras, no hay toma en el pasillo. '
+        if language == 'de':
+            return 'Der Bauer bewegt sich in Richtung der braunen Linien und verwandelt sich in eine andere Figur in einem schwarzen 4x4-Quadrat. Der Bauer kann das braune Quadrat nicht selbst verlassen, nur wenn er schneidet. Ein doppelter Zug ist mit 1 und 2 Linien möglich, wo die Figuren stehen, es gibt keine Aufnahme auf dem Durchgang. '
+
+    if description == '10':
+        if language == 'ru':
+            return 'Пешка рубит и атакует по диагонали по направлению к одной из коричневых линий.'
+        if language == 'en':
+            return 'The pawn takes and attacks diagonally towards one of the brown lines.'
+        if language == 'fr':
+            return 'Le pion prend et attaque en diagonale vers l\'une des lignes brunes.'
+        if language == 'es':
+            return 'El peón toma y ataca diagonalmente hacia una de las líneas marrones.'
+        if language == 'de':
+            return 'Der Bauer nimmt und greift diagonal zu einer der braunen Linien.'
+
+    if description == '11':
+        if language == 'ru':
+            return 'Рокировка возможна с одной из 2 ладьей, которая стоит справа или слева, если вы управляете цветом этой ладьи. Всего 4 варианта! Король движется вплотную к ладье и ладья перескакивает короля, это - отличие от классических шахмат!'
+        if language == 'en':
+            return 'Castling is possible with one of the 2 rooks, which stands on the right or left, if you control the color of this rook. There are only 4 options! The king moves close to the rook and the rook jumps over the king, this is different from classical chess!'
+        if language == 'fr':
+            return 'Le roque est possible avec l\'une des 2 tours, qui se trouve à droite ou à gauche, si vous contrôlez la couleur de cette tour. Il n\'y a que 4 options! Le roi se déplace près de la tour et la tour saute par-dessus le roi, c\'est différent des échecs classiques!'
+        if language == 'es':
+            return 'El enroque es posible con una de las 2 torres, que se encuentra a la derecha o a la izquierda, si se controla el color de esta torre. Sólo hay 4 opciones! El rey se mueve cerca de la torre y la torre salta sobre el rey, esto es diferente del ajedrez clásico!'
+        if language == 'de':
+            return 'Castling ist möglich mit einem der 2 Türme, die auf der rechten oder linken Seite steht, wenn Sie die Farbe dieses Turm steuern. Es gibt nur 4 Möglichkeiten! Der König bewegt sich nahe am Turm und der Turm springt über den König, das unterscheidet sich vom klassischen Schach!'
+
+    if description == '12':
+        if language == 'ru':
+            return 'Вы можете превратить пешку в короля, когда доведёте до чёрного квадрата в центре. Гос.переворот - пешка цвета короля. Свержение - пешка другого цвета, которым вы управляете. Старый король удаляется с доски и вы получаете нового короля!'
+        if language == 'en':
+            return 'You can turn a pawn into a king when you bring it to the black square in the center. Coup d\'etat-a ,when a pawn of the color of the king. Overthrow is a pawn of a different color that you control. The old king is removed from the board and you get a new king!'
+        if language == 'fr':
+            return 'Vous pouvez transformer un pion en roi lorsque vous atteignez le carré noir au centre. Le coup d\'état est un pion de la couleur du roi. Le renversement est un pion d\'une autre couleur que vous contrôlez. Le vieux roi est retiré du conseil d\'administration et vous obtenez un nouveau roi!'
+        if language == 'es':
+            return 'Puedes convertir un peón en un rey cuando te acercas al cuadrado negro en el centro. Golpe de estado-peón del color del rey. El derrocamiento es un peón de otro color que controlas. El viejo rey se retira del tablero y se obtiene un nuevo rey!'
+        if language == 'de':
+            return 'Du kannst einen Bauern in einen König verwandeln, wenn du das schwarze Quadrat in der Mitte erreichst. Staatsstreich - Bauer Farbe des Königs. Sturz ist ein Bauern einer anderen Farbe, die du kontrollierst. Der alte König wird vom Brett entfernt und du bekommst einen neuen König!'
+
+    if description == '13':
+        if language == 'ru':
+            return 'Приятной игры! Вас ждёт захватывающая политическая игра, в которой победит лучший стратег!!!!'
+        if language == 'en':
+            return 'Have a nice game! An exciting political game is waiting for you, in which the best strategist will win!!!!'
+        if language == 'fr':
+            return 'Jeu agréable! Vous trouverez un jeu politique passionnant dans lequel le meilleur stratège va gagner!!!!'
+        if language == 'es':
+            return 'Que tengas un buen juego! ¡Te espera un emocionante juego político en el que el mejor estratega ganará!!!!'
+        if language == 'de':
+            return 'Ein angenehmes Spiel! Ein spannendes politisches Spiel, in dem der beste Stratege gewinnt, wartet auf Sie!!!!'
+
+    return description
 
 
 def for_copy(language, description):
@@ -3406,6 +3568,3 @@ def for_copy(language, description):
             return ''
 
     return 'error in '
-
-
-__all__ = [Get_text.__name__]

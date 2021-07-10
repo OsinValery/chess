@@ -9,7 +9,6 @@ import help_chess
 import figure_alamos
 import garner_figure
 import glin_figure
-import kuej_figure
 import circle_figure
 import garner_figure
 import horde_figure
@@ -17,6 +16,7 @@ import bad_figure
 import rasing_figure
 import frozen_figure
 import legan_figure
+import sovereign_figure
 
 Figure = None
 
@@ -33,6 +33,7 @@ import bad_help
 import schatranj
 import frozen
 import legan_chess
+import sovereign
 
 #Chess types
 import circle_chess
@@ -139,6 +140,10 @@ class Static_picture(Widget):
             Figure = legan_figure.Figure
             if 'start' in self.options:
                 legan_chess.create_start_game_board()
+        elif self.type_of_chess == 'sovereign':
+            Figure = sovereign_figure.Figure
+            if 'start' in self.options:
+                sovereign.create_start_game_board()
 
             
         

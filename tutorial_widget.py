@@ -128,6 +128,9 @@ class Tutorial_Widget(Widget):
 
 
 
+
+
+
         for fig in figures:
             x,y = fig[2:4]
             if self.type_of_chess in ['circle_chess','bizantion'] and fig[0] == 'pawn':

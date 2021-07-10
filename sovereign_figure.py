@@ -20,8 +20,12 @@ class Figure(Basic_figure.Figure):
         if self.type == 'empty':
             return
         size = global_constants.Sizes
-        pos_x = x * size.field_size + size.x_top
-        pos_y = y * size.field_size + size.y_top
+        if global_constants.game.window == 'game':
+            pos_x = x * size.field_size + size.x_top
+            pos_y = y * size.field_size + size.y_top
+        else:
+            pos_x = x * size.field_size + size.x_top + size.x_top_board
+            pos_y = y * size.field_size + size.y_top + size.y_top_board
         self.rect.pos = (pos_x, pos_y)
     
     def __init__(self, color, x, y, fig_type):

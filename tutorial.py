@@ -7,6 +7,7 @@ import global_constants
 from tutorial_widget import Tutorial_Widget
 from picture_tutorial import Static_picture
 from film_widget import VideoChess
+import sovereign_interactive_tutorial
 from tutorial_button import Button_ as Button
 
 import random
@@ -52,11 +53,14 @@ def help_tutorial():
             if type(wid) == VideoChess:
                 wid.must = False
                 wid.__del__()
+            elif type(wid) == sovereign_interactive_tutorial.VideoChess:
+                wid.must = False
+                wid.__del__()
         back_command(click)
 
     global_constants.Main_Window.add_widget(Button(
         text=Get_text('tutorial_to_game'),
-        font_name = global_constants.Settings.get_font(),
+        font_name=global_constants.Settings.get_font(),
         background_color=(0, 1, 0, 0.3),
         color=(1, 1, 0, 1),
         size=(size[0]*0.15, size[1]*0.05),
@@ -69,7 +73,7 @@ def lost_tutorial():
     help_tutorial()
     global_constants.Main_Window.add_widget(Label(
         text='Я бы мог вас обучить, \nно не знаю как!',
-        font_name = global_constants.Settings.get_font(),
+        font_name=global_constants.Settings.get_font(),
         color=[1, 0, 0, 1],
         font_size=40,
         center=global_constants.Main_Window.center
@@ -93,7 +97,7 @@ def interactive_interface(size, figure, btn_command, label_text='', fig_pos=[4, 
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font()
+        font_name=Settings.get_font()
     ))
 
     global_constants.Main_Window.add_widget(Tutorial_Widget(
@@ -105,7 +109,7 @@ def interactive_interface(size, figure, btn_command, label_text='', fig_pos=[4, 
 
     global_constants.Main_Window.add_widget(Button(
         text=Get_text('tutorial_next'),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         pos=(size[0] * 0.65, size[1] * 0.05),
         background_normal='',
         background_color=(1, 1, 0, 0.3),
@@ -124,7 +128,7 @@ def static_interface(size, label_text, btn_command, repeat=False):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font()
+        font_name=Settings.get_font()
     ))
 
     global_constants.Main_Window.add_widget(Static_picture(
@@ -157,7 +161,7 @@ def video_interface(board, actions=[], speed=1, command=print, text=''):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font()
+        font_name=Settings.get_font()
     ))
 
     video = VideoChess(
@@ -228,6 +232,8 @@ def tutorial(press):
         do_nuclear_tutorial()
     elif game.type_of_chess == 'legan':
         do_legan_tutorial()
+    elif game.type_of_chess == 'sovereign':
+        do_sovereign_tutorial()
     else:
         lost_tutorial()
 
@@ -384,7 +390,7 @@ def classic_9(press):
                       size[0]*0.8, normal_font_size/2),
         shorten=True,
         font_size=normal_font_size,
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.3),
         size=(size[0]*0.9, size[1]*0.4),
@@ -483,7 +489,7 @@ def fisher3(press):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Button(
         text=Get_text('tutorial_repeat'),
@@ -574,7 +580,7 @@ def horse5(press):
                       size[0]*0.8, normal_font_size/2),
         shorten=True,
         font_size=normal_font_size,
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.3),
         size=(size[0]*0.9, size[1]*0.4),
@@ -645,7 +651,7 @@ def permut_2(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
 
     global_constants.Main_Window.add_widget(Tutorial_Widget(
@@ -769,7 +775,7 @@ def glinskiy8(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -863,7 +869,7 @@ def round6(par=0):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Tutorial_Widget(
         size=[0.7*size[0]]*2,
@@ -906,7 +912,7 @@ def biz1(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Tutorial_Widget(
         size=[0.7*size[0]]*2,
@@ -991,7 +997,7 @@ def biz7(clicl):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1026,7 +1032,7 @@ def pawn_kuej_tutorial(click):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1073,7 +1079,7 @@ def garner2(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1115,7 +1121,7 @@ def garner3(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle"
     ))
@@ -1195,7 +1201,7 @@ def garner9(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1240,7 +1246,7 @@ def horde3(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1265,7 +1271,7 @@ def horde4(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1322,7 +1328,7 @@ def week3(click):
         font_size=normal_font_size,
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
@@ -1372,7 +1378,7 @@ def kami_2(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1420,7 +1426,7 @@ def kami_4(click=None):
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         valign="middle",
     ))
     global_constants.Main_Window.add_widget(Static_picture(
@@ -1452,7 +1458,7 @@ def kami_5(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     pos = [
         ['king', 5, 4, 'white'], ['king', 5, 7, 'black'],
@@ -1487,7 +1493,7 @@ def kami_6(click=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
@@ -1545,7 +1551,7 @@ def bad_3(clic=None):
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
         halign="left",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         valign="middle",
     ))
     global_constants.Main_Window.add_widget(Static_picture(
@@ -1575,7 +1581,7 @@ def bad_4(click=None):
         color=(0, 0, 0, 1),
         pos=(size[0]*0.05, size[1]*0.5),
         size=(size[0]*0.9, size[1]*0.4),
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
         halign="center",
         valign="middle",
     ))
@@ -1632,7 +1638,7 @@ def rase2(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
@@ -1665,7 +1671,7 @@ def rase3(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Tutorial_Widget(
         size=[0.7*size[0]]*2,
@@ -1697,7 +1703,7 @@ def rase4(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
@@ -2011,7 +2017,8 @@ def nuc3(par=...):
     board = [
         ['black', 7, 6, 'pawn'], ['black', 6, 6, 'pawn'], ['black', 5, 6, 'pawn'],
         ['black', 6, 7, 'king'], ['white', 7, 1, 'pawn'], ['white', 6, 1, 'pawn'],
-        ['white', 6, 0, 'king'], ['white', 3, 0, 'rook'], ['black', 1, 6, 'bishop'],
+        ['white', 6, 0, 'king'], ['white', 3, 0,
+                                  'rook'], ['black', 1, 6, 'bishop'],
         ['black', 0, 6, 'pawn'], ['black', 1, 5, 'pawn'], ['black', 2, 6, 'pawn'],
         ['white', 0, 1, 'pawn'], ['white', 1, 1, 'pawn'], ['white', 2, 1, 'pawn']
     ]
@@ -2066,7 +2073,7 @@ def nuc5(par=...):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
 
     global_constants.Main_Window.add_widget(Static_picture(
@@ -2122,7 +2129,7 @@ def nuc7(par=...):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
 
     global_constants.Main_Window.add_widget(Static_picture(
@@ -2158,7 +2165,7 @@ def nuc8(par=...):
 def do_legan_tutorial(par=...):
     help_tutorial()
     static_interface(
-        size = global_constants.Main_Window.size,
+        size=global_constants.Main_Window.size,
         label_text=Get_text('tutorial_legan_start'),
         btn_command=legan2,
         repeat=False
@@ -2168,7 +2175,7 @@ def do_legan_tutorial(par=...):
 def legan2(par=...):
     help_tutorial()
     static_interface(
-        size = global_constants.Main_Window.size,
+        size=global_constants.Main_Window.size,
         label_text=Get_text('tutorial_legan_2'),
         btn_command=legan3,
         repeat=False
@@ -2187,21 +2194,21 @@ def legan2(par=...):
 def legan3(par=None):
     help_tutorial()
     board = [
-        ['white',5,1,'pawn'], ['black',4,3,'horse'],
-        ['black',2,5,'pawn'], ['white',3,6,'pawn'],
-        ['black',0,3,'pawn']
+        ['white', 5, 1, 'pawn'], ['black', 4, 3, 'horse'],
+        ['black', 2, 5, 'pawn'], ['white', 3, 6, 'pawn'],
+        ['black', 0, 3, 'pawn']
     ]
     actions = [
-        ['show',5,1,[[4,2]]], ['move', 5,1,4,2], ['show',2,5,[[3,4]]],
-        ['move',2,5,3,4], ['show_attack',4,2,4,3], ['take', 4,2,4,3],
-        ['move',0,3,1,2], ['move',3,6,2,7], ['change',2,7,'queen'],
+        ['show', 5, 1, [[4, 2]]], ['move', 5, 1, 4, 2], ['show', 2, 5, [[3, 4]]],
+        ['move', 2, 5, 3, 4], ['show_attack', 4, 2, 4, 3], ['take', 4, 2, 4, 3],
+        ['move', 0, 3, 1, 2], ['move', 3, 6, 2, 7], ['change', 2, 7, 'queen'],
         ['pause']
     ]
     size = global_constants.Main_Window.size
     text = get_text(Get_text('tutorial_legan_3'),
                     size[0]*0.9, normal_font_size/2)
     video_interface(
-        board = board,
+        board=board,
         actions=actions,
         speed=1.3,
         command=legan4,
@@ -2222,15 +2229,15 @@ def legan4(par=None):
         size=(size[0]*0.9, size[1]*0.4),
         halign="center",
         valign="middle",
-        font_name = Settings.get_font(),
+        font_name=Settings.get_font(),
     ))
     pos = []
-    for x in 4,5,6,7:
-        pos.append(['pawn',x,0,'white'])
-        pos.append(['pawn',0,x,'black'])
-    for i in 1,2,3:
-        pos.append(['pawn',7,i,'white'])
-        pos.append(['pawn',i,7,'black'])
+    for x in 4, 5, 6, 7:
+        pos.append(['pawn', x, 0, 'white'])
+        pos.append(['pawn', 0, x, 'black'])
+    for i in 1, 2, 3:
+        pos.append(['pawn', 7, i, 'white'])
+        pos.append(['pawn', i, 7, 'black'])
     global_constants.Main_Window.add_widget(Static_picture(
         size=[0.7*size[0]]*2,
         game=global_constants.game,
@@ -2252,13 +2259,381 @@ def legan4(par=None):
 def legan5(par=None):
     help_tutorial()
     static_interface(
-        size = global_constants.Main_Window.size,
+        size=global_constants.Main_Window.size,
         label_text=Get_text('tutorial_legan_end'),
         btn_command=do_legan_tutorial,
         repeat=1
     )
 
 # end of legan tutorial
+
+
+def do_sovereign_tutorial(par=...):
+    help_tutorial()
+    text = Get_text('tutorial_sovereign_start')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, sov2)
+
+
+def sov2(par=None):
+    help_tutorial()
+    text = Get_text('tutorial_sovereign_2')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, sov3)
+
+
+def sov3(par=...):
+    help_tutorial()
+    text = Get_text('tutorial_sovereign_3')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, sov4)
+
+
+def get_sovereign_start_board():
+    board = []
+    colors = [
+        'gray', 'gray', 'pink', 'pink', 'white', 'white',
+        'white', 'white', 'white', 'white', 'white', 'white',
+        'green', 'green', 'light', 'light']
+    figures = [
+        'queen', 'bishop', 'rook', 'horse', 'rook', 'horse',
+        'bishop', 'queen', 'king', 'bishop', 'horse', 'rook',
+        'horse', 'rook', 'bishop', 'queen'
+    ]
+    for i in range(16):
+        board.append([colors[i], i, 0, figures[i]])
+        if i not in [0, 1, 15, 14]:
+            board.append([colors[i], i, 1, 'pawn'])
+
+    colors = [
+        'light', 'light', 'purple', 'purple', 'black', 'black', 'black',
+        'black', 'black', 'black', 'black', 'black', 'yellow', 'yellow',
+        'gray', 'gray'
+    ]
+    for i in range(16):
+        board.append([colors[i], i, 15, figures[i]])
+        if i not in [0, 1, 15, 14]:
+            board.append([colors[i], i, 14, 'pawn'])
+    board.append(['gray', 0, 1, 'rook'])
+    board.append(['gray', 1, 1, 'horse'])
+    board.append(['light', 14, 1, 'horse'])
+    board.append(['light', 15, 1, 'rook'])
+    board.append(['light', 0, 14, 'rook'])
+    board.append(['light', 1, 14, 'horse'])
+    board.append(['gray', 14, 14, 'horse'])
+    board.append(['gray', 15, 14, 'rook'])
+    colors = [
+        'red', 'red', 'orange', 'orange', 'yellow', 'yellow', 'green',
+        'green', 'cyan', 'cyan', 'blue', 'blue'
+    ]
+    figures = [
+        'bishop', 'queen', 'rook', 'horse', 'bishop', 'queen',
+        'queen', 'bishop', 'horse', 'rook', 'queen', 'bishop'
+    ]
+    for i in range(0, 12):
+        board.append((colors[i], 0, i+2, figures[i]))
+        board.append([colors[i], 1, i+2, 'pawn'])
+    colors = [
+        'cyan', 'cyan', 'blue', 'blue', 'purple', 'purple',
+        'pink', 'pink', 'red', 'red', 'orange', 'orange'
+    ]
+    for i in range(0, 12):
+        board.append([colors[i], 15, i+2, figures[i]])
+        board.append([colors[i], 14, i+2, 'pawn'])
+    return board
+
+
+def sovereign_video_interface(board, actions=[], speed=1, text='test_text', command=print):
+    size = global_constants.Main_Window.size
+    global_constants.Main_Window.add_widget(Label(
+        text=get_text(text, size[0]*0.9, normal_font_size/2),
+        shorten=True,
+        font_size=normal_font_size,
+        color=(0, 0, 0, 1),
+        pos=(size[0]*0.05, size[1]*0.5),
+        size=(size[0]*0.9, size[1]*0.4),
+        halign="center",
+        valign="middle",
+        font_name=Settings.get_font()
+    ))
+
+    video = sovereign_interactive_tutorial.VideoChess(
+        board=board,
+        speed=speed,
+        actions=actions,
+    )
+    global_constants.Main_Window.add_widget(video)
+
+    def later(cllick):
+        video.timer.cancel()
+        video.__del__()
+        video.must = False
+        command(cllick)
+
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_next'),
+        pos=(size[0] * 0.65, size[1] * 0.05),
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=later
+    ))
+
+
+def sov4(arg=None):
+    help_tutorial()
+    board = get_sovereign_start_board()
+    activity = [
+        ['show', 4, 1, [[4, 2], [4, 3]]], ['move', 4, 1, 4, 3],
+        ['show', 4, 14, [[4, 13], [4, 12]]], ['move', 4, 14, 4, 12],
+        ['move', 4, 3, 4, 4], ['move', 4, 12, 4, 11],
+        ['show', 4, 4, [[4, 5], [5, 4]]], ['pause'], [
+            'show', 1, 12, [[2, 12], [3, 12]]],
+        ['pause'], ['pause'], ['move', 1, 12, 3, 12],
+        ['move', 1, 3, 3, 3], ['show', 4, 4, [[4, 5], [5, 4]]],
+        ['move', 4, 4, 5, 4], ['move', 10, 14, 10, 12],
+        ['move', 5, 4, 5, 5], ['move', 10, 12, 10, 11], ['move', 11, 1, 11, 3],
+        ['show', 10, 11, [[9, 11]]], ['pause'], ['move', 7, 14, 7, 13],
+        ['show', 11, 3, [[10, 3]]]
+    ]
+    text = Get_text('tutorial_sovereign_4')
+
+    size = global_constants.Main_Window.size
+    global_constants.Main_Window.add_widget(Label(
+        text=get_text(text, size[0]*0.9, normal_font_size/2),
+        shorten=True,
+        font_size=normal_font_size,
+        color=(0, 0, 0, 1),
+        pos=(size[0]*0.05, size[1]*0.5),
+        size=(size[0]*0.9, size[1]*0.4),
+        halign="center",
+        valign="middle",
+        font_name=Settings.get_font()
+    ))
+
+    video = sovereign_interactive_tutorial.VideoChess(
+        board=board,
+        speed=1.7,
+        actions=activity,
+    )
+    global_constants.Main_Window.add_widget(video)
+
+    def later(cllick):
+        video.timer.cancel()
+        video.__del__()
+        video.must = False
+        sov5(cllick)
+
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_next'),
+        pos=(size[0] * 0.65, size[1] * 0.05),
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=later
+    ))
+
+
+def sov5(arg=...):
+    help_tutorial()
+    activity = [
+        ['move', 4, 1, 4, 3], ['move', 4, 14, 4, 12], ['move', 4, 3, 4, 4],
+        ['move', 4, 12, 4, 11], ['change_color', 8, 0, 'blue'], ['pause'],
+        ['change_color', 8, 15, 'red'], ['pause'], [
+            'show', 14, 5, [[13, 5], [12, 5]]],
+        ['move', 14, 5, 12, 5]
+    ]
+    sovereign_video_interface(
+        board=get_sovereign_start_board(),
+        actions=activity,
+        speed=1.5,
+        text=Get_text('tutorial_sovereign_5'),
+        command=sov6
+    )
+
+
+def sov6(arg=None):
+    help_tutorial()
+    activity = [
+        ['move', 4, 1, 4, 3], ['move', 4, 14, 4, 12], ['move', 4, 3, 4, 4],
+        ['move', 4, 12, 4, 11], ['change_color', 8, 0, 'blue'], ['pause'],
+        ['move', 6, 14, 6, 13], ['move', 15, 5, 13, 6], ['move', 7, 15, 3, 11],
+        ['move', 13, 6, 11, 7], ['move', 3, 11, 6, 8], ['move', 11, 7, 10, 9],
+        ['move', 6, 8, 7, 8], ['show_attack', 7, 0, 8, 0], ['take', 8, 0, 9, 1],
+        ['move', 10, 0, 11, 2], ['show_attack', 11, 2, 9, 1], ['pause'], ['pause']
+    ]
+    sovereign_video_interface(
+        board=get_sovereign_start_board(),
+        actions=activity,
+        speed=1.5,
+        text=Get_text('tutorial_sovereign_6'),
+        command=sov7
+    )
+
+
+def sov7(arg=...):
+    help_tutorial()
+    board = [
+        ['black', 3, 11, 'king'], ['black', 0, 15, 'rook'],
+        ['white', 6, 5, 'queen'], ['white', 7, 9, 'bishop'],
+        ['white', 15, 0, 'king'], ['white', 11, 0, 'rook']
+    ]
+    activity = [
+        ['show', 6, 5, [[5, 5], [4, 5], [3, 5], [2, 5], [1, 5], [0, 5], [5, 4], [4, 3], [3, 2], [2, 1], [1, 0],
+                        [5, 6], [4, 7], [3, 8], [2, 9], [1, 10], [0, 11], [
+                            6, 4], [6, 3], [6, 2], [6, 1], [6, 0], [7, 4], [8, 3],
+                        [9, 2], [10, 1], [7, 5], [8, 5], [9, 5], [10, 5], [
+            11, 5], [12, 5], [13, 5], [14, 5], [7, 6],
+            [8, 7], [9, 8], [10, 9], [11, 10], [12, 11], [13, 12], [
+                14, 13], [6, 6], [6, 7], [6, 8], [6, 9], [6, 10],
+            [6, 11], [6, 12], [6, 13]]],
+        ['pause'], ['pause'], ['pause'],
+        ['move', 6, 5, 6, 0],
+        ['show', 0, 15, [[0, 14], [0, 13], [0, 12], [0, 11], [0, 10], [0, 9], [0, 8], [0, 7], [1, 15], [2, 15], [3, 15],
+                         [4, 15], [5, 15], [6, 15], [7, 15], [8, 15]]],
+        ['pause'], ['pause'],
+        ['move', 0, 15, 0, 10], ['pause'],
+        ['show', 7, 9, [[6, 8], [5, 7], [4, 6], [3, 5], [2, 4], [1, 3], [0, 2], [6, 10], [5, 11], [4, 12], [3, 13], [2, 14],
+                        [1, 15], [8, 10], [9, 11], [10, 12], [11, 13], [12, 14], [
+                            13, 15], [8, 8], [9, 7], [10, 6], [11, 5], [12, 4],
+                        [13, 3], [14, 2], [15, 1]]],
+        ['pause'], ['pause'], ['pause'],
+        ['move', 7, 9, 0, 2], ['pause'],
+        ['show', 3, 11, [[2, 10], [2, 11], [2, 12], [
+            3, 10], [3, 12], [4, 10], [4, 11], [4, 12]]],
+        ['pause'], ['pause'],
+        ['move', 3, 11, 4, 11],
+        ['pause'],
+        ['show', 11, 0, [[12, 0], [13, 0], [14, 0], [10, 0], [
+            9, 0], [8, 0], [7, 0], [11, 1], [11, 2], [11, 3]]],
+        ['pause'], ['pause'],
+        ['move', 11, 0, 11, 3],
+        ['pause']
+    ]
+    sovereign_video_interface(
+        board=board,
+        actions=activity,
+        text=Get_text('tutorial_sovereign_7'),
+        command=sov8
+    )
+
+
+def sov8(arg=...):
+    help_tutorial()
+    size = global_constants.Main_Window.size
+    text = Get_text('tutorial_sovereign_8')
+    global_constants.Main_Window.add_widget(Label(
+        text=get_text(text, size[0]*0.9, normal_font_size/2),
+        shorten=True,
+        font_size=normal_font_size,
+        color=(0, 0, 0, 1),
+        pos=(size[0]*0.05, size[1]*0.5),
+        size=(size[0]*0.9, size[1]*0.4),
+        halign="center",
+        valign="middle",
+        font_name=Settings.get_font()
+    ))
+
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_next'),
+        pos=(size[0] * 0.65, size[1] * 0.05),
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=sov9
+    ))
+
+
+def sov9(arg=...):
+    help_tutorial()
+    board = [
+        ['white', 8, 0, 'pawn'], ['black', 11,14, 'pawn'], ['white', 1, 3, 'pawn'],
+        ['white', 15, 0, 'king'], ['black', 0, 15, 'king'], ['black', 7, 4, 'pawn']
+    ]
+    activity = [
+        ['show', 11, 14, [[10, 14], [11, 13], [11, 12]]], ['pause'],
+        ['move', 11, 14, 10, 14],
+        ['show',8,0,[[8,1],[8,2]]], ['pause'],
+        ['move',8,0,8,2],
+        ['show',10,14,[[10,13], [9,14]]], ['pause'],
+        ['move',10,14,9,14],
+        ['move',8,2,8,3],['pause'],
+        ['move',9,14,9,13],
+        ['show_attack',8,3,7,4], ['pause'],
+        ['take',8,3,7,4], ['move',9,13,9,12],['move',7,4,7,5],
+        ['move',9,12,9,11], ['move', 7, 5, 7, 6],['change',7,6,'queen'],
+        ['pause'], ['move',9,11,9,10], ['show',1,3,[[1,4],[2,3],[3,3]]],
+        ['pause'], ['move',1,3,3,3],['pause'],
+        ['move',9,10,9,9], ['change',9,9,'rook'], ['pause']
+    ]
+    sovereign_video_interface(
+        board=board,
+        text=Get_text('tutorial_sovereign_9'),
+        speed=1.5,
+        actions=activity,
+        command=sov10
+    )
+
+def sov10(arg=...):
+    help_tutorial()
+    board = [
+        ['white',2,2,'pawn'], ['white',13,2,'pawn'],
+        ['black',2,13,'pawn'], ['black',13,13,'pawn']
+        ]
+    action = [
+        ['show',2,2,[[3,3],[3,1], [1,3] ]], ['pause'],
+        ['show',13,2,[[12,3],[12,1], [14,3]]], ['pause'],
+        ['show',2,13,[[3,12],[3,14], [1,12]]], ['pause'],
+        ['show',13,13,[[12,12],[14,12],[12,14]]],['pause']
+    ]
+    sovereign_video_interface(
+        board=board,
+        text=Get_text('tutorial_sovereign_10'),
+        speed=1.5,
+        actions=action,
+        command=sov11
+    )
+
+def sov11(arg=...):
+    help_tutorial()
+    board = [
+        ['white',8,0,'king'], ['white',11,0,'rook'],
+        ['black',8,15,'king'],['purple',2,15,'rook'],['black',8,10,'pawn']
+    ]
+    action = [
+        ['show',8,0,[[10,0]]],['pause'],
+        ['o-o',0],
+        ['show',8,10,[]],['pause'],
+        ['show',8,15,[[3,15]]],['pause'],
+        ['o-o-o',15], ['pause']
+    ]
+    sovereign_video_interface(board,action,1.5,Get_text('tutorial_sovereign_11'),sov12)
+
+def sov12(arg=...):
+    help_tutorial()
+    text = Get_text('tutorial_sovereign_12')
+    board = [
+        ['white',8,0,'king'], ['black',8,15,'king'],
+        ['white',7,5,'pawn'], ['black',4,11,'pawn'],
+        ['red',10,9,'pawn']
+    ]
+    action = [
+        ['pause'],
+        ['move',7,5,7,6],['change',7,6,'king'],['change',8,0,'empty'],
+        ['pause'],['pause'],['pause'],['pause'],
+        ['move',10,9,9,9],['change',9,9,'king'],['change',8,15,'empty'],
+        ['pause'],['pause'],['pause'],['pause']
+    ]
+    sovereign_video_interface(board,action,0.5,text,sov13)
+
+def sov13(arg=...):
+    help_tutorial()
+    text = Get_text('tutorial_sovereign_13')
+    size = global_constants.Main_Window.size
+    static_interface(size,text,do_sovereign_tutorial,1)
+
+# end of sovereign tutorial
+
+
+
+
 
 
 

@@ -61,6 +61,8 @@ class Size():
         if game.type_of_chess == 'los_alamos':
             return (self.board_size[0]-2*self.x_top)//6
         if game.type_of_chess == 'sovereign':
+            if global_constants.game.window != 'game':
+                return (self.board_size[0]-2/65*self.board_size[0]) / 16
             return (self.virtual_board_size[0] -2 * self.x_top) / 16
         if game.type_of_chess == 'garner':
             return (self.board_size[0]-2*self.x_top)//5
