@@ -3,8 +3,10 @@ from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
 from kivy.graphics import Rectangle,Color
+from kivy.uix.image import Image
 
 import copy
+import os
 import global_constants
 import sovereign_figure
 Figure = sovereign_figure.Figure
@@ -204,6 +206,8 @@ class Color_dropDown(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.state = 'closed'
+        self.element_size = global_constants.Sizes.window_size[0]*0.08
+        self.cols = 4
         with self.canvas:
             Color(0,0,1,.5)
             Rectangle(pos=self.pos,size=self.size)
@@ -213,15 +217,13 @@ class Color_dropDown(Widget):
             size = self.size,
             text = 'colors'
         ))
-        cols_color = 2
-        self.grid = GridLayout(cols=2*cols_color)
-        padding = 0
-        self.grid.size = [2*cols_color*self.size[0],(self.size[1]+padding)*12/cols_color]
+        self.grid = GridLayout(cols=2*self.cols)
+        self.grid.size = [2*self.cols*self.element_size, 12/self.cols*self.element_size]
         self.grid.pos = [
             self.center[0]-0.5*self.grid.size[0],
             self.pos[1]-self.grid.size[1]
             ]
-        self.grid.spacing = [0,padding]
+        self.grid.spacing = [0,0]
         self.add_widget(self.grid)
     
     def on_touch_down(self, touch):
@@ -243,16 +245,17 @@ class Color_dropDown(Widget):
         if self.state == 'opened':
             return
         with self.grid.canvas:
-            Color(0,0,0,1)
+            Color(0,1,1,.7)
             Rectangle(size=self.grid.size,pos=self.grid.pos)
             Color(1,1,1,1)
         self.grid.clear_widgets()
         owners = [global_constants.game.game_state.white_player,global_constants.game.game_state.black_player]
         for color in global_constants.game.game_state.colors_state:
-            self.grid.add_widget(Label(
-                text=color,
-                color=[1,0,0,1] if color not in owners else [0,1,0,1]
-                ))
+            self.grid.add_widget(Image(
+                source=get_image_path(color),
+                size=[self.element_size]*2
+            ))
+
             text = '-'
             owner = global_constants.game.game_state.get_owner(color)
             if owner == 'white':
@@ -261,7 +264,8 @@ class Color_dropDown(Widget):
                 text = '2'
             self.grid.add_widget(Label(
                 text=text,
-                color=[1,0,0,1] if color not in owners else [0,1,0,1]
+                color=[0,0,1,1] if color not in owners else [1,0.3,0,1],
+                font_size=50
                 ))
         self.state = 'opened'
     
@@ -272,6 +276,19 @@ class Color_dropDown(Widget):
         self.state = 'closed'
         self.grid.clear_widgets()
         self.grid.canvas.clear()
+
+def get_image_path(color):
+    name = 'h' + color[0] + '.png'
+    if color == 'blue':
+        name = 'hbl.png'
+    if color == 'gray':
+        name = 'hgr.png'
+    if color == 'pink':
+        name = 'hpi.png'
+    path = global_constants.Settings.get_folder()
+    f_set = 'sovereign_figures'
+    d = os.path.sep
+    return   path + f'pictures{d}{f_set}{d}' + name
 
 
 def copy_board(board):

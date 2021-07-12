@@ -1541,6 +1541,47 @@ def game_text(language, description, params):
             return 'El rey negro volado. \n ¡los Blancos ganaron!'
         if language == 'de':
             return 'Der schwarze König ist gesprengt. \n Die Weißen haben gewonnen!'
+    
+    # for sovereign chess
+    elif description == 'move_of':
+        player = params[0]
+        if language == 'ru':
+            return f'ход игрока номер {player}'
+        elif language == 'en':
+            return f'player number {player}\'s move'
+        elif language == 'fr':
+            return f'tour du joueur numéro {player}'
+        elif language == 'es':
+            return f'movimiento del jugador número {player}'
+        elif language == 'de':
+            return f'spieler bewegen nummer {player}'
+    
+    elif description == 'mate_to':
+        player = params[0]
+        if language == 'ru':
+            return f'Мат. Игрок {player} проиграл'
+        if language == 'en':
+            return f'Checkmate. The player {player} lost'
+        if language == 'fr':
+            return f'Échec et mat. Le joueur {player} perdu'
+        if language == 'es':
+            return f'Jaque mate. El jugador {player} perdió'
+        if language == 'de':
+            return f'Schachmatt. Der Spieler {player} verloren'
+
+    elif description == 'chax_to':
+        player = params[0]
+        if language == 'ru':
+            return f'Шах. {player} игрок, берегись!'
+        if language == 'en':
+            return f'Check. {player} player, watch out!'
+        if language == 'fr':
+            return f'Vérifier. {player} joueur, attention!'
+        if language == 'es':
+            return f'Comprobar. {player} jugador, cuidado!'
+        if language == 'de':
+            return f'Check. {player} Spieler, pass auf!'
+
     else:
         print(description)
         return 'error_2'

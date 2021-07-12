@@ -413,8 +413,11 @@ class Game():
                 for x1 in range(x):
                     if self.board[x1][y1].figure.type == 'pawn':
                         fig = self.board[x1][y1].figure
-            find_chess_module(self.type_of_chess).choose_figure = fig
-            find_chess_module(data[0]).do_transformation(fig.color, fig.x, fig.y)
+            if not fig is None:
+                find_chess_module(self.type_of_chess).choose_figure = fig
+                find_chess_module(data[0]).do_transformation(fig.color, fig.x, fig.y)
+            else:
+                self.need_change_figure = False
 
     def renew_game(self):
         tip = self.type_of_chess

@@ -128,21 +128,21 @@ def is_end_of_game(board):
         if is_chax(board2, 'white'):
             if not able_to_do_hod(board, 'white'):
                 is_mate = True
-                interfase.do_info(Get_text('game_white_mate'))
+                interfase.do_info(Get_text('game_mate_to',[1]))
             else:
-                interfase.do_info(Get_text('game_white_chax'))
+                interfase.do_info(Get_text('game_chax_to',[1]))
     else:
         if is_chax(board2, 'black'):
             if not able_to_do_hod(board, 'black'):
-                interfase.do_info(Get_text('game_black_mate'))
+                interfase.do_info(Get_text('game_mate_to',[2]))
                 is_mate = True
             else:
-                interfase.do_info(Get_text('game_black_chax'))
+                interfase.do_info(Get_text('game_chax_to',[2]))
 
     if not is_mate:
         if not able_to_do_hod(board, Game.color_do_hod_now):
             interfase.do_info(
-                Get_text('game_pat', params=Game.color_do_hod_now))
+                Get_text('game_pat', params=None))
             is_mate = True
     if is_mate:
         Game.ind = False
@@ -276,17 +276,25 @@ def desertion(x,y,board):
         gr_line.show_field(x=-1, y=-1)
         Game.list_of_hod_field = []
 
-    grid = GridLayout(cols=3)
+    sizes = global_constants.Sizes
+    pos_x = sizes.x_top_board
+    pos_y = sizes.y_top_board + .2 * sizes.board_size[1]
+    grid = GridLayout(cols=4)
     bub = Bubble(
-        pos = [global_constants.Main_Window.wid.center[0],global_constants.Sizes.y_top_board + global_constants.Main_Window.wid.center[1]],
-        size = [global_constants.Sizes.board_size[0] / 3]*2
+        pos = [pos_x, pos_y],
+        size = [sizes.board_size[0], .6 * sizes.board_size[1]]
     )
     bub.add_widget(grid)
     global_constants.Main_Window.add_widget(bub)
     for color in colors:
         grid.add_widget(BubbleButton(
             text = color,
-            on_press = change_color_player
+            color = (1,0,0,0),
+            on_press = change_color_player,
+            background_normal=sovereign.get_image_path(color),
+            size_hint=[None,None],
+            width=global_constants.Sizes.board_size[0] / grid.cols,
+            height=bub.size[1] / (12 / grid.cols)
         ))
     game.need_change_figure = True
 
@@ -411,7 +419,6 @@ def transform_to_king(x,y,board):
 def work_network_message(message:str):
     global choose_figure
     data = message.split()
-    print(data)
     x0 = int(data[0])
     y0 = int(data[1])
     x1 = int(data[2])
@@ -421,8 +428,6 @@ def work_network_message(message:str):
         choose_figure = Game.board[x0][y0].figure
         Game.board = move_figure(Game.board, x1, y1, options)
     else:
-        print(x0,y0,x1,y1)
-        print(options)
         color = options[1]
         Game.game_state.update_player_color(Game.board[x0][y0].figure.color,color)
         Game.board[x0][y0].figure.change_color(color)
@@ -478,7 +483,7 @@ def create_interface(main_widget, app_size, Game):
     main_widget.wid = wid
     main_widget.add_widget(sovereign.Color_dropDown(
         pos =  [Sizes.window_size[0]*0.4,Sizes.window_size[1]*.93],
-        size=(Sizes.window_size[0]*0.16,Sizes.window_size[1]*0.07),
+        size=(Sizes.window_size[0]*0.16,Sizes.window_size[1]*0.07)
     ))
 
 
@@ -495,7 +500,6 @@ def init_game():
     Game = build_game(Game)
     gr_line = Green_line()
     gr_line.get_canv(Main_Window.wid.canvas)
-
 
 
 #############################################################
@@ -760,11 +764,11 @@ def change_color(time=None):
         Game.players_time[Game.color_do_hod_now] += Game.add_time
     if Game.color_do_hod_now == 'white':
         if Game.ind:
-            interfase.do_info(Get_text('game_black_move'))
+            interfase.do_info(Get_text('game_move_of',[2]))
         Game.color_do_hod_now = 'black'
     elif Game.color_do_hod_now == 'black':
         if Game.ind:
-            interfase.do_info(Get_text('game_white_move'))
+            interfase.do_info(Get_text('game_move_of',[1]))
         Game.color_do_hod_now = 'white'
     if Game.with_time:
         interfase.set_time(Game.players_time)
