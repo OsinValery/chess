@@ -32,11 +32,11 @@ def back(click):
     global_constants.Main_Window.create_start_game(1)
 
 
-music_files = [f'sound{i}.ogg' for i in range(1, 9)]
+music_files = [f'sound{i}.ogg' for i in range(1, 5)]
 move_files = [f'move{i}.ogg' for i in range(1, 7)]
 max_fig_set = 12
-game_fon_files = ['fon{0}'.format(i) for i in range(1, 13)]
-boards_files = [str(i) for i in range(11)]
+game_fon_files = ['fon{0}'.format(i) for i in range(1, 8)]
+boards_files = [str(i) for i in range(10)]
 languages = ['Русский', 'English', 'Español', 'Deutsch', 'Français']
 fonts_support = {
     'ru': [
@@ -181,6 +181,7 @@ class __Settings():
         for file in music_files:
             if file == self.fon_music:
                 return file[:-4]
+        return 'sound1'
 
     def get_move(self):
         return self.move_music[:-4]
@@ -530,6 +531,7 @@ def fill_0(content):
     ]
 
     for i in 0, 1:
+        print(texts[i])
         content.add_widget(Spinner(
             on_change=changes[i],
             text=texts[i],
