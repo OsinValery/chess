@@ -33,7 +33,7 @@ def back(click):
 
 
 music_files = [f'sound{i}.ogg' for i in range(1, 5)]
-move_files = [f'move{i}.ogg' for i in range(1, 7)]
+move_files = [f'move{i}.ogg' for i in range(1, 6)]
 max_fig_set = 12
 game_fon_files = ['fon{0}'.format(i) for i in range(1, 8)]
 boards_files = [str(i) for i in range(10)]
