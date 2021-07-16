@@ -1582,6 +1582,32 @@ def game_text(language, description, params):
         if language == 'de':
             return f'Check. {player} Spieler, pass auf!'
 
+    elif description == 'surrend_of':
+        player = params[0]
+        if language == 'ru':
+            return f'{player} игрок сдался'
+        if language == 'en':
+            return f'{player} the player has given up'
+        if language == 'fr':
+            return f'{player} le joueur a abandonné'
+        if language == 'es':
+            return f'{player} el jugador se ha rendido'
+        if language == 'de':
+            return f'{player} der Spieler hat aufgegeben'
+
+    elif description == 'lose_of':
+        player = params[0]
+        if language == 'ru':
+            return f'{player} игрок проиграл!!'
+        if language == 'en':
+            return f'the {player} player has lost!!'
+        if language == 'fr':
+            return f'le joueur {player} a perdu!!'
+        if language == 'es':
+            return f'el {player} jugador ha perdido!!'
+        if language == 'de':
+            return f'der {player} Spieler hat verloren!!'
+
     else:
         print(description)
         return 'error_2'

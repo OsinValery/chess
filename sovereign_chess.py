@@ -580,9 +580,9 @@ def surrend(click):
         Game.ind = False
         if Game.state_game == 'one':
             if Game.color_do_hod_now == 'white':
-                f = Get_text('game_white_surrend')
+                f = Get_text('game_surrend_of',[1])
             else:
-                f = Get_text('game_black_surrend')
+                f = Get_text('game_surrend_of',[2])
         else:
             f = Get_text('game_you_surrend')
         interfase.do_info(f)
@@ -746,9 +746,9 @@ def tick(cd):
         Music.time_passed()
         text = Get_text('game_end_time') + '!\n'
         if Game.color_do_hod_now == 'white':
-            text += Get_text('game_white_lose')
+            text += Get_text('game_lose_of',[1])
         else:
-            text += Get_text('game_black_lose')
+            text += Get_text('game_lose_of',[2])
         interfase.do_info(text)
         Game.time.cancel()
 
