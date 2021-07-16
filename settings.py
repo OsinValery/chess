@@ -8,6 +8,7 @@ from my_spinner import Spinner
 from switch import Switch_ as Switch
 
 import os
+import re
 import random
 from translater import Get_text
 import global_constants
@@ -32,11 +33,12 @@ def back(click):
     global_constants.Main_Window.create_start_game(1)
 
 
-music_files = [f'sound{i}.ogg' for i in range(1, 5)]
-move_files = [f'move{i}.ogg' for i in range(1, 6)]
+move_pattern = re.compile('move\d+\.ogg')
+fon_music_pattern = re.compile('sound\d+\.ogg')
+bace_pattern = re.compile('pic\d+\.png')
+game_pattern = re.compile('fon\d+\.png')
+board_folder_pattern = re.compile('[0-9]+$')
 max_fig_set = 12
-game_fon_files = ['fon{0}'.format(i) for i in range(1, 8)]
-boards_files = [str(i) for i in range(10)]
 languages = ['Русский', 'English', 'Español', 'Deutsch', 'Français']
 fonts_support = {
     'ru': [
@@ -79,9 +81,9 @@ class __Settings():
         self.with_sound = True
         self.with_effects = True
         self.volume = .5
-        self.fon_music = 'sound6.ogg'
+        self.fon_music = 'sound1.ogg'
         self.move_music = 'move1.ogg'
-        self.bace_fon = 'pic4.png'
+        self.bace_fon = 'pic8.png'
         self.game_fon = 'fon1.png'
         self.fig_set = 'fig_set1'
         self.font = 'Roboto.ttf'
@@ -178,10 +180,17 @@ class __Settings():
         return os.path.join(self.get_folder(), 'pictures', 'boards', self.boards, file)
 
     def get_music(self):
-        for file in music_files:
-            if file == self.fon_music:
-                return file[:-4]
-        return 'sound1'
+        if self.fon_music in os.listdir(os.path.join(self.folder,'sounds')):
+            return self.fon_music[:-4]
+        for file in os.listdir(os.path.join(self.folder,'sounds')):
+            if re.match(fon_music_pattern,file) is not None:
+                self.fon_music = file
+                self.write_settings()
+                break
+        else:
+            self.fon_music = 'sound1.ogg'
+            self.write_settings()
+        return self.fon_music[:-4]
 
     def get_move(self):
         return self.move_music[:-4]
@@ -526,16 +535,17 @@ def fill_0(content):
     ]
     texts = [Settings.get_music(), Settings.get_move()]
     values = [
-        [file[:-4] for file in music_files],
-        [file[:-4] for file in move_files],
+        [file[:-4] for file in os.listdir(os.path.join(Settings.folder,'sounds')) 
+            if fon_music_pattern.match(file)],
+        [file[:-4] for file in os.listdir(os.path.join(Settings.folder,'sounds')) 
+            if move_pattern.match(file)],
     ]
 
     for i in 0, 1:
-        print(texts[i])
         content.add_widget(Spinner(
             on_change=changes[i],
             text=texts[i],
-            values=values[i],
+            values=sort_names(values[i]),
             pos=poses[i],
             size=[.22*cont_size[0], 55],
             drop_color=text_color,
@@ -561,8 +571,12 @@ def fill_1(content: Widget):
              ]
     values = [
         [f'fig_set{i}' for i in range(1, max_fig_set+1)],
-        boards_files,  game_fon_files,
-        [f'pic{i}' for i in range(1, 9)],
+        [folder for folder in os.listdir(os.path.join(Settings.folder,'pictures','boards')) 
+            if board_folder_pattern.match(folder)],
+        [file for file in os.listdir(os.path.join(Settings.get_folder(), 'pictures', 'game_fons')) 
+            if game_pattern.match(file)],
+        [file[:-4] for file in os.listdir(os.path.join(Settings.get_folder(), 'pictures', 'bace_fons')) 
+            if bace_pattern.match(file)]
     ]
     poses = [
         [pos[0] + cont_size[0]*.5, pos[1]+cont_size[1]*.63],
@@ -580,7 +594,7 @@ def fill_1(content: Widget):
     for i in 0, 1, 2, 3:
         content.add_widget(Spinner(
             text=texts[i],
-            values=values[i],
+            values=sort_names(values[i]),
             size=[cont_size[0]*.4, 55],
             pos=poses[i],
             on_change=changes[i],
@@ -676,6 +690,23 @@ def fill_2(content):
 def get_fig_file(figure):
     name = figure[0][0] + figure[1][0] + '.png'
     return os.path.join(Settings.get_folder(), 'pictures', Settings.get_fig_set(), name)
+
+
+def sort_names(names:list):
+    pattern = '\d+'
+    # part333last   - format of all names
+    def solve(value):
+        match = re.search(pattern,value)
+        if match:
+            return int(match[0])
+        else:
+            print(f'error in settings.sort_names({names})')
+            print(match,value)
+            return 0
+
+    return sorted(names,key=solve)
+
+
 
 
 class Demonstrate_interface(Widget):
