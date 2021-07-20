@@ -52,6 +52,7 @@ class connection():
     my_ip = ''
     friend_ip = ''
     friend_nick = ''
+    friend_version = ''
     password = ''
     #  1 if connection accept
     # 0 if connection down
@@ -106,6 +107,7 @@ class connection():
                         if self.connected:
                             self.friend_nick = self.conn.recv(1024).decode('utf-8')
                             self.conn.send(self.my_nick.encode('utf-8'))
+
                             if self.my_nick == self.friend_nick:
                                 self.connected = False
                                 try:
@@ -123,6 +125,8 @@ class connection():
                     # valid connection
                     # it is exectly friend now
                     self.messages = []
+                    if self.connected:
+                        self.friend_version = self.conn.recv(1024).decode('utf-8')
                     while self.connected:
                         # server must be manager
                         if self.conn._closed == True:
@@ -246,6 +250,7 @@ class connection():
                     return 3
                 self.state = 1
                 self.sock = sock
+                sock.send(Game.version.encode('utf-8'))
                 self.create_user()
                 Game.state_game = 'user'
                 # there run server of user
@@ -553,7 +558,6 @@ class server_widget(Widget):
                 size = [.4 * self.size[0], .05 * self.size[1]],
                 on_press = create
         ))
-
 
 
 class Text_line(TextInput):

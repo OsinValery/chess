@@ -141,7 +141,16 @@ class Figure(Basic_figure.Figure):
             global_constants.current_figure_canvas.add(self.rect)
             self.set_coords_on_board(self.x,self.y)
 
+    @property
+    def pawn_on_penultimate_line(self):
+        if self.pawn_on_last_line(): return False
+        if self.x < 5 or self.y < 5: return False
+        if self.y > 10 or self.x > 10: return False
+        # i doo't check eagles, because pawn may take
+        return True
 
+    def movement_to_last_line(self):
+        pass
 
 ######################################################################
 ## figure movement logik

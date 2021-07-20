@@ -1,4 +1,4 @@
-__version__ = '0.0.47'
+__version__ = '0.0.49'
 
 import os
 import time
@@ -100,6 +100,7 @@ class Game():
         self.name2 = 'Player2'
         self.magia_moves = 10
         self.frozen_moves = 20
+        self.version = __version__
         global_constants.game = self
         connection.Game = self
 
@@ -586,7 +587,7 @@ class GameApp(App):
     def after_start(self, par=None):
         def test(time=1):
             Music.create()
-        Clock.schedule_once(test, 3.5)
+        Clock.schedule_once(test, 2)
         if not 'Saves' in os.listdir(self.user_data_dir):
             os.mkdir(os.path.join(self.user_data_dir, 'Saves'))
 

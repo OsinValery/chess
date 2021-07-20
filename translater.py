@@ -765,6 +765,31 @@ def change_text(language, description):
         if language == 'de':
             return 'Frosten'
 
+    if description == 'version_error_brief':
+        if language == 'ru':
+            return 'Недоступно'
+        if language == 'en':
+            return 'Disabled'
+        if language == 'fr':
+            return 'Indisponible'
+        if language == 'es':
+            return 'Inaccesible'
+        if language == 'de':
+            return 'Geblockt'
+
+    if description == 'version_error_fully':
+        if language == 'ru':
+            return 'Версия приложения вашего противника\n не подходит для этого типа шахмат!\nОбновитесь или выберите другие \nшахматы!'
+        if language == 'en':
+            return 'The app version of your opponent\n is not suitable for this type of chess!\n Upgrade or choose other chess!'
+        if language == 'fr':
+            return 'La version de l\'application de votre adversaire\n ne convient pas à ce type d\'échecs!\nMettez à jour ou sélectionnez d\'autres \n échecs!'
+        if language == 'es':
+            return '¡La versión de la aplicación de tu oponente\n no es adecuada para este tipo de ajedrez!\n Actualizar o seleccionar otros \n ajedrez!'
+        if language == 'de':
+            return 'Die App-Version deines Gegners \n ist für diese Art von Schach nicht geeignet!\n Upgrade oder wählen Sie andere \n Schach!'
+
+
     else:
         return 'error_2'
 

@@ -84,7 +84,7 @@ def able_to_do_hod(board, player):
     return Res
 
 
-def find_fields(board, figure):
+def find_fields(board, figure:Figure):
     time_list = figure.first_list(board,global_constants.game.game_state)
     if figure.type == 'king':
         time_list += sovereign.find_rocking(figure,board,Game.game_state.copy())
@@ -113,6 +113,53 @@ def find_fields(board, figure):
 
         if not is_chax(board2, Game.color_do_hod_now):
             list2.append(element)
+
+    # if check and figure == pawn on the prelast line, figure may be changed to king
+    if figure.type == 'pawn' and figure.pawn_on_penultimate_line:
+        board2 = sovereign.copy_board(board)
+        for a in range(16):
+            for b in range(16):
+                if board2[a][b].figure.type != 'empty':
+                    if new_state.get_owner(board2[a][b].figure.color) != Game.color_do_hod_now:
+                        board2 = board[a][b].figure.do_attack(board2,global_constants.game.game_state)
+        if is_chax(board2, Game.color_do_hod_now):
+            # at that time important movement may be lost
+            movements = figure.first_list(board,global_constants.game.game_state)
+            fig2 = Figure(figure.color,figure.x,figure.y,'empty')
+            fig2.type = figure.type
+            for el in movements:
+                fig2.x, fig2.y = el
+                if fig2.pawn_on_last_line():
+                    board2 = sovereign.copy_board(board)
+                    new_state = global_constants.game.game_state.copy()
+                    new_state.check_control([figure.x,figure.y,el[0],el[1]],figure.color)
+                    board2[figure.x][figure.y].type = 'empty'
+                    board2[figure.x][figure.y].color = ''
+                    
+                    # check color of king and correct it in new_state
+                    if Game.game_state.get_owner(figure.color) == 'white':
+                        old_color = Game.game_state.white_player
+                    else:
+                        old_color = Game.game_state.black_player
+                    for a in range(16):
+                        for b in range(16):
+                            if board2[a][b].figure.type == 'king':
+                                if board2[a][b].figure.color == old_color:
+                                    board2[a][b].figure.type = 'empty'
+                                    board2[a][b].figure.color = ''     
+                    board2[el[0]][el[1]].figure.type = 'king'  
+                    board2[el[0]][el[1]].figure.color = figure.color
+                    new_state.update_player_color(old_color,figure.color)
+                    # check board
+                    for a in range(16):
+                        for b in range(16):
+                            if board2[a][b].figure.type != 'empty':
+                                if new_state.get_owner(board2[a][b].figure.color) != Game.color_do_hod_now:
+                                    if board2[a][b].figure.type == board[a][b].figure.type:
+                                        board2 = board[a][b].figure.do_attack(board2,new_state)
+
+                    if not is_chax(board2, Game.color_do_hod_now):
+                        list2.append(element)
 
     return list2
 
@@ -347,14 +394,24 @@ def do_transformation(color, x, y, options=None):
         rows=2,
         padding=[Sizes.field_size*0.05]*4
     )
-    if color == 'white':
-        names = ['qw.png', 'bw.png', 'hw.png', 'rw.png']
-    else:
-        names = ['qb.png', 'bb.png', 'hb.png', 'rb.png']
-    commands = [change_q, change_b, change_h, change_r]
     d = os.path.sep
     folder = Settings.get_folder() + f'pictures{d}fig_set1{d}'
+    commands = []
+    names = []
 
+    # if check, pawn must be transformed to king
+    new_board = sovereign.copy_board(Game.board)
+    for a in range(16):
+        for b in range(16):
+            if Game.game_state.get_owner(new_board[a][b].figure.color) != color:
+                new_board = Game.board[a][b].figure.do_attack(new_board,Game.game_state)
+    if not is_chax(new_board,Game.color_do_hod_now):
+        if color == 'white':
+            names = ['qw.png', 'bw.png', 'hw.png', 'rw.png']
+        else:
+            names = ['qb.png', 'bb.png', 'hb.png', 'rb.png']
+        commands = [change_q, change_b, change_h, change_r]
+    
     # add king
     new_board = sovereign.copy_board(Game.board)
     for a in range(16):

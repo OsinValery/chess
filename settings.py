@@ -38,7 +38,7 @@ fon_music_pattern = re.compile('sound\d+\.ogg')
 bace_pattern = re.compile('pic\d+\.png')
 game_pattern = re.compile('fon\d+\.png')
 board_folder_pattern = re.compile('[0-9]+$')
-max_fig_set = 12
+max_fig_set = 10
 languages = ['Русский', 'English', 'Español', 'Deutsch', 'Français']
 fonts_support = {
     'ru': [

@@ -5,6 +5,7 @@ from kivy.graphics import Rectangle, Color
 from kivy.uix.textinput import TextInput
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.image import Image
 from kivy.uix.popup import Popup
 from kivy.clock import Clock
 
@@ -13,6 +14,7 @@ import os
 
 from settings import Settings
 import tutorial
+import connection
 from translater import Get_text
 from my_spinner import Spinner
 from switch import Switch_ as Switch
@@ -74,13 +76,20 @@ def create_settings_interface(tap):
         ))
     
 
-
 def create_game_process(click):
     game = global_constants.game
     if game.state_game == 'one':
         game.create_game(click)
     elif game.state_game == 'host':
-        game.create_game(click)
+        friend_version = connection.Connection.friend_version
+        digit = int(friend_version.split('.')[0])
+        chess_type = global_constants.game.type_of_chess
+        my = int(chess_type_list[chess_type].version_added.split('.')[0])
+        if digit < my:
+            # invalid version
+            show_version_error_message()
+        else:
+            game.create_game(click)
     else:
         create_worning()
 
@@ -112,6 +121,27 @@ def create_worning():
     window.open()
 
 
+def show_version_error_message():
+    window = Popup(
+        auto_dismiss = False,
+        title = Get_text('change_version_error_brief')
+    )
+    wid = GridLayout(cols=1)
+    wid.add_widget(Label(
+        color=[1, 0, 0, 1],
+        font_size=31,
+        text=Get_text('change_version_error_fully')
+    ))
+    wid.add_widget(Button(
+        text=Get_text('all_ok'),
+        on_press=lambda par: window.dismiss(),
+        size_hint_y=None,
+        font_name = Settings.get_font()
+    ))
+    window.add_widget(wid)
+    window.open()
+
+
 def sort_games(games):
     if not Settings.must_sort_games:
         return games
@@ -129,6 +159,9 @@ def sort_games(games):
 class Chess_type():
     def __init__(self, tip):
         self.type = tip
+        self.version_added = ''
+        if not tip in chess_type_list:
+            chess_type_list[tip] = self
 
     def set_chess(self, click):
         global_constants.Main_Window.clear_widgets()
@@ -162,7 +195,7 @@ class Chess_type():
 
 
 class Card(Widget):
-    def __init__(self, picture, command, pos):
+    def __init__(self, chess_type:Chess_type, pos):
         super(Card, self).__init__()
         size = global_constants.Sizes
         self.size = (size.window_size[0]*0.8, size.window_size[0]*.6)
@@ -170,7 +203,7 @@ class Card(Widget):
         self.pos = pos
         self.canvas.add(Rectangle(
             size=[self.width, self.height],
-            source=picture,
+            source=chess_type.picture,
             pos=pos
         ))
         size1 = (size.window_size[0]*0.95, size.window_size[0]*.6)
@@ -181,9 +214,21 @@ class Card(Widget):
             size=(size1[0]//3.7, size1[1]//5),
             pos=(self.pos[0], self.pos[1]),
             color=(1, 1, 0, 0.9),
-            on_press=command,
+            on_press=chess_type.set_chess,
             font_name = Settings.get_font(),
         ))
+        if global_constants.game.state_game == 'host':
+            version = connection.Connection.friend_version
+            digit = int(version.split('.')[0])
+            my = int(chess_type_list[chess_type.type].version_added.split('.')[0])
+            if digit < my:
+                # game is impossible, because version of other player is too old
+                folder = global_constants.Settings.get_folder()
+                self.add_widget(Image(
+                    source = os.path.join(folder,'pictures','blocked.png'),
+                    pos=(pos[0],pos[1]),
+                    size=(size1[0]//3.7, size1[1]//5),
+                ))
 
 
 class Chess_menu(Widget):
@@ -278,7 +323,7 @@ class Chess_view(ScrollView):
         for i in range(len(chess_list)):
             pos = [self.pos[0] + width * i, 0]
             big_wid.add_widget(
-                Card(chess_list[i].picture, chess_list[i].set_chess, pos))
+                Card(chess_list[i], pos))
         self.add_widget(big_wid)
 
 
@@ -333,7 +378,7 @@ class Settings_widget(Widget):
         self.size = size
         self.pos = pos
         with self.canvas:
-            Color(0.1, 0.2, 0.7, 0.5)
+            Color(0.1, 0.2, 0.7, 0.7)
             Rectangle(
                 size=size,
                 pos=pos
@@ -342,8 +387,11 @@ class Settings_widget(Widget):
         self.create_active()
 
     def create_text(self):
-        texts = [Get_text('change_time'), Get_text(
-            'change_tips'), Get_text('change_add')]
+        texts = [
+            Get_text('change_time'), 
+            Get_text('change_tips'), 
+            Get_text('change_add')
+        ]
         poses = [
             [self.pos[0] + self.size[0] * .1, self.pos[1] + self.size[1] * .5],
             [self.pos[0] + self.size[0] * .1, self.pos[1] + self.size[1] * .2],
@@ -365,6 +413,27 @@ class Settings_widget(Widget):
             texts.append(Get_text('change_your_color'))
             poses.append([self.pos[0]+.08*self.size[0],
                          self.pos[1]+.78 * self.size[1]])
+        if global_constants.game.state_game == 'host':
+            version = connection.Connection.friend_version
+            digit = int(version.split('.')[0])
+            chess_type = global_constants.game.type_of_chess
+            my = int(chess_type_list[chess_type].version_added.split('.')[0])
+            if digit < my:
+                # game is impossible, because version of other player is too old
+                folder = global_constants.Settings.get_folder()
+                self.add_widget(Image(
+                    source = os.path.join(folder,'pictures','blocked.png'),
+                    pos=(self.pos[0]+.5*self.size[0], self.pos[1]+.65*self.size[1]),
+                    size=(.62 * self.size[0], 0.1 * self.size[1])
+                ))
+                self.add_widget(Label(
+                    pos=[self.pos[0]+self.size[0]*.15, self.pos[1]+.62*self.size[1]],
+                    text=Get_text('change_version_error_brief'),
+                    color=(1,0,0,1),
+                    font_name = global_constants.Settings.get_font(),
+                    
+                ))
+
 
         for i in range(len(texts)):
             self.add_widget(Label(
@@ -404,7 +473,6 @@ class Settings_widget(Widget):
             ))
 
         #  Подсказки хода
-
         def tip(wid, value):
             global_constants.game.make_tips = value
 
@@ -522,6 +590,8 @@ class Settings_widget(Widget):
 # create lists with all types of chess
 ###############################################################
 
+# список для отслеживания версий, когда добавлен тип
+chess_type_list = dict()
 
 classic_type = [Chess_type(el)for el in [
     'classic', 'los_alamos', 'garner', 'schatranj'
@@ -538,3 +608,14 @@ other_rules = [Chess_type(el)for el in ['rasing', 'sovereign']]
 
 all_chess = classic_type + positions + \
     with_effects + honestless + boards + other_rules
+
+for chess in [
+        'classic', 'los_alamos', 'garner', 'schatranj',
+        'fisher', 'horse_battle', 'legan',
+        'magik', 'permutation', 'kamikadze',
+        'haotic', 'dark_chess', 'frozen', 'nuclear',
+        'horde', 'week', 'bad_chess',
+        'circle_chess', 'bizantion', 'glinskiy', 'kuej',
+        'rasing', 'sovereign'
+        ]:
+    chess_type_list[chess].version_added = '0.0.49'
