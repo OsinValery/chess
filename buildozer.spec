@@ -11,7 +11,7 @@ source.include_exts = py,png,jpg,kv,atlas,ogg,txt,otf,ttf
 #source.exclude_patterns = license,images/*/*.jpg
 version.regex = __version__ = ['"](.*)['"]
 version.filename = %(source.dir)s/main.py
-requirements = python3,kivy,pyjnius
+requirements = python3,kivy
 presplash.filename = presplash.png
 icon.filename = icon.png
 orientation = portrait
@@ -56,7 +56,7 @@ android.permissions = INTERNET
 #android.ndk_api = 21
 
 # (bool) Use --private data storage (True) or --dir public storage (False)
-#android.private_storage = False
+#android.private_storage = True
 
 # (str) Android NDK directory (if empty, it will be automatically downloaded.)
 #android.ndk_path = /home/valeriy/.buildozer/android/platform/android-ndk-r19c
