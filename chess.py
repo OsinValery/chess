@@ -125,7 +125,7 @@ def return_board(press):
 
 def pause(touch):
     global but
-    if Game.ind == False:
+    if Game.ind == False or Game.pause:
         return
     # antibug with many buttons "return"
     if not Game.pause and not Game.need_change_figure:

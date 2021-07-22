@@ -72,6 +72,7 @@ class connection():
         Game.state_game = 'one'
     
     def start(self):
+        # funcction for server
         def server(par=None):
             self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.sock.settimeout(1)
@@ -185,6 +186,7 @@ class connection():
         def moroz():
             self.sock.settimeout(0.5)
             Game.state_game = 'user'
+            self.messages = []
             while self.state == 1:
                 if self.sock._closed:
                     self.state = 0

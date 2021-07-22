@@ -266,11 +266,12 @@ class Game():
             Clock.schedule_once(movement)
         elif 'pause' in message:
             data = message[5:].split()
+            print(data)
 
             def pause(time):
                 if data[0] == 'on':
                     find_chess_module(self.type_of_chess).pause(1)
-                else:
+                elif self.ind:
                     find_chess_module(self.type_of_chess).return_board(1)
                 self.players_time['white'] = int(data[1])
                 self.players_time['black'] = int(data[2])

@@ -962,6 +962,13 @@ def settings_text(language, description):
             return 'Trier \nles jeux?'
         elif language == 'de':
             return 'Spiele \nsortieren?'
+    
+    elif  description == 'font':
+        if language == 'ru':    return 'Шрифт'
+        elif language == 'en':  return 'Font'
+        elif language == 'es':  return 'Letra'
+        elif language == 'fr':  return 'Police'
+        elif language == 'de':  return 'Schriftart'
 
     else:
         print(description)

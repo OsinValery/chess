@@ -634,7 +634,7 @@ def fill_2(content):
         Get_text('settings_language'),
         Get_text('settings_nick'),
         Get_text('settings_sort'),
-        'my fonts',
+        Get_text('settings_font'),
     ]
     for i in range(len(label_texts)):
         content.add_widget(Label(
