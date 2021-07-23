@@ -273,8 +273,11 @@ class Game():
                     find_chess_module(self.type_of_chess).pause(1,True)
                 elif self.ind:
                     find_chess_module(self.type_of_chess).return_board(1)
-                self.players_time['white'] = int(data[1])
-                self.players_time['black'] = int(data[2])
+                try:
+                    self.players_time['white'] = int(data[1])
+                    self.players_time['black'] = int(data[2])
+                except:
+                    pass
             Clock.schedule_once(pause)
         elif 'surrend' in message:
             self.ind = False

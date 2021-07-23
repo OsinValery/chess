@@ -10,6 +10,9 @@ class Size():
             if platform == 'macosx':
                 Window.size = [s[0]//2,s[1]//2]
                 self.window_size = s
+            elif platform == 'windows':
+                Window.size = [s[0]//2, s[1]//2]
+                self.window_size = Window.size
             else:
                 Window.size = s
                 self.window_size = s
