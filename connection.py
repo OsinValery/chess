@@ -1,5 +1,4 @@
 import socket
-import http.client
 from threading import Thread
 
 from kivy.uix.button import Button
@@ -135,7 +134,7 @@ class connection():
                             print('connection was closed')
                         else:
                             if self.messages != []:
-                                mes = self.messages.pop(0)
+                                mes = self.messages.pop(0) + ' '
                                 self.conn.send(mes.encode('utf-8'))
                                 if mes == 'exit':
                                     self.messages = []
@@ -144,12 +143,11 @@ class connection():
                                     if not self.conn._closed:
                                         self.conn.close()
                                     end_connection_activity()
-
                             else:
                                 # else i try take message from opponent
                                 data = '#'
                                 try:
-                                    data = self.conn.recv(1024).decode('utf-8')
+                                    data = self.conn.recv(1024).decode('utf-8').strip()
                                     if data == 'exit':
                                         self.connected = False
                                         self.state = 0
@@ -194,7 +192,7 @@ class connection():
                     print('_closed')
                 else:
                     if self.messages != []:
-                        data = self.messages.pop(0)
+                        data = self.messages.pop(0) + ' '
                         self.sock.send(data.encode('utf-8'))
                         if data == 'exit':
                             print('i send exit')
@@ -204,7 +202,7 @@ class connection():
                     else:
                         try:
                             data = '#'
-                            data = self.sock.recv(1024).decode('utf-8')
+                            data = self.sock.recv(1024).decode('utf-8').strip()
                             if data == 'exit':
                                 self.state = 0
                                 if self.sock._closed == False:

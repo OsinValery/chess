@@ -270,7 +270,7 @@ class Game():
 
             def pause(time):
                 if data[0] == 'on':
-                    find_chess_module(self.type_of_chess).pause(1)
+                    find_chess_module(self.type_of_chess).pause(1,True)
                 elif self.ind:
                     find_chess_module(self.type_of_chess).return_board(1)
                 self.players_time['white'] = int(data[1])

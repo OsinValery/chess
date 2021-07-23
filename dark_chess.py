@@ -112,14 +112,14 @@ def return_board(press):
         Game.time = Clock.schedule_interval(tick,1)
     Game.pause = False
 
-def pause(touch):
+def pause(touch,second_device=False):
     global but
     if Game.ind == False :
         return
     # antibug with many buttons "return"
     if not Game.pause and not Game.need_change_figure :
         Game.pause = True
-        if Game.state_game != 'one':
+        if Game.state_game != 'one' and not second_device:
             Connection.messages += [f'pause on {Game.players_time["white"]} {Game.players_time["black"]}']
         if Game.with_time:
             Game.time.cancel()
