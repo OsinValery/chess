@@ -42,6 +42,7 @@ class Game_State():
         self.white_player = 'white'
         self.black_player = 'black'
         self.occupied_control_points = []
+        # кем контролируется
         self.colors_state = {
             'white':'',
             'black':'',
@@ -56,7 +57,7 @@ class Game_State():
             'red':'',
             'orange':''
         }
-    
+
     def copy(self):
         new = Game_State()
         for color in self.colors_state:
@@ -83,8 +84,10 @@ class Game_State():
         return ''
 
     def is_enemy(self,color1, color2):
-        # color1 - my color
-        # coor2 - other figure color
+        """
+        ## color1 - my color
+        ### color2 - other figure color
+        """
         if color2 == color1:
             return False
         first = self.get_owner(color1)
@@ -97,21 +100,13 @@ class Game_State():
 
     def is_control_point(self,x,y):
         for color in self.control_points:
-            for point in self.control_points[color]:
-                if [x,y] == point:
-                    return True
+            if [x,y] in self.control_points[color]:
+                return True
         return False
     
     def can_visit(self,x,y,color):
         # могу ли я наступить на клетку этого цвета
         # color - цвет фигуры
-        if [x,y] in self.control_points[color]:
-            return False
-        """
-        for col in [self.white_player, self.black_player]:
-            if [x,y] in self.control_points[col]:
-                return False
-        """
         if [x,y] in self.control_points[color]:
             return False
 
@@ -124,25 +119,41 @@ class Game_State():
                         return True
                     else:
                         return [x,y] in self.occupied_control_points
+                else:
+                    # для второго цвета это точно не выполнится условие выше, не
+                    # хочу тратить время
+                    return True
 
         return True
     
     def check_control(self,movement,figure_color):
         x1, y1, x2, y2 = movement
+        # try remove cotrol
         for color in self.control_points:
             if [x1, y1] in self.control_points[color]:
                 if color not in [self.white_player,self.black_player]:
                     was = self.colors_state[color]
                     self.colors_state[color] = ''
-                    self.occupied_control_points.remove([x1,y1])
+                    if [x1,y1] in self.occupied_control_points:
+                        self.occupied_control_points.remove([x1,y1])
+                    # i have to return control
+                    # FIXME on another field may stay figure of other color
+                    # then it is for cur field
                     for point in self.control_points[color]:
                         if point in self.occupied_control_points:
                             self.colors_state[color] = was
         # их  нельзя совместить в 1 цикл!!!!!
+        # try to establish control on the new field
         for color in self.colors_state:
             if [x2,y2] in self.control_points[color]:
                 if color not in [self.white_player,self.black_player]:
-                    self.colors_state[color] = figure_color
+                    #это создаёт кольцо контроля, нужно сначала проверять 
+                    # второе поле этого цвета, и брать контроль, когда оно пустое
+                    # только
+                    if self.colors_state[color] == '':
+                        self.colors_state[color] = figure_color
+                    elif [x2,y2] in self.occupied_control_points:
+                        self.colors_state[color] = figure_color
                     self.occupied_control_points.append([x2,y2])
 
     def friend_colors(self, color):
@@ -162,6 +173,17 @@ class Game_State():
         for point in self.control_points[color2]:
             if point in self.occupied_control_points:
                 self.occupied_control_points.remove(point)
+        # FIXME клетка старого цвета короля может быть занята без контроля,
+        # но после смены цвета контроль нужно установить
+
+        # обе клетки  старого цвета короля могут быть заняты фигурами, кричём противник + мой
+        # 1 - моя + моя
+        # 2 - никого нет
+        # 3 - враг + враг
+        # 4 - моя, но она раньше контролировалась, а сейчас - нет
+        # 5 - моя, но и сейчас моя, так как занимаю вторую клетку этого цвета
+        # 6 - 4 + враг  - отдать врагу
+        # 7 - 5 + враг - отдать мне, приоритет
 
     def get_control_point_color(self,point):
         for color in self.colors_state:

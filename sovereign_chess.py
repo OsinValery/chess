@@ -74,14 +74,12 @@ def is_chax(board, player):
 
 
 def able_to_do_hod(board, player):
-    Res = False
     for a in board:
         for field in a:
             if field.figure.type != 'empty' and Game.game_state.get_owner(field.figure.color) == player:
                 if find_fields(board, field.figure) != []:
-                    Res = True
-                    break
-    return Res
+                    return True   
+    return False
 
 
 def find_fields(board, figure:Figure):
@@ -89,15 +87,12 @@ def find_fields(board, figure:Figure):
     if figure.type == 'king':
         time_list += sovereign.find_rocking(figure,board,Game.game_state.copy())
     list2 = []
-
     for element in time_list:
-        board2 = copy_board(board)
+        board2 = sovereign.copy_board(board)
         new_state = Game.game_state.copy()
-        for a in board2:
-            for b in a:
-                b.attacked = False
 
         new_state.check_control([figure.x,figure.y,*element],figure.color)
+
         # как будто был сделан туда ход, и нет ли шаха королю ходящего цвета
         board2[figure.x][figure.y].figure.type = 'empty'
         board2[figure.x][figure.y].figure.color = ''
@@ -113,7 +108,6 @@ def find_fields(board, figure:Figure):
 
         if not is_chax(board2, Game.color_do_hod_now):
             list2.append(element)
-
     # if check and figure == pawn on the prelast line, figure may be changed to king
     if figure.type == 'pawn' and figure.pawn_on_penultimate_line:
         board2 = sovereign.copy_board(board)
@@ -188,8 +182,8 @@ def is_end_of_game(board):
 
     if not is_mate:
         if not able_to_do_hod(board, Game.color_do_hod_now):
-            interfase.do_info(
-                Get_text('game_pat', params=None))
+            print('try to change interface info')
+            interfase.do_info(Get_text('game_pat', params=None))
             is_mate = True
     if is_mate:
         Game.ind = False
@@ -200,7 +194,6 @@ def is_end_of_game(board):
             draw()
         elif Game.color_do_hod_now == 'black' and Game.want_draw['white']:
             draw()
-    del board2
 
 
 def do_hod(x, y, board):
@@ -239,12 +232,14 @@ def do_hod(x, y, board):
 
 def move_figure(board, x, y, options=None):
     global choose_figure
+    print('start move_figure')
     Game.message = f'move {choose_figure.x} {choose_figure.y} {x} {y}'
     Music.move()
     if choose_figure.color == 'white':
         Game.made_moves += 1
 
     a, b = choose_figure.x, choose_figure.y
+    print(f'movement {a} {b} {x} {y} ')
     Game.game_state.check_control([a,b,x,y],choose_figure.color)
     board[a][b].figure = Figure('', 0, 0, 'empty')
     board[x][y].figure.destroy()
@@ -278,6 +273,7 @@ def move_figure(board, x, y, options=None):
     delete_tips()
     gr_line.show_field(x=-1, y=-1)
     Game.list_of_hod_field = []
+    print('exit from move_figure','\n\n')
     return board
 
 
@@ -304,6 +300,7 @@ def desertion(x,y,board):
 
 
     def change_color_player(color):
+        global choose_figure
         color = color.text
         game.need_change_figure = False
         global_constants.Main_Window.remove_widget(bub)
