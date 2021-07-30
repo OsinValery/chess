@@ -232,14 +232,12 @@ def do_hod(x, y, board):
 
 def move_figure(board, x, y, options=None):
     global choose_figure
-    print('start move_figure')
     Game.message = f'move {choose_figure.x} {choose_figure.y} {x} {y}'
     Music.move()
     if choose_figure.color == 'white':
         Game.made_moves += 1
 
     a, b = choose_figure.x, choose_figure.y
-    print(f'movement {a} {b} {x} {y} ')
     Game.game_state.check_control([a,b,x,y],choose_figure.color)
     board[a][b].figure = Figure('', 0, 0, 'empty')
     board[x][y].figure.destroy()
@@ -273,7 +271,6 @@ def move_figure(board, x, y, options=None):
     delete_tips()
     gr_line.show_field(x=-1, y=-1)
     Game.list_of_hod_field = []
-    print('exit from move_figure','\n\n')
     return board
 
 

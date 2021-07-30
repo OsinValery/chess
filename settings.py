@@ -573,7 +573,7 @@ def fill_1(content: Widget):
         [f'fig_set{i}' for i in range(1, max_fig_set+1)],
         [folder for folder in os.listdir(os.path.join(Settings.folder,'pictures','boards')) 
             if board_folder_pattern.match(folder)],
-        [file for file in os.listdir(os.path.join(Settings.get_folder(), 'pictures', 'game_fons')) 
+        [file[:-4] for file in os.listdir(os.path.join(Settings.get_folder(), 'pictures', 'game_fons')) 
             if game_pattern.match(file)],
         [file[:-4] for file in os.listdir(os.path.join(Settings.get_folder(), 'pictures', 'bace_fons')) 
             if bace_pattern.match(file)]
