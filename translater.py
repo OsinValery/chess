@@ -1422,7 +1422,7 @@ def game_text(language, description, params):
         elif language == 'fr':
             return 'L\'ennemi est sorti.\n Vous avez gagné!'
         elif language == 'es':
-            return 'El enemigo salió.\ N ¡has ganado!'
+            return 'El enemigo salió.\n ¡has ganado!'
         elif language == 'de':
             return 'Der Gegner ist raus.\n Sie haben gewonnen!'
 

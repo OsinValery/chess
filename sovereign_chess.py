@@ -111,10 +111,11 @@ def find_fields(board, figure:Figure):
     # if check and figure == pawn on the prelast line, figure may be changed to king
     if figure.type == 'pawn' and figure.pawn_on_penultimate_line:
         board2 = sovereign.copy_board(board)
+
         for a in range(16):
             for b in range(16):
                 if board2[a][b].figure.type != 'empty':
-                    if new_state.get_owner(board2[a][b].figure.color) != Game.color_do_hod_now:
+                    if global_constants.game.game_state.get_owner(board2[a][b].figure.color) != Game.color_do_hod_now:
                         board2 = board[a][b].figure.do_attack(board2,global_constants.game.game_state)
         if is_chax(board2, Game.color_do_hod_now):
             # at that time important movement may be lost
@@ -160,7 +161,7 @@ def find_fields(board, figure:Figure):
 
 def is_end_of_game(board):
     is_mate = False
-    board2 = copy_board(board)
+    board2 = sovereign.copy_board(board)
     for x in range(16):
         for y in range(16):
             if Game.game_state.get_owner(board2[x][y].figure.color) != Game.color_do_hod_now:
@@ -305,6 +306,9 @@ def desertion(x,y,board):
             return
         game.game_state.update_player_color(board[x][y].figure.color,color)
         board[x][y].figure.change_color(color)
+        for wid in global_constants.Main_Window.children:
+            if type(wid) == sovereign.Color_dropDown:
+                wid.update_state()
 
         if Game.state_game != 'one':
             Game.message = f'move {x} {y} {x} {y} = {color}'
@@ -823,17 +827,6 @@ def change_color(time=None):
         Game.color_do_hod_now = 'white'
     if Game.with_time:
         interfase.set_time(Game.players_time)
-
-
-def copy_board(board):
-    new_board = [[sovereign.Field() for _ in range(16)] for a in range(16)]
-    for a in range(16):
-        for b in range(16):
-            new_board[a][b].figure = Figure('white', 0, 0, '')
-            new_board[a][b].figure.color = copy.copy(board[a][b].figure.color)
-            new_board[a][b].figure.type = copy.copy(board[a][b].figure.type)
-
-    return new_board
 
 
 def create_tips(a, b, board):

@@ -253,7 +253,6 @@ class Game():
             y0 = int(data[1])
             x1 = int(data[2])
             y1 = int(data[3])
-            print(data)
             if not game.ind:
                 return
             find_chess_module(
@@ -266,7 +265,6 @@ class Game():
             Clock.schedule_once(movement)
         elif 'pause' in message:
             data = message[5:].split()
-            print(data)
 
             def pause(time):
                 if data[0] == 'on':

@@ -104,9 +104,18 @@ class Game_State():
                 return True
         return False
     
+    def get_second_control_point(self,color,point):
+        """find second control point for this color"""
+        if self.control_points[color][0] == point:
+            return self.control_points[color][1]
+        return self.control_points[color][0]
+
     def can_visit(self,x,y,color):
-        # могу ли я наступить на клетку этого цвета
-        # color - цвет фигуры
+        """
+        могу ли я наступить на клетку этого цвета
+         color - цвет фигуры
+        """
+        # I can't to stay on my color point
         if [x,y] in self.control_points[color]:
             return False
 
@@ -115,10 +124,16 @@ class Game_State():
         for col in self.colors_state:
             if [x,y] in self.control_points[col]:
                 if self.colors_state[col] != '':
-                    if self.get_owner(col) == self.get_owner(color):
+                    # никто не может посетить вторую клетку захваченного цвета
+                    if self.get_second_control_point(col,[x,y]) in self.occupied_control_points:
+                        return False
+                    elif self.get_owner(col) == self.get_owner(color):
                         return True
                     else:
                         return [x,y] in self.occupied_control_points
+                # test elif
+                elif col in [self.white_player, self.black_player]:
+                    return not self.get_second_control_point(col,[x,y]) in self.occupied_control_points
                 else:
                     # для второго цвета это точно не выполнится условие выше, не
                     # хочу тратить время
@@ -127,34 +142,24 @@ class Game_State():
         return True
     
     def check_control(self,movement,figure_color):
+        """ check color control, when player move figure """
         x1, y1, x2, y2 = movement
         # try remove cotrol
         for color in self.control_points:
             if [x1, y1] in self.control_points[color]:
                 if color not in [self.white_player,self.black_player]:
-                    was = self.colors_state[color]
                     self.colors_state[color] = ''
-                    if [x1,y1] in self.occupied_control_points:
-                        self.occupied_control_points.remove([x1,y1])
-                    # i have to return control
-                    # FIXME on another field may stay figure of other color
-                    # then it is for cur field
-                    for point in self.control_points[color]:
-                        if point in self.occupied_control_points:
-                            self.colors_state[color] = was
+        # -- >>>
+        if [x1,y1] in self.occupied_control_points:
+            self.occupied_control_points.remove([x1,y1])
         # их  нельзя совместить в 1 цикл!!!!!
         # try to establish control on the new field
         for color in self.colors_state:
             if [x2,y2] in self.control_points[color]:
                 if color not in [self.white_player,self.black_player]:
-                    #это создаёт кольцо контроля, нужно сначала проверять 
-                    # второе поле этого цвета, и брать контроль, когда оно пустое
-                    # только
-                    if self.colors_state[color] == '':
-                        self.colors_state[color] = figure_color
-                    elif [x2,y2] in self.occupied_control_points:
-                        self.colors_state[color] = figure_color
-                    self.occupied_control_points.append([x2,y2])
+                    self.colors_state[color] = figure_color
+                # -->
+                self.occupied_control_points.append([x2,y2])
 
     def friend_colors(self, color):
         sovereign = self.get_owner(color)
@@ -164,8 +169,8 @@ class Game_State():
                 result.append(col)
         return result
     
-    def update_player_color(self,coplor1,color2):
-        if self.white_player == coplor1:
+    def update_player_color(self,color1,color2):
+        if self.white_player == color1:
             self.white_player = color2
         else:
             self.black_player = color2
@@ -176,14 +181,6 @@ class Game_State():
         # FIXME клетка старого цвета короля может быть занята без контроля,
         # но после смены цвета контроль нужно установить
 
-        # обе клетки  старого цвета короля могут быть заняты фигурами, кричём противник + мой
-        # 1 - моя + моя
-        # 2 - никого нет
-        # 3 - враг + враг
-        # 4 - моя, но она раньше контролировалась, а сейчас - нет
-        # 5 - моя, но и сейчас моя, так как занимаю вторую клетку этого цвета
-        # 6 - 4 + враг  - отдать врагу
-        # 7 - 5 + враг - отдать мне, приоритет
 
     def get_control_point_color(self,point):
         for color in self.colors_state:
@@ -291,13 +288,17 @@ class Color_dropDown(Widget):
                 ))
         self.state = 'opened'
     
-
     def close(self):
         if self.state == 'closed':
             return
         self.state = 'closed'
         self.grid.clear_widgets()
         self.grid.canvas.clear()
+
+    def update_state(self):
+        if self.state == 'opened':
+            self.close()
+            self.open()
 
 def get_image_path(color):
     name = 'h' + color[0] + '.png'
