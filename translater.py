@@ -2879,6 +2879,18 @@ def connection(language, description, params):
         if language == 'de':
             return 'Der Gegner hat diese \Spiel verlassen.'
 
+    if description == 'to_game':
+        if language == 'ru':
+            return 'Создать игру'
+        if language == 'en':
+            return 'Create game'
+        if language == 'fr':
+            return 'Créer un jeu'
+        if language == 'es':
+            return 'Crear juego'
+        if language == 'de':
+            return 'Spiel erstellen'
+
     print(description)
     return 'error connection'
 
@@ -3567,15 +3579,15 @@ def get_sovereign(language, description):
 
     if description == '8':
         if language == 'ru':
-            return 'Любая фигура не может ходить на поле своего цвета. Можно ходить на поле цвета короля любого, при этом вы не получите контроль над ним и его фигурами. Если цветное поле захвачено вами, вы можете посетить его. Если поле захватил враг, вы не можете посетить второе цветное поле, но можете попытаться срубить фигуру на захваченном. '
+            return 'Любая фигура не может ходить на поле своего цвета. Можно ходить на поле цвета короля любого, при этом вы не получите контроль над ним и его фигурами. Если цветное поле захвачено вами, вы не можете посетить его. Если поле захватил враг, вы не можете посетить второе цветное поле, но можете попытаться срубить фигуру на захваченном. '
         if language == 'en':
-            return 'Any piece cannot walk on a field of its own color. You can walk on the field of the color of the king of any, while you do not get control over him and his pieces. If the color field is captured by you, you can visit it. If the field is captured by an enemy, you can not visit the second colored field, but you can try to cut down a figure on the captured one.'
+            return 'Any piece cannot walk on a field of its own color. You can walk on the field of the color of the king of any, while you do not get control over him and his pieces. If the color field is captured by you, you can\'t visit it. If the field is captured by an enemy, you can not visit the second colored field, but you can try to cut down a figure on the captured one.'
         if language == 'fr':
-            return 'Toute figure ne peut pas marcher sur le champ de sa couleur. Vous pouvez aller sur le terrain de la couleur du roi de n\'importe qui, alors que vous n\'obtenez pas le contrôle sur lui et ses chiffres. Si le champ de couleur est capturé par vous, vous pouvez le visiter. Si le champ est capturé par l\'ennemi, vous ne pouvez pas visiter le deuxième champ de couleur, mais vous pouvez essayer de couper la figure sur le capturé. '
+            return 'Toute figure ne peut pas marcher sur le champ de sa couleur. Vous pouvez aller sur le terrain de la couleur du roi de n\'importe qui, alors que vous n\'obtenez pas le contrôle sur lui et ses chiffres. Si le champ de couleur est capturé par vous, vous ne pouvez le visiter. Si le champ est capturé par l\'ennemi, vous ne pouvez pas visiter le deuxième champ de couleur, mais vous pouvez essayer de couper la figure sur le capturé. '
         if language == 'es':
-            return 'Cualquier figura no puede caminar en un campo de su color. Es posible caminar en el campo de color del rey de cualquier persona, mientras que usted no consigue el control sobre él y sus figuras. Si el campo de color es capturado por usted, puede visitarlo. Si el campo es capturado por un enemigo, no puedes visitar el segundo campo de color, pero puedes intentar cortar la pieza en el capturado. '
+            return 'Cualquier figura no puede caminar en un campo de su color. Es posible caminar en el campo de color del rey de cualquier persona, mientras que usted no consigue el control sobre él y sus figuras. Si el campo de color es capturado por usted, no puede visitarlo. Si el campo es capturado por un enemigo, no puedes visitar el segundo campo de color, pero puedes intentar cortar la pieza en el capturado. '
         if language == 'de':
-            return 'Jede Figur kann nicht auf dem Feld ihrer Farbe gehen. Sie können auf dem Feld der Farbe König jeder gehen, während Sie nicht die Kontrolle über ihn und seine Figuren zu bekommen. Wenn das Farbfeld von Ihnen erfasst wird, können Sie es besuchen. Wenn das Feld von einem Feind erfasst wird, kannst du das zweite Farbfeld nicht besuchen, aber du kannst versuchen, die Figur auf dem gefangenen zu schneiden. '
+            return 'Jede Figur kann nicht auf dem Feld ihrer Farbe gehen. Sie können auf dem Feld der Farbe König jeder gehen, während Sie nicht die Kontrolle über ihn und seine Figuren zu bekommen. Wenn das Farbfeld von Ihnen erfasst wird, können Sie es nicht besuchen. Wenn das Feld von einem Feind erfasst wird, kannst du das zweite Farbfeld nicht besuchen, aber du kannst versuchen, die Figur auf dem gefangenen zu schneiden. '
 
     if description == '9':
         if language == 'ru':

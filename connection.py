@@ -71,7 +71,7 @@ class connection():
         Game.state_game = 'one'
     
     def start(self):
-        # funcction for server
+        # function for server
         def server(par=None):
             self.sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
             self.sock.settimeout(1)
@@ -297,23 +297,21 @@ class server_widget(Widget):
             # connected with friend
             with self.canvas:
                 Color(.3,.5,.5,.7)
-            self.canvas.add(Rectangle(
-                pos = [.1 * self.size[0],.65 * self.size[0]],
-                size = [.8 * self.size[0], .2 * self.size[1]]
-            ))
-            with self.canvas:
+                Rectangle(
+                    pos = [.1 * self.size[0],.3 * self.size[1]],
+                    size = [.8 * self.size[0], .3 * self.size[1]]
+                )
                 Color(.3,.5,.5,0)
             self.add_widget(Label(
                 text = Get_text(description='connection_has',params=[Connection]),
                 color = [1,1,1,1],
-                pos = [.1 * self.size[0],.7 * self.size[0]],
+                pos = [.1 * self.size[0],.4 * self.size[1]],
                 size = [.8 * self.size[0], .1 * self.size[1]]
             ))
             def kill(btn):
                 Connection.kill()
                 Connection.state = 0
                 self.redraw()
-                Connection.state = 1
                 Game.state_game = 'one'
             
             self.add_widget(Button(
@@ -325,8 +323,21 @@ class server_widget(Widget):
                 size = [.2 * self.size[0], .05 * self.size[1]],
                 on_press = kill
             ))
+            def go_to_games(click):
+                parent.create_start_game(click)
+                parent.set_change(click)
+            if Game.state_game == 'host':
+                self.add_widget(Button(
+                    text = Get_text('connection_to_game'),
+                    pos = [.1 * self.size[0],.3 * self.size[1]],
+                    size = [.8 * self.size[0], .05 * self.size[1]],
+                    on_press = go_to_games,
+                    background_normal='',
+                    color=[0,1,0,1],
+                    background_color=[1,0,1,1]
+                ))
         else:
-            # there are not connection
+            # there is not connection
             self.add_widget(Button(
                 text = Get_text('connection_create'),
                 color = [1,1,0,1],
@@ -360,11 +371,16 @@ class server_widget(Widget):
         ))
         try:
             # try to know my ip
+            """
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
             s.connect(("gmail.com",80))
             Connection.my_ip = s.getsockname()[0]
             s.close()
             del s
+            """
+            Connection.my_ip = socket.gethostbyname(socket.gethostname())
+            if Connection.my_ip == '127.0.0.1':
+                raise Exception('Have not connection')
 
             """
             don't work
@@ -535,7 +551,6 @@ class server_widget(Widget):
             else:
                 try:
                     Connection.who = 'user'
-                    Game.play_by = 'black'
                     n = Connection.connect()
                     if n == 0:
                         click.disabled = True

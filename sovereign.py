@@ -2,7 +2,7 @@
 from kivy.uix.widget import Widget
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.label import Label
-from kivy.graphics import Rectangle,Color
+from kivy.graphics import Rectangle, Color
 from kivy.uix.image import Image
 
 import copy
@@ -169,18 +169,24 @@ class Game_State():
                 result.append(col)
         return result
     
-    def update_player_color(self,color1,color2):
+    def update_player_color(self,color1,color2,board=[]):
         if self.white_player == color1:
             self.white_player = color2
         else:
             self.black_player = color2
         self.colors_state[color2] = ''
+        # after that it is new code
+        for [x,y] in self.control_points[color1]:
+            if board[x][y].figure.type != 'empty':
+                self.colors_state[color1] = board[x][y].figure.color
+                if not [x,y] in self.occupied_control_points:
+                    self.occupied_control_points.append([x,y])
+        # points of new color may be occupied, i have to remove only control
+        """
         for point in self.control_points[color2]:
             if point in self.occupied_control_points:
                 self.occupied_control_points.remove(point)
-        # FIXME клетка старого цвета короля может быть занята без контроля,
-        # но после смены цвета контроль нужно установить
-
+        """
 
     def get_control_point_color(self,point):
         for color in self.colors_state:
@@ -456,7 +462,6 @@ def check_right_rocking(board,x,y,state:Game_State):
 
 
 def check_left_rocking(board,x,y,state):
-    result = []
     if board[x-4][y].figure.type not in ['empty','rook']:
         return []
     if board[x-4][y].figure.type == 'rook':

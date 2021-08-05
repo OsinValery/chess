@@ -144,7 +144,7 @@ def find_fields(board, figure:Figure):
                                     board2[a][b].figure.color = ''     
                     board2[el[0]][el[1]].figure.type = 'king'  
                     board2[el[0]][el[1]].figure.color = figure.color
-                    new_state.update_player_color(old_color,figure.color)
+                    new_state.update_player_color(old_color,figure.color,board2)
                     # check board
                     for a in range(16):
                         for b in range(16):
@@ -200,7 +200,7 @@ def is_end_of_game(board):
 def do_hod(x, y, board):
     global choose_figure
     if (choose_figure.type != 'empty') and (choose_figure is board[x][y].figure):
-        # кликнули на выббранную фигуру
+        # кликнули на выбранную фигуру
         if choose_figure.type == 'king':
             desertion(x,y,board)
         else:
@@ -279,16 +279,30 @@ def desertion(x,y,board):
     global choose_figure
     game = Game
     colors = game.game_state.friend_colors(board[x][y].figure.color)
+    result_colors = []
     if game.game_state.is_control_point(x,y):
         color = game.game_state.get_control_point_color([x,y])
         if color in colors:
             colors.remove(color)
-    new_board = sovereign.copy_board(board)
-    for a in range(16):
-        for b in range(16):
-            if game.game_state.get_owner(board[a][b].figure.color) != game.color_do_hod_now:
-                new_board = board[a][b].figure.do_attack(new_board,game.game_state)
-    if is_chax(new_board, game.color_do_hod_now) or len(colors) == 1:
+    # check all colors on check
+    # it is important!!!
+    for color in colors:
+        if color == board[x][y].figure.color:
+            result_colors.append(color)
+        else:
+            new_board = sovereign.copy_board(board)
+            new_state = game.game_state.copy()
+            new_board[x][y].figure.color = color
+            new_state.update_player_color(board[x][y].figure.color,color,new_board)
+            for a in range(16):
+                for b in range(16):
+                    if new_state.get_owner(new_board[a][b].figure.color)!=game.color_do_hod_now:
+                        new_board = board[a][b].figure.do_attack(new_board,new_state)
+            if not is_chax(new_board,game.color_do_hod_now):
+                result_colors.append(color)
+
+    if len(result_colors) < 2:
+        # skip green square and return
         choose_figure = Figure('', 0, 0, 'empty')
         gr_line.show_field(-1, y)
         Game.list_of_hod_field = []
@@ -296,6 +310,7 @@ def desertion(x,y,board):
             delete_tips()
         return
 
+    # create interfase for changing, it is possible to do
 
     def change_color_player(color):
         global choose_figure
@@ -304,17 +319,16 @@ def desertion(x,y,board):
         global_constants.Main_Window.remove_widget(bub)
         if color == board[x][y].figure.color:
             return
-        game.game_state.update_player_color(board[x][y].figure.color,color)
+        game.game_state.update_player_color(board[x][y].figure.color,color,board)
         board[x][y].figure.change_color(color)
         for wid in global_constants.Main_Window.children:
             if type(wid) == sovereign.Color_dropDown:
                 wid.update_state()
 
         if Game.state_game != 'one':
-            Game.message = f'move {x} {y} {x} {y} = {color}'
-            Game.message += f" {Game.players_time['white']} {Game.players_time['black']}"
-            Connection.messages += [Game.message]
-        Game.message = ''
+            message = f'move {x} {y} {x} {y} = {color}'
+            message += f" {Game.players_time['white']} {Game.players_time['black']}"
+            Connection.messages += [message]
         choose_figure = Figure('', 0, 0, 'empty')
         change_color()
         delete_tips()
@@ -331,7 +345,7 @@ def desertion(x,y,board):
     )
     bub.add_widget(grid)
     global_constants.Main_Window.add_widget(bub)
-    for color in colors:
+    for color in result_colors:
         grid.add_widget(BubbleButton(
             text = color,
             color = (1,0,0,0),
@@ -468,7 +482,7 @@ def transform_to_king(x,y,board):
                 if board[a][b].figure.color == old_color:
                     if board[a][b].figure.type == 'king':
                         board[a][b].figure.destroy()
-        Game.game_state.update_player_color(old_color,color)
+        Game.game_state.update_player_color(old_color,color,board)
 
 
 def work_network_message(message:str):
@@ -484,8 +498,9 @@ def work_network_message(message:str):
         Game.board = move_figure(Game.board, x1, y1, options)
     else:
         color = options[1]
-        Game.game_state.update_player_color(Game.board[x0][y0].figure.color,color)
-        Game.board[x0][y0].figure.change_color(color)
+        board = Game.board
+        Game.game_state.update_player_color(board[x0][y0].figure.color,color,board)
+        board[x0][y0].figure.change_color(color)
         change_color(options[2:])
         delete_tips()
         gr_line.show_field(x=-1, y=-1)
