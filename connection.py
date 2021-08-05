@@ -371,16 +371,13 @@ class server_widget(Widget):
         ))
         try:
             # try to know my ip
-            """
-            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.connect(("gmail.com",80))
-            Connection.my_ip = s.getsockname()[0]
-            s.close()
-            del s
-            """
             Connection.my_ip = socket.gethostbyname(socket.gethostname())
             if Connection.my_ip == '127.0.0.1':
-                raise Exception('Have not connection')
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.connect(("gmail.com",80))
+                Connection.my_ip = s.getsockname()[0]
+                s.close()
+                del s
 
             """
             don't work
