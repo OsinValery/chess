@@ -373,11 +373,22 @@ class server_widget(Widget):
             # try to know my ip
             Connection.my_ip = socket.gethostbyname(socket.gethostname())
             if Connection.my_ip == '127.0.0.1':
+                # higly likely it will true for android and linux
+                """
                 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
                 s.connect(("gmail.com",80))
                 Connection.my_ip = s.getsockname()[0]
                 s.close()
                 del s
+                """
+                # more universal solution
+                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+                s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+                s.connect(('255.255.255.255',2000))
+                Connection.my_ip =  s.getsockname()[0]
+                s.close()
+            if Connection.my_ip == '127.0.0.1':
+                raise Exception('network connection error')
 
             """
             don't work
