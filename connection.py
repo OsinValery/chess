@@ -324,7 +324,6 @@ class server_widget(Widget):
                 on_press = kill
             ))
             def go_to_games(click):
-                parent.create_start_game(click)
                 parent.set_change(click)
             if Game.state_game == 'host':
                 self.add_widget(Button(
@@ -389,16 +388,6 @@ class server_widget(Widget):
                 s.close()
             if Connection.my_ip == '127.0.0.1':
                 raise Exception('network connection error')
-
-            """
-            don't work
-            conn = http.client.HTTPConnection("ifconfig.me")
-            conn.request("GET", "/ip")
-            Connection.my_ip = conn.getresponse().read().decode('utf-8') 
-            conn.close()
-            del conn
-            """
-
 
             with self.canvas:
                 Color(.7,.3,1,.5)
