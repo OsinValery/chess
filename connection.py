@@ -298,15 +298,16 @@ class server_widget(Widget):
             with self.canvas:
                 Color(.3,.5,.5,.7)
                 Rectangle(
-                    pos = [.1 * self.size[0],.3 * self.size[1]],
-                    size = [.8 * self.size[0], .3 * self.size[1]]
+                    pos = [.1 * self.size[0], .35 * self.size[1]],
+                    size = [.8 * self.size[0], .2 * self.size[1]]
                 )
                 Color(.3,.5,.5,0)
             self.add_widget(Label(
                 text = Get_text(description='connection_has',params=[Connection]),
                 color = [1,1,1,1],
                 pos = [.1 * self.size[0],.4 * self.size[1]],
-                size = [.8 * self.size[0], .1 * self.size[1]]
+                size = [.8 * self.size[0], .1 * self.size[1]],
+                font_size=35
             ))
             def kill(btn):
                 Connection.kill()
@@ -328,7 +329,7 @@ class server_widget(Widget):
             if Game.state_game == 'host':
                 self.add_widget(Button(
                     text = Get_text('connection_to_game'),
-                    pos = [.1 * self.size[0],.3 * self.size[1]],
+                    pos = [.1 * self.size[0], .3 * self.size[1]],
                     size = [.8 * self.size[0], .05 * self.size[1]],
                     on_press = go_to_games,
                     background_normal='',

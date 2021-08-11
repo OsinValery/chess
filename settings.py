@@ -601,7 +601,8 @@ def fill_1(content: Widget):
             drop_color=text_color,
             drop_height=50,
             drop_background_color=[.259, .66, 1, 2],
-            drop_spacing=10
+            drop_spacing=10,
+            direction = 'down'
         ))
 
     texts = [

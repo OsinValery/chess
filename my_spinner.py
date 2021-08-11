@@ -13,20 +13,21 @@ class Spinner(Button):
         possible arguments: \n
 
         for compact piece:
-            on_change - what to do if value in changing - default nothing 
+             on_change - what to do if value in changing - default nothing 
             pos - position of widget [x,y] - default [0,0] 
-            size - size of widget - default [150,50] 
+             size - size of widget - default [150,50] 
             value or text - current choosen value - default '' 
-            values - list of possible variants - default [] 
+             values - list of possible variants - default [] 
             background_normal - background picture - default window_for.png 
-            background_color - default [1,0,0,1] 
+             background_color - default [1,0,0,1] 
             color or text_color - color of text - default [0,1,0,1]
+             direction   - up or down      default is 'up' if it is possible
         
         for dropped list:
             drop_background_normal - default self.background_normal 
-            drop_background_color  - default self.background_color 
+             drop_background_color  - default self.background_color 
             drop_color - color of menu button text - default self.color
-            drop_spacing - space between neibour buttons - default 2 pixel 
+             drop_spacing - space between neibour buttons - default 2 pixel 
             drop_height - height of elements of menu - default self.sise[1]
 
 
@@ -83,6 +84,18 @@ class Spinner(Button):
         if 'drop_color' in kwargs:
             self.drop_color = kwargs['drop_color']
 
+        if 'direction' in kwargs:
+            self.direction = kwargs['direction']
+        else:
+            self.direction = 'up'
+            height = len(self.values) * self.drop_height 
+            height += self.drop_spacing * len(self.values)
+            pos = [self.pos[0], self.size[1] + self.pos[1] + self.drop_spacing]
+            if pos[1] + height > window.Window.size[1]:
+                self.direction = 'down'
+
+
+
     def __press__(self,arg=None):
         if self.opened:
             self.clear_widgets()
@@ -100,9 +113,13 @@ class Spinner(Button):
 
             height = len(self.values) * self.drop_height 
             height += self.drop_spacing * len(self.values)
-            pos = [self.pos[0], self.size[1] + self.pos[1] + self.drop_spacing]
-            if pos[1] + height > window.Window.size[1]:
-                pos[1] -= (self.size[1] + self.drop_spacing * 2 + height)
+            if self.direction == 'up':
+                pos = [self.pos[0], self.size[1] + self.pos[1] + self.drop_spacing]
+            elif self.direction == 'down':
+                pos = [self.pos[0], self.pos[1] - self.drop_spacing - height]
+            else:
+                raise Exception(f'wrong argument for direction: {self.direction}')
+        
             grid = GridLayout(
                 cols=1,
                 pos = pos,
@@ -158,7 +175,7 @@ if __name__ == '__main__':
     class Test_App(App):
         def build(self):
             wid = Widget()
-            values = [str(i) for i in range(1,15,1+1)]
+            values = [str(i) for i in range(1,15,1)]
             wid.add_widget(Spinner(
                 pos = [300,300],
                 values = values,
@@ -172,7 +189,7 @@ if __name__ == '__main__':
                 drop_background_normal = ''
             ))
             wid.add_widget(Spinner(
-                pos = [500,300],
+                pos = [500,700],
                 values = values,
                 text = '3',
                 size = [150,70],
