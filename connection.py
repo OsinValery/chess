@@ -7,7 +7,7 @@ from kivy.uix.widget import Widget
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
-from kivy.graphics import Rectangle, Color
+from kivy.graphics import Rectangle, Color, RoundedRectangle, Line
 
 from translater import Get_text
 from settings import Settings
@@ -45,6 +45,26 @@ def end_connection_activity(who=0):
         ))
         window.open()
 
+def check_my_ip():
+    """try to know my ip address"""
+    my_ip = socket.gethostbyname(socket.gethostname())
+    if my_ip == '127.0.0.1':
+        # higly likely it will true for android and linux
+        """
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("gmail.com",80))
+        Connection.my_ip = s.getsockname()[0]
+        s.close()
+        del s
+        """
+        # more universal solution
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        s.connect(('255.255.255.255',2000))
+        my_ip = s.getsockname()[0]
+        s.close()
+    return my_ip
+
 
 class connection():
     my_nick = ''
@@ -70,6 +90,14 @@ class connection():
         self.password = ''
         Game.state_game = 'one'
     
+    def close_connection(self):
+        # function for server
+        self.messages = []
+        self.connected = False
+        self.state = 0
+        if not self.conn._closed:
+            self.conn.close()
+    
     def start(self):
         # function for server
         def server(par=None):
@@ -87,22 +115,18 @@ class connection():
                         self.friend_ip = addr
                         self.conn.send(b'pass')
                         task = self.conn.recv(1024).decode('utf-8')
-                        if self.password == '':
-                            if task == 'empty':
-                                self.conn.send(b'valid')
-                                self.connected = True 
-                            else:
-                                self.conn.send(b'invalid')
-                                self.connected = False
-                                self.conn.close() 
+
+                        valid_password = 'empty'
+                        if self.password != '':
+                            valid_password = self.password
+                        
+                        if task == valid_password:
+                            self.conn.send(b'valid')
+                            self.connected = True 
                         else:
-                            if task == self.password:
-                                self.conn.send(b'valid')
-                                self.connected = True
-                            else:
-                                self.conn.send(b'invalid')
-                                self.connected = False
-                                self.conn.close()
+                            self.conn.send(b'invalid')
+                            self.connected = False
+                            self.conn.close()
 
                         if self.connected:
                             self.friend_nick = self.conn.recv(1024).decode('utf-8')
@@ -117,56 +141,43 @@ class connection():
                                     pass
                     except socket.timeout:
                         pass
-                    if self.connected:
-                        self.redraw()
-                        self.conn.settimeout(0.5)
-                        Game.state_game = 'host'
 
                     # valid connection
                     # it is exectly friend now
                     self.messages = []
                     if self.connected:
+                        self.redraw()
+                        self.conn.settimeout(0.5)
+                        Game.state_game = 'host'
                         self.friend_version = self.conn.recv(1024).decode('utf-8')
+                        
                     while self.connected:
                         # server must be manager
                         if self.conn._closed == True:
                             self.connected = False
-                            print('connection was closed')
+                        elif self.messages != []:
+                            mes = self.messages.pop(0) + ' '
+                            self.conn.send(mes.encode('utf-8'))
+                            if 'exit' in mes:
+                                self.close_connection()
+                                end_connection_activity()
                         else:
-                            if self.messages != []:
-                                mes = self.messages.pop(0) + ' '
-                                self.conn.send(mes.encode('utf-8'))
-                                if mes == 'exit':
-                                    self.messages = []
-                                    self.connected = False
-                                    self.state = 0
-                                    if not self.conn._closed:
-                                        self.conn.close()
+                            # else i try take message from opponent
+                            data = '#'
+                            try:
+                                data = self.conn.recv(1024).decode('utf-8').strip()
+                                if 'exit' in data:
+                                    self.close_connection()
                                     end_connection_activity()
-                            else:
-                                # else i try take message from opponent
-                                data = '#'
-                                try:
-                                    data = self.conn.recv(1024).decode('utf-8').strip()
-                                    if data == 'exit':
-                                        self.connected = False
-                                        self.state = 0
-                                        end_connection_activity()
-                                        if not self.conn._closed:
-                                            self.conn.close()
-                                            Game.state_game = 'one'
-                                    elif data == '':
-                                        self.state = 0
-                                        self.connected = False
-                                        Game.state_game = 'one'
-                                        end_connection_activity(2)
-                                        print('empty data')          
-                                    else:
-                                        Game.work_message(data)
-                                except socket.timeout:
-                                    pass
-
-                    self.messages = []
+                                    Game.state_game = 'one'
+                                elif data == '':
+                                    self.close_connection()
+                                    end_connection_activity(2)
+                                    print('empty data')          
+                                else:
+                                    Game.work_message(data)
+                            except socket.timeout:
+                                pass
 
                 # if self.state == 0 it will
                 print('stop')
@@ -190,35 +201,33 @@ class connection():
                     self.state = 0
                     Game.state_game = 'one'
                     print('_closed')
+                elif self.messages != []:
+                    data = self.messages.pop(0) + ' '
+                    self.sock.send(data.encode('utf-8'))
+                    if 'exit' in data:
+                        self.state = 0
+                        end_connection_activity()
+                        Game.state_game = 'one'
                 else:
-                    if self.messages != []:
-                        data = self.messages.pop(0) + ' '
-                        self.sock.send(data.encode('utf-8'))
-                        if data == 'exit':
-                            print('i send exit')
+                    try:
+                        data = '#'
+                        data = self.sock.recv(1024).decode('utf-8').strip()
+                        if 'exit' in data:
                             self.state = 0
+                            if self.sock._closed == False:
+                                self.sock.close()
                             end_connection_activity()
-                            Game.state_game = 'one'
-                    else:
-                        try:
-                            data = '#'
-                            data = self.sock.recv(1024).decode('utf-8').strip()
-                            if data == 'exit':
-                                self.state = 0
-                                if self.sock._closed == False:
-                                    self.sock.close()
-                                end_connection_activity()
-                            elif data == '':
-                                print('empty data')
-                                self.state = 0
-                                end_connection_activity(2)
-                            elif data[:5] == 'start':
-                                Game.start_play(data[6:])
-                            else:
-                                Game.work_message(data)
+                        elif data == '':
+                            print('empty data')
+                            self.state = 0
+                            end_connection_activity(2)
+                        elif data[:5] == 'start':
+                            Game.start_play(data[6:])
+                        else:
+                            Game.work_message(data)
 
-                        except socket.timeout:
-                            pass
+                    except socket.timeout:
+                        pass
             Game.state_game = 'one'
             if self.sock._closed == False:
                 self.sock.close()
@@ -371,22 +380,7 @@ class server_widget(Widget):
         ))
         try:
             # try to know my ip
-            Connection.my_ip = socket.gethostbyname(socket.gethostname())
-            if Connection.my_ip == '127.0.0.1':
-                # higly likely it will true for android and linux
-                """
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                s.connect(("gmail.com",80))
-                Connection.my_ip = s.getsockname()[0]
-                s.close()
-                del s
-                """
-                # more universal solution
-                s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-                s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-                s.connect(('255.255.255.255',2000))
-                Connection.my_ip =  s.getsockname()[0]
-                s.close()
+            Connection.my_ip = check_my_ip()
             if Connection.my_ip == '127.0.0.1':
                 raise Exception('network connection error')
 
@@ -417,15 +411,14 @@ class server_widget(Widget):
                 text = Get_text('connection_ip') + '\n' + Connection.my_ip,
                 color = [1,1,0,1]
             ))
-            Connection.my_nick = Settings.default_nick
+            if Connection.my_nick == '':
+                Connection.my_nick = Settings.default_nick
             for i in 0,1:
                 grid.add_widget(Label(
                     text = Get_text(descriptions[i]),
                     color = [1,1,0,1]
                 ))
-                text = ''
-                if i == 0:
-                    text = Connection.my_nick
+                text = '' if i == 1 else Connection.my_nick
                 grid.add_widget(Text_line(
                     comandes[i],text = text,
                     size = [.4 * self.size[0], .05 * self.size[1]],
@@ -477,11 +470,9 @@ class server_widget(Widget):
 
         except:
             # have not wifi
-            self.add_widget(Label(
-                text = Get_text('connection_wire_error'),
-                color = [1,0,1,1],
-                pos = [.2 * self.size[0], .6 * self.size[1]],
-                size = [.6 * self.size[0], 0.05 * self.size[1] ]
+            self.add_widget(NotConnection_Widget(
+                size=self.size,
+                pos = [0,0]
             ))
     
     def connect(self,click=None):
@@ -619,3 +610,63 @@ def create_error(message):
     ))
     pop.add_widget(grid)
     pop.open()
+
+
+class NotConnection_Widget(Widget):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        pos = [.04 * self.size[0] + self.pos[0], .3 * self.size[1] + self.pos[1]]
+        size = [.92 * self.size[0], .4 * self.size[1]]
+        with self.canvas:
+            Color(1,1,0,.8)
+            RoundedRectangle(
+                pos=pos,
+                size=size,
+                radius=[(50, 50), (200, 200), (100, 100), (70, 70)]
+            )
+            Color(0.5, 0, 1, .5)
+            Line(
+                rounded_rectangle=(*pos, *size, *[70,100,200,50], 100),
+                width=4
+            )
+            Color(1,1,1,1)
+
+        self.add_widget(Label(
+            text = Get_text('connection_wire_error'),
+            color = [1,0,0,1],
+            pos=pos,
+            size=size,
+            markup=True
+        ))
+
+
+
+
+if __name__ == '__main__':
+    from kivy.app import App
+    from kivy.core.window import Window
+    import os
+
+    Settings.lang = 'ru'
+
+    class My_Test(App):
+        def build(self):
+            
+            s = [800,1400]
+            path = os.path.join(self.directory,'pictures','bace_fons','pic4.png')
+            print(path)
+
+            wid = Widget(size=s)
+            wid.canvas.add(Rectangle(
+                size = s,
+                source = path
+            ))
+            Window.size = [s[0]//2,s[1]//2]
+            wid.add_widget(NotConnection_Widget(size=s))
+            return wid
+    
+    My_Test().run()
+
+
+
+
