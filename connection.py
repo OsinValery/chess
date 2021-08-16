@@ -636,7 +636,10 @@ class NotConnection_Widget(Widget):
             color = [1,0,0,1],
             pos=pos,
             size=size,
-            markup=True
+            markup=True,
+            text_size = size,
+            halign = 'left',
+            valign = 'center'
         ))
 
 
