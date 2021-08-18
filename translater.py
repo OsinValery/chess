@@ -2764,76 +2764,63 @@ def connection(language, description, params):
         # текст с разметкой
         if language == 'ru':
             text = [
-                '[b][size=30sp]  Нет сети.[/size][/b]\n',
-                '[color=0000ff][i]  Способы решения проблемы:[/i][/color]\n[color=ff00cc][size=18sp]',
-                '    1) Подключиться к 1 точке WIFI\n',
-                '    2) Включите мобильный интернет и \n',
-                '      подключитесь через точку доступа \n',
-                '    3) Без интернета:\n[/size][/color][color=0095B6][size=15sp]',
-                '          1. Создайте точку доступа на 1 устройстве\n',
-                '          2. Подключитесь на втором и создайте игру\n',
-                '          3. На 1 устройстве подключитесь к игре\n[/size][/color]',
-                '[b][color=0a4500][size=25sp]  Играйте на здоровье![/size][/color][/b]'
+                '[b][size=25dp]Нет сети.[/size][/b]\n',
+                '[color=0000ff][i]Способы решения проблемы:[/i][/color]\n[color=ff00cc][size=18dp]',
+                '1) Подключиться к 1 точке WIFI\n',
+                '2) Включите мобильный интернет и подключитесь через точку доступа \n',
+                '3) Без интернета:\n[/size][/color][color=0095B6][size=15dp]',
+                '1. Создайте точку доступа на 1 устройстве\n',
+                '2. Подключитесь на втором и создайте игру\n',
+                '3. На 1 устройстве подключитесь к игре\n[/size][/color]',
+                '[b][color=0a4500][size=25dp]Играйте на здоровье![/size][/color][/b]'
             ]
         if language == 'en':
             text = [
-                '[b][size=40]  There is no network connection.[/size][/b]\n',
-                '[color=0000ff][i]  The ways to solve this problem:[/i][/color]\n[color=ff00cc][size=32]',
-                '    1) Connect to 1 WIFI point\n',
-                '    2) Turn on the mobile Internet and connect\n',
-                '        through the access point to the first phone\n',
-                '    3) Without the Internet:\n[/size][/color][color=0095B6]',
-                '         1. Create an access point on 1 device\n',
-                '         2. For second: connect to the fitst and\n',
-                '               create a game\n',
-                '         3. Connect to the game on the second device\n[/color]',
-                '[b][color=0a4500][size=40]  Good Game to you![/size][/color][/b]'
+                '[b][size=20dp]There is no network connection.[/size][/b]\n',
+                '[color=0000ff][i]The ways to solve this problem:[/i][/color]\n[color=ff00cc][size=16dp]',
+                '1) Connect to 1 WIFI point\n',
+                '2) Turn on the mobile Internet and connect through the access point to the first phone\n',
+                '3) Without the Internet:\n[/size][/color][color=0095B6][size=15dp]',
+                '1. Create an access point on 1 device\n',
+                '2. For second: connect to the fitst and create a game\n',
+                '3. Connect to the game on the second device\n[/size][/color]',
+                '[b][color=0a4500][size=20dp]Good Game to you![/size][/color][/b]'
             ]
         if language == 'fr':
             text = [
-                '[b][size=50]  Il n\'y a pas de réseau.[/size][/b]\n',
-                '[color=0000ff][i]  Les moyens de résoudre le problème:[/i][/color]\n[color=ff00cc][size=31]',
-                '    1) Connectez-vous à 1 point WIFI\n',
-                '    2) Allumez l\'Internet mobile et connectez-vous\n',
-                '         via le point d\'accès au premier téléphone\n',
-                '    3) Sans Internet:[/size][/color]\n[color=0095B6]',
-                '        1. Créez un point d\'accès sur le\n',
-                '             premier périphérique\n',
-                '        2. Pour le second: connectez-vous au premier\n',
-                '             et créez un jeu\n',
-                '        3. Connectez-vous au jeu sur le premier appareil\n[/color]',
-                '[b][color=0a4500][size=40]    Bon jeu pour vous![/size][/color][/b]'
+                '[b][size=25dp]Il n\'y a pas de réseau.[/size][/b]\n',
+                '[color=0000ff][i]Les moyens de résoudre le problème:[/i][/color]\n[color=ff00cc][size=16dp]',
+                '1) Connectez-vous à 1 point WIFI\n',
+                '2) Allumez l\'Internet mobile et connectez-vous via le point d\'accès au premier téléphone\n',
+                '3) Sans Internet:[/size][/color]\n[color=0095B6][size=15dp]',
+                '1. Créez un point d\'accès sur le premier périphérique\n',
+                '2. Pour le second: connectez-vous au premier et créez un jeu\n',
+                '3. Connectez-vous au jeu sur le premier appareil\n[/size][/color]',
+                '[b][color=0a4500][size=20dp]Bon jeu pour vous![/size][/color][/b]'
             ]
         if language == 'es':
             text = [
-                '[b][size=50]No hay red.[/size][/b]\n',
-                '[color=0000ff][i]Las formas de resolver el problema:[/i][/color]\n[color=ff00cc][size=32]',
-                '  1) Conectarse a 1 punto WIFI\n',
-                '  2) Encender el Internet móvil y conectarse a\n',
-                '     través del punto de acceso al primer teléfono\n',
-                '  3) Sin Internet:[/size][/color]\n[color=0095B6]',
-                '     1. Crear un punto de acceso\n',
-                '          en el primer dispositivo\n',
-                '     2. Para el segundo: conéctese al\n',
-                '          primero y cree un juego\n',
-                '     3. Conéctese al juego en el primer dispositivo\n[/color]',
-                '[size=40][b][color=0a4500]Buen juego para usted![/color][/b][/size]'
+                '[b][size=25dp]No hay red.[/size][/b]\n',
+                '[color=0000ff][i]Las formas de resolver el problema:[/i][/color]\n[color=ff00cc][size=16dp]',
+                '1) Conectarse a 1 punto WIFI\n',
+                '2) Encender el Internet móvil y conectarse a través del punto de acceso al primer teléfono\n',
+                '3) Sin Internet:[/size][/color]\n[color=0095B6][size=15dp]',
+                '1. Crear un punto de acceso en el primer dispositivo\n',
+                '2. Para el segundo: conéctese al primero y cree un juego\n',
+                '3. Conéctese al juego en el primer dispositivo\n[/size][/color]',
+                '[size=20dp][b][color=0a4500]Buen juego para usted![/color][/b][/size]'
             ]
         if language == 'de':
             text = [
-                '[b][size=40]  Es gibt kein Netzwerk.[/size][/b]\n',
-                '[color=0000ff][i] Die Möglichkeiten, das Problem zu lösen:[/i][/color]\n[color=ff00cc][size=32]',
-                '    1) Verbinden Sie sich mit 1 WLAN-Punkt\n',
-                '    2) Schalten Sie das mobile Internet\n',
-                '       ein und verbinden Sie über den\n',
-                '       Zugangspunkt mit dem ersten Telefon\n',
-                '    3) Ohne Internet:[/size][/color]\n[color=0095B6][size=28]',
-                '       1. Erstellen Sie einen Access \n',
-                '          Point auf dem ersten Gerät\n',
-                '       2. Zum zweiten: Verbinden Sie sich mit dem \n',
-                '           ersten und erstellen Sie ein Spiel\n',
-                '       3. Eine Verbindung zum Spiel auf dem ersten Gerät\n[/size][/color]',
-                '[b][color=0a4500][size=35]    Gutes Spiel für Sie![/size][/color][/b]'
+                '[b][size=20dp]Es gibt kein Netzwerk.[/size][/b]\n',
+                '[color=0000ff][i]Die Möglichkeiten, das Problem zu lösen:[/i][/color]\n[color=ff00cc][size=16dp]',
+                '1) Verbinden Sie sich mit 1 WLAN-Punkt\n',
+                '2) Schalten Sie das mobile Internet ein und verbinden Sie über den Zugangspunkt mit dem ersten Telefon\n',
+                '3) Ohne Internet:[/size][/color]\n[color=0095B6][size=14dp]',
+                '1. Erstellen Sie einen Access Point auf dem ersten Gerät\n',
+                '2. Zum zweiten: Verbinden Sie sich mit dem ersten und erstellen Sie ein Spiel\n',
+                '3. Eine Verbindung zum Spiel auf dem ersten Gerät\n[/size][/color]',
+                '[b][color=0a4500][size=17dp]Gutes Spiel für Sie![/size][/color][/b]'
             ]
         result = ''
         for line in text:

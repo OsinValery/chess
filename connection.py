@@ -8,6 +8,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.graphics import Rectangle, Color, RoundedRectangle, Line
+from kivy.metrics import dp, sp
 
 from translater import Get_text
 from settings import Settings
@@ -615,8 +616,8 @@ def create_error(message):
 class NotConnection_Widget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        pos = [.04 * self.size[0] + self.pos[0], .3 * self.size[1] + self.pos[1]]
-        size = [.92 * self.size[0], .4 * self.size[1]]
+        pos = [.04 * self.size[0] + self.pos[0], .2 * self.size[1] + self.pos[1]]
+        size = [.92 * self.size[0], .55 * self.size[1]]
         with self.canvas:
             Color(1,1,0,.8)
             RoundedRectangle(
@@ -637,9 +638,9 @@ class NotConnection_Widget(Widget):
             pos=pos,
             size=size,
             markup=True,
-            text_size = size,
+            text_size = [size[0] - 2 * dp(10), size[1]],
             halign = 'left',
-            valign = 'center'
+            valign = 'center',
         ))
 
 
@@ -656,6 +657,7 @@ if __name__ == '__main__':
         def build(self):
             
             s = [800,1400]
+            s = Window.size
             path = os.path.join(self.directory,'pictures','bace_fons','pic4.png')
             print(path)
 
@@ -664,7 +666,7 @@ if __name__ == '__main__':
                 size = s,
                 source = path
             ))
-            Window.size = [s[0]//2,s[1]//2]
+            #Window.size = [s[0]//2,s[1]//2]
             wid.add_widget(NotConnection_Widget(size=s))
             return wid
     
