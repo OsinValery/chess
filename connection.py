@@ -473,9 +473,9 @@ class server_widget(Widget):
             # have not wifi
             self.add_widget(NotConnection_Widget(
                 size=self.size,
-                pos = [0,0]
+                pos = (.04 * self.size[0], .2 * self.size[1])
             ))
-    
+
     def connect(self,click=None):
         # connect to server interface 
         # it is for host
@@ -616,32 +616,38 @@ def create_error(message):
 class NotConnection_Widget(Widget):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        pos = [.04 * self.size[0] + self.pos[0], .2 * self.size[1] + self.pos[1]]
-        size = [.92 * self.size[0], .55 * self.size[1]]
-        with self.canvas:
-            Color(1,1,0,.8)
+        self.padding = (dp(15), dp(10))
+        size = (.92 * self.size[0], .55 * self.size[1])
+
+        lab = Label(
+            size=size,
+            pos = self.pos,     
+            text = Get_text('connection_wire_error'),             
+            markup=True,
+            text_size = [size[0] , None],
+            halign = 'left',
+            valign = 'center',
+            padding = self.padding,
+            color = [1,0,0,1]
+        )
+        lab._label.refresh()
+        lab.size = lab._label.texture.size
+        self.add_widget(lab)
+        with self.canvas.before:
+            Color(1,1,0,0.8)
             RoundedRectangle(
-                pos=pos,
-                size=size,
+                pos=self.pos,
+                size=lab._label.texture.size,
                 radius=[(50, 50), (200, 200), (100, 100), (70, 70)]
             )
             Color(0.5, 0, 1, .5)
             Line(
-                rounded_rectangle=(*pos, *size, *[70,100,200,50], 100),
-                width=4
+                rounded_rectangle=(*self.pos, *lab._label.texture.size, *[70,100,200,50], 100),
+                width=5
             )
-            Color(1,1,1,1)
+            Color(1, 1, 1, 1)
+        
 
-        self.add_widget(Label(
-            text = Get_text('connection_wire_error'),
-            color = [1,0,0,1],
-            pos=pos,
-            size=size,
-            markup=True,
-            text_size = [size[0] - 2 * dp(10), size[1]],
-            halign = 'left',
-            valign = 'center',
-        ))
 
 
 
@@ -659,7 +665,6 @@ if __name__ == '__main__':
             s = [800,1400]
             s = Window.size
             path = os.path.join(self.directory,'pictures','bace_fons','pic4.png')
-            print(path)
 
             wid = Widget(size=s)
             wid.canvas.add(Rectangle(
@@ -667,7 +672,10 @@ if __name__ == '__main__':
                 source = path
             ))
             #Window.size = [s[0]//2,s[1]//2]
-            wid.add_widget(NotConnection_Widget(size=s))
+            wid.add_widget(NotConnection_Widget(
+                size=s,
+                pos=(.04 * s[0], .2 * s[1])
+            ))
             return wid
     
     My_Test().run()

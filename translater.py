@@ -2813,7 +2813,7 @@ def connection(language, description, params):
         if language == 'de':
             text = [
                 '[b][size=20dp]Es gibt kein Netzwerk.[/size][/b]\n',
-                '[color=0000ff][i]Die Möglichkeiten, das Problem zu lösen:[/i][/color]\n[color=ff00cc][size=16dp]',
+                '[color=0000ff][i][size=14dp]Die Möglichkeiten, das Problem zu lösen:[/size][/i][/color]\n[color=ff00cc][size=16dp]',
                 '1) Verbinden Sie sich mit 1 WLAN-Punkt\n',
                 '2) Schalten Sie das mobile Internet ein und verbinden Sie über den Zugangspunkt mit dem ersten Telefon\n',
                 '3) Ohne Internet:[/size][/color]\n[color=0095B6][size=14dp]',
