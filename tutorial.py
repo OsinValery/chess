@@ -234,6 +234,8 @@ def tutorial(press):
         do_legan_tutorial()
     elif game.type_of_chess == 'sovereign':
         do_sovereign_tutorial()
+    elif game.type_of_chess == 'uprising':
+        do_uprising_tutorial()
     else:
         lost_tutorial()
 
@@ -297,7 +299,6 @@ def classic_4(press):
 
 
 def classic_5(press):
-    command = classic_6
     size = global_constants.Main_Window.size
     text = get_text(Get_text('tutorial_classic_pawn'),
                     size[0]*0.9, normal_font_size/2)
@@ -318,7 +319,7 @@ def classic_5(press):
         ['move', 2, 1, 2, 3],           ["show_attack", 3, 3, 2, 2],
         ['pause'],                  ['take', 3, 3, 2, 2]
     ]
-    video_interface(board, action, 1, command, text)
+    video_interface(board, action, 1, classic_6, text)
 
 
 def classic_6(press):
@@ -352,6 +353,8 @@ def classic_7(press):
         command = do_racing_tutorial
     elif game.type_of_chess in ['dark_chess', 'frozen', 'nuclear']:
         command = classic_8
+    elif game.type_of_chess == 'uprising':
+        command = uprising_3
     else:
         command = fisher1
 
@@ -2631,7 +2634,71 @@ def sov13(arg=...):
 
 # end of sovereign tutorial
 
+def do_uprising_tutorial(arg=...):
+    help_tutorial()
+    text = Get_text('tutorial_uprising_start')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, uprising2)
 
+def uprising2(arg=...):
+    help_tutorial()
+    static_interface(
+        size=global_constants.Main_Window.size,
+        label_text=Get_text('tutorial_uprising_2'),
+        btn_command=uprising_3
+    )
+
+def uprising_3(arg=...):
+    help_tutorial()
+    size = global_constants.Main_Window.size
+    static_interface(
+        size=size,
+        label_text=Get_text('tutorial_uprising_3'),
+        btn_command=do_uprising_tutorial,
+        repeat=True
+    )
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_see'),
+        pos=(size[0] * 0.3, size[1] * 0.05),
+        background_color=(1, 1, 0, 0.3),
+        color=(1, 0, 1, 1),
+        on_press=uprising_4
+    ))
+
+def uprising_4(arg=...):
+    help_tutorial()
+    size = global_constants.Main_Window.size
+    interactive_interface(
+        size=size,
+        figure='horse',
+        btn_command=uprising_5,
+        label_text=Get_text('tutorial_classic_horse')
+    )
+
+def uprising_5(arg=...):
+    size = global_constants.Main_Window.size
+    text = get_text(Get_text('tutorial_uprising_pawn'),
+                    size[0]*0.9, normal_font_size/2)
+    board = [
+        ['white', 2, 1, 'pawn'], ['black', 3, 3, 'pawn'], ['white', 1, 5, 'pawn'],
+        ['white', 6, 3, 'pawn'], ['black', 5, 5, 'pawn'], ['black', 2, 6, 'pawn']
+    ]
+    action = [
+        ['show', 6, 3, [[6, 4]]],       ['move', 6, 3, 6, 4],
+        ['show', 5, 5, [[5, 4]]],       ['move', 5, 5, 5, 4],
+        ['show', 6, 4, [[6, 5]]],       ['move', 6, 4, 6, 5],
+        ['show', 5, 4, [[5, 3]]],       ['move', 5, 4, 5, 3],
+        ['move', 6, 5, 6, 6],           ['move', 5, 3, 5, 2],
+        ['move', 6, 6, 6, 7],           ['change', 6, 7, 'horse'],
+        ['move', 5, 2, 5, 1],           ['move', 6, 7, 7, 5],
+        ['show_attack', 2, 6, 1, 5],    ['pause'],
+        ['take', 2, 6, 1, 5],           ['show', 2, 1, [[2, 2], [2, 3]]],
+        ['move', 2, 1, 2, 3],           ["show_attack", 3, 3, 2, 2],
+        ['pause'],                      ['take', 3, 3, 2, 2]
+    ]
+    video_interface(board, action, 1, classic_6, text)
+
+# end of uprising tutorial
 
 
 

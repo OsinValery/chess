@@ -94,12 +94,9 @@ class Spinner(Button):
             if pos[1] + height > window.Window.size[1]:
                 self.direction = 'down'
 
-
-
     def __press__(self,arg=None):
         if self.opened:
-            self.clear_widgets()
-            self.opened = not self.opened
+            self.close()
         else:
             def press(info=None):
                 if info.text != self.text:
@@ -111,8 +108,7 @@ class Spinner(Button):
                     self.opened = False
                     self.clear_widgets()
 
-            height = len(self.values) * self.drop_height 
-            height += self.drop_spacing * len(self.values)
+            height = len(self.values) * (self.drop_height + self.drop_spacing)
             if self.direction == 'up':
                 pos = [self.pos[0], self.size[1] + self.pos[1] + self.drop_spacing]
             elif self.direction == 'down':
@@ -139,27 +135,16 @@ class Spinner(Button):
             self.opened = True
     
     def on_touch_down(self,par):
-        def in_rect(coord,pos,size):
-            x,y = coord
-            if x < pos[0] or x > pos[0] + size[0] :
-                return False
-            if y < pos[1] or y > pos[1] + size[1] :
-                return False
-            return True
-        
         must_close = True
         coord = par.pos
-        if in_rect(coord,self.pos,self.size):
-            must_close = False
-        elif not self.opened:
+        if self.collide_point(*coord) or not self.opened:
             must_close = False
         else:
             for wid in self.children:
-                if in_rect(coord,wid.pos,wid.size):
+                if wid.collide_point(*coord):
                     must_close = False
         if must_close:
-            self.clear_widgets()
-            self.opened = False
+            self.close()
         return  super(Spinner,self).on_touch_down(par)
 
     def close(self):

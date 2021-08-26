@@ -163,7 +163,8 @@ class __Settings():
             'classic', 'magik', 'fisher', 'horse_battle',
             'permutation', 'horde', 'week', 'kamikadze',
             'bad_chess', 'rasing', 'haotic', 'schatranj',
-            'dark_chess', 'frozen', 'nuclear', 'legan'
+            'dark_chess', 'frozen', 'nuclear', 'legan',
+            'uprising'
         ]
         if tipe in standart:
             file = 'board.png'

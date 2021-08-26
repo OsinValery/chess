@@ -34,6 +34,7 @@ import schatranj
 import frozen
 import legan_chess
 import sovereign
+import uprising
 
 #Chess types
 import circle_chess
@@ -82,7 +83,7 @@ class Static_picture(Widget):
                 if self.type_of_chess in [
                     'classic', 'magik', 'permutation', 
                     'kamikadze','haotic','dark_chess',
-                    'nuclear',
+                    'nuclear'
                         ]:
                     classic.create_start_game_board()
                 elif self.type_of_chess == 'fisher':
@@ -144,10 +145,10 @@ class Static_picture(Widget):
             Figure = sovereign_figure.Figure
             if 'start' in self.options:
                 sovereign.create_start_game_board()
-
-            
-        
-
+        elif self.type_of_chess == 'uprising':
+            Figure = help_chess.Figure
+            if 'start' in self.options:
+                uprising.create_start_game_board()
 
         for el in self.position:
             # format is [ figure's type, x, y, color ]

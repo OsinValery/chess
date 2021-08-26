@@ -43,16 +43,17 @@ class RoundButton(Widget):
             self.on_press = kwargs['on_press']
     
     def draw(self):
-        width = self.size[1]
+        # radius od circle of the button
+        r = self.size[1] / 2
         points = [
-            self.pos[0] + width/2, self.pos[1] + width/2,
-            self.pos[0] + self.size[0] - width/2,self.pos[1] + width/2
+            self.pos[0] + r, self.pos[1] + r,
+            self.pos[0] + self.size[0] - r,self.pos[1] + r
                 ]
 
         with self.canvas:
             Color(*self.background_color)
             Line(
-                width = width/2,
+                width = r,
                 points = points
             )
         self.add_widget(Label(
@@ -68,18 +69,16 @@ class RoundButton(Widget):
         x,y = touch.pos
         in_shape = True
         r = self.size[1] / 2
-        if y < self.pos[1] or y > self.pos[1] + self.size[1]:
+
+        if not self.collide_point(x,y):
             in_shape = False
-        if x < self.pos[0] or x > self.pos[0] + self.size[0]:
-            in_shape = False
-        if x < self.pos[0] + r and in_shape:
+        elif x < self.pos[0] + r:
             center = [self.pos[0]+r,self.pos[1]+r]
-            if (x-center[0])**2 + (y-center[1])**2 > r**2:
-                in_shape = False
-        if in_shape and x > self.pos[0] + self.size[0] - r:
+            in_shape = (x-center[0])**2 + (y-center[1])**2 <= r**2
+        elif x > self.pos[0] + self.size[0] - r:
             center = [self.pos[0]-r+self.size[0], self.pos[1]+r]
-            if (x-center[0])**2 + (y-center[1])**2 > r**2:
-                in_shape = False
+            in_shape = (x-center[0])**2 + (y-center[1])**2 <= r**2
+
         if in_shape:
             self.on_press(self)
             return True

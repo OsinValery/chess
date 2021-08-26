@@ -96,16 +96,16 @@ def create_remove(size, file_path):
     )
 
     def back(click=None):
-        wid.to_saves(1)
+        wid.to_saves(click)
 
     def remove(click=None):
         os.remove(file_path)
-        wid.to_saves(1)
+        back(click)
 
     grid.add_widget(Button(
         text=Get_text('all_back'),
         color=[1, 1, 0, 1],
-        background_color=[0, 1, 0, .7],
+        background_color=[0, 1, 0, .75],
         on_press=back
     ))
     grid.add_widget(Button(
@@ -209,13 +209,16 @@ class Interface(Widget):
         colors2 = [[1, 0, 1, 1], [0, 0, 1, 1], [0, 0, 1, 1],
                    [1, .5, 0, 1], [0, 0, 1, 1], [1, 0, 0, 1]]
 
-        content_size = [x, y] = [.9, .8]
+        # content_size
+        [width, height] = [.9, .8]
         texts = texts[::-1]
-        for i in range(len(texts)):
+        for i in range(n):
             self.add_widget(TextLine(
-                size=[size[0] * x, y * size[1] / n],
-                pos=[pos[0] + (1-x)/2 * size[0], pos[1] + i *
-                     y * size[1] / n + (1-y)/2 * size[1]],
+                size=[size[0] * width, height * size[1] / n],
+                pos=[
+                    pos[0] + (1-width)/2 * size[0],
+                    pos[1] + i / n * height * size[1] + (1-height)/2 * size[1]
+                ],
                 texts=texts[i],
                 color=colors[i],
                 line_color=colors2[i]

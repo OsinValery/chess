@@ -26,6 +26,12 @@ import global_constants
 This module was created for realisation of interface of choosing type of chess
 """
 
+def valid_application_version(app_version,chess_type:str):
+    """returns True if version of friend application is valid for chess type"""
+    digit = int(app_version.split('.')[0])
+    supported = int(chess_type_list[chess_type].version_added.split('.')[0])
+    return digit >= supported
+
 
 def create_settings_interface(tap):
     global_constants.game.window = 'settings'
@@ -52,12 +58,8 @@ def create_settings_interface(tap):
 
     names = [Get_text('all_back'), Get_text('change_study'), Get_text('all_start')]
     commands = [main_widget.set_change, tutorial.tutorial, create_game_process]
-    colors = [(0.5, 0.01, 0.2, 0.7),
-              (1, 1, 0, 0.5),
-              (0, 1, 0, 0.5)]
-    colors2 = [(1, 1, 0, 1),
-               (0.1, 0, 5, 1),
-               (0, 0, 1, 0.8)]
+    colors = [(0.5, 0.01, 0.2, 0.7), (1, 1, 0, 0.5), (0, 1, 0, 0.5)]
+    colors2 = [(1, 1, 0, 1), (0.1, 0, 5, 1), (0, 0, 1, 0.8)]
 
     grid = GridLayout(
         size=[size.window_size[0]*0.6, size.window_size[1]*0.065],
@@ -74,7 +76,7 @@ def create_settings_interface(tap):
             on_press=commands[a],
             font_name = Settings.get_font()
         ))
-    
+
 
 def create_game_process(click):
     game = global_constants.game
@@ -82,10 +84,8 @@ def create_game_process(click):
         game.create_game(click)
     elif game.state_game == 'host':
         friend_version = connection.Connection.friend_version
-        digit = int(friend_version.split('.')[0])
         chess_type = global_constants.game.type_of_chess
-        my = int(chess_type_list[chess_type].version_added.split('.')[0])
-        if digit < my:
+        if not valid_application_version(friend_version,chess_type):
             # invalid version
             show_version_error_message()
         else:
@@ -160,7 +160,7 @@ class Chess_type():
     def __init__(self, tip):
         self.type = tip
         self.version_added = ''
-        if not tip in chess_type_list:
+        if tip not in chess_type_list:
             chess_type_list[tip] = self
 
     def set_chess(self, click):
@@ -219,9 +219,7 @@ class Card(Widget):
         ))
         if global_constants.game.state_game == 'host':
             version = connection.Connection.friend_version
-            digit = int(version.split('.')[0])
-            my = int(chess_type_list[chess_type.type].version_added.split('.')[0])
-            if digit < my:
+            if not valid_application_version(version,chess_type.type):
                 # game is impossible, because version of other player is too old
                 folder = global_constants.Settings.get_folder()
                 self.add_widget(Image(
@@ -288,8 +286,7 @@ class Chess_menu(Widget):
         texts = ['random', 'all', 'classic', 'positions',
                  'effects', 'honestlessly', 'boards', 'others']
         # size of button's shape
-        width = .6 * self.size[0]
-        height = .6 * self.size[1]
+        width, height = .6 * self.size[0], .6 * self.size[1]
         pos = [.2 * self.size[0], .2 * self.size[0]]
         h = height / len(texts)
         spacing = 20
@@ -322,8 +319,7 @@ class Chess_view(ScrollView):
         # add cards with presentations of types of game
         for i in range(len(chess_list)):
             pos = [self.pos[0] + width * i, 0]
-            big_wid.add_widget(
-                Card(chess_list[i], pos))
+            big_wid.add_widget(Card(chess_list[i], pos))
         self.add_widget(big_wid)
 
 
@@ -399,26 +395,20 @@ class Settings_widget(Widget):
         ]
         if global_constants.game.type_of_chess == 'magik':
             texts.append(Get_text('change_magia'))
-            poses.append([self.pos[0]+self.size[0]*.17,
-                         self.pos[1]+self.size[1]*.09])
+            poses.append([self.pos[0]+self.size[0]*.17, self.pos[1]+self.size[1]*.09])
         if global_constants.game.type_of_chess == 'frozen':
             texts.append(Get_text('change_frozen'))
-            poses.append([self.pos[0]+self.size[0]*.1,
-                         self.pos[1]+self.size[1]*.07])
+            poses.append([self.pos[0]+self.size[0]*.1, self.pos[1]+self.size[1]*.07])
         if global_constants.game.state_game == 'one':
             texts.append(Get_text('change_nik'))
-            poses.append([self.pos[0]+.01*self.size[0],
-                         self.pos[1]+.8*self.size[1]])
+            poses.append([self.pos[0]+.01*self.size[0], self.pos[1]+.8*self.size[1]])
         else:
             texts.append(Get_text('change_your_color'))
-            poses.append([self.pos[0]+.08*self.size[0],
-                         self.pos[1]+.78 * self.size[1]])
+            poses.append([self.pos[0]+.08*self.size[0], self.pos[1]+.78 * self.size[1]])
         if global_constants.game.state_game == 'host':
             version = connection.Connection.friend_version
-            digit = int(version.split('.')[0])
             chess_type = global_constants.game.type_of_chess
-            my = int(chess_type_list[chess_type].version_added.split('.')[0])
-            if digit < my:
+            if not valid_application_version(version,chess_type):
                 # game is impossible, because version of other player is too old
                 folder = global_constants.Settings.get_folder()
                 self.add_widget(Image(
@@ -449,12 +439,11 @@ class Settings_widget(Widget):
         game = global_constants.game
        # niks
         if game.state_game == 'one':
-            texts = [game.name1, game.name2]
+            texts = (game.name1, game.name2)
             for i in 0, 1:
                 self.add_widget(Input(
                     size=[.62 * self.size[0], 50],
-                    pos=[pos[0] + size[0] * .35,
-                         pos[1] + size[1] * (9-i) / 10],
+                    pos=[pos[0] + size[0] * .35, pos[1] + size[1] * (9-i) / 10],
                     text=texts[i]
                 ))
         else:
@@ -601,7 +590,7 @@ with_effects = [Chess_type(el)for el in [
     'magik', 'permutation', 'kamikadze',
     'haotic', 'dark_chess', 'frozen', 'nuclear'
 ]]
-honestless = [Chess_type(el)for el in ['horde', 'week', 'bad_chess']]
+honestless = [Chess_type(el)for el in ['horde', 'week', 'bad_chess','uprising']]
 boards = [Chess_type(el)
           for el in ['circle_chess', 'bizantion', 'glinskiy', 'kuej']]
 other_rules = [Chess_type(el)for el in ['rasing', 'sovereign']]
@@ -616,6 +605,6 @@ for chess in [
         'haotic', 'dark_chess', 'frozen', 'nuclear',
         'horde', 'week', 'bad_chess',
         'circle_chess', 'bizantion', 'glinskiy', 'kuej',
-        'rasing', 'sovereign'
+        'rasing', 'sovereign', 'uprising'
         ]:
     chess_type_list[chess].version_added = '0.0.49'

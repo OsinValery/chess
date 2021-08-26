@@ -8,7 +8,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label
 from kivy.uix.gridlayout import GridLayout
 from kivy.graphics import Rectangle, Color, RoundedRectangle, Line
-from kivy.metrics import dp, sp
+from kivy.metrics import dp
 
 from translater import Get_text
 from settings import Settings
@@ -408,20 +408,21 @@ class server_widget(Widget):
             
             comandes = change_nick, change_pass
             descriptions = ['connection_nick','connection_pass']
+            if Settings.default_nick != '' and Connection.my_nick == '':
+                Connection.my_nick = Settings.default_nick
+            texts = [Connection.my_nick, Connection.password]
+            
             grid.add_widget(Label(
                 text = Get_text('connection_ip') + '\n' + Connection.my_ip,
                 color = [1,1,0,1]
             ))
-            if Connection.my_nick == '':
-                Connection.my_nick = Settings.default_nick
             for i in 0,1:
                 grid.add_widget(Label(
                     text = Get_text(descriptions[i]),
                     color = [1,1,0,1]
                 ))
-                text = '' if i == 1 else Connection.my_nick
                 grid.add_widget(Text_line(
-                    comandes[i],text = text,
+                    comandes[i],text = texts[i],
                     size = [.4 * self.size[0], .05 * self.size[1]],
                     pos = [.3 * self.size[0], .7 * self.size[1]],
                     size_hint = [1,None]

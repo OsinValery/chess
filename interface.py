@@ -27,27 +27,30 @@ def empty(click=None):
 
 def exit_command(command):
     if not global_constants.game.ind and global_constants.game.state_game == 'one':
+        # одиночная игра закончилась
         Repeat_message(command).open()
     elif global_constants.game.state_game != 'one':
         if not global_constants.game.ind:
+            # network game is completed
             command(1)
         else:
             Network_Exit(command).open()
     else:
+        # game is not completed
         Message_exit(command=command).open()
 
 class Repeat_message(Popup):
     def __init__(self, command, **kwargs):
-        self.background_color = [1,1,0,1/4]
+        self.background_color = [1, 1, 0, 0.25]
         self.background = 'window_fon.png'        
         super(Repeat_message,self).__init__(**kwargs)
         self.auto_dismiss = False
-        self.pos = [0,0]
+        self.pos = (0, 0)
         self.title = Get_text('bace_exit') + '?'
 
         size = global_constants.Main_Window.size
-        self.size = [.7 * size[0], .5 * size[1]]
-        self.size_hint = [None,None]
+        self.size = (.7 * size[0], .5 * size[1])
+        self.size_hint = (None, None)
 
         def repeat(par=...):
             self.dismiss()
@@ -58,24 +61,22 @@ class Repeat_message(Popup):
             self.dismiss()
             command(1)
         
-        commands = [self.dismiss,repeat,_exit]
-        texts = [Get_text('all_back'),Get_text('tutorial_repeat'), Get_text('bace_exit')]
+        commands = (self.dismiss, repeat, _exit)
+        texts = (Get_text('all_back'),Get_text('tutorial_repeat'), Get_text('bace_exit'))
 
-        grid = GridLayout(cols = 1,spacing=[0,15])
+        grid = GridLayout(cols = 1,spacing=(0,15))
         self.add_widget(grid)
         grid.add_widget(Label(
             text = Get_text('bace_repeat_text'),
             color = [0,1,1,1]
         ))
-
         for i in 0,1,2:
-            but = Button(
+            grid.add_widget(Button(
                 text = texts[i],
                 size_hint_y = None,
                 on_press = commands[i],
                 background_color = [1,.1,1,.7]
-            )
-            grid.add_widget(but)
+            ))
 
 
 class Message_exit(Popup):
@@ -85,12 +86,12 @@ class Message_exit(Popup):
 
         super(Message_exit,self).__init__(**kwargs)
         self.auto_dismiss = False
-        self.pos = [0,0]
+        self.pos = (0,0)
         self.title = Get_text('bace_exit?')
         
         size = global_constants.Main_Window.size
-        self.size = [.7 * size[0], .5 * size[1]]
-        self.size_hint = [None,None]
+        self.size = (.7 * size[0], .5 * size[1])
+        self.size_hint = (None,None)
         
         def exit_(par=None):
             self.dismiss()
@@ -105,14 +106,13 @@ class Message_exit(Popup):
                 name = 'save1'
             else:
                 file_name = cont[-1]
-                name = 'save' + str(int(file_name[4:]) + 1)
-            file = open(os.path.join(folder,name),mode='w')
-            file.write(data)
-            file.close()
+                name = f'save{int(file_name[4:]) + 1}'
+            with open(os.path.join(folder,name),mode='w') as file:
+                file.write(data)
             command(1)
 
-        commands = [self.dismiss, exit_, save]
-        texts = [Get_text('all_back'), Get_text('bace_exit'),Get_text('bace_save?')]
+        commands = (self.dismiss, exit_, save)
+        texts = (Get_text('all_back'), Get_text('bace_exit'),Get_text('bace_save?'))
 
         grid = GridLayout(cols = 1,spacing=[0,15])
         self.add_widget(grid)
@@ -122,13 +122,12 @@ class Message_exit(Popup):
         ))
 
         for i in 0,1,2:
-            but = Button(
+            grid.add_widget(Button(
                 text = texts[i],
                 size_hint_y = None,
                 on_press = commands[i],
                 background_color = [1,.1,1,.7]
-            )
-            grid.add_widget(but)
+            ))
 
 
 class Network_Exit(Popup):
@@ -159,13 +158,12 @@ class Network_Exit(Popup):
         ))
 
         for i in 0,1:
-            but = Button(
+            grid.add_widget(Button(
                 text = texts[i],
                 size_hint_y = None,
                 on_press = commands[i],
                 background_color = [1,.1,1,.7]
-            )
-            grid.add_widget(but)
+            ))
 
 # all graphical interface without board and figures 
 class Graphical_interfase():
@@ -177,26 +175,26 @@ class Graphical_interfase():
         else:
             line = '--:--'
 
-        self.white_time = Label(
-            text=line,
-            pos=[ sizes.x_top_board + sizes.board_size[0] * 0.9 - sizes.field_size,
-                        sizes.y_top_board - sizes.board_size[1]/10],
-            size=[sizes.board_size[0],sizes.board_size[1] / 10],
-            color=(1,0,0,1),
-            text_size = [sizes.board_size[0], sizes.board_size[1]/10],
-            font_name = global_constants.Settings.get_font(),
-            valign='middle'
+        poses = (
+            [   sizes.x_top_board + sizes.board_size[0] * 0.9 - sizes.field_size,
+                sizes.y_top_board - sizes.board_size[1] / 10
+            ],
+            [   sizes.x_top_board + sizes.board_size[0] * 0.9 - sizes.field_size, 
+                sizes.y_top_board + sizes.board_size[1]
+            ]
         )
-        self.black_time = Label(
-            text=line,
-            size= [sizes.board_size[0],sizes.board_size[1]/10],
-            pos=[sizes.x_top_board + sizes.board_size[0] * 0.9 - sizes.field_size, 
-                        sizes.y_top_board + sizes.board_size[1] ],
-            color=(1,0,0,1),
-            text_size=[sizes.board_size[0],sizes.board_size[1]/10],
-            font_name = global_constants.Settings.get_font(),
-            valign='middle'
-            ) 
+        self.white_time = Label(pos=poses[0])
+        self.black_time = Label(pos=poses[1])
+
+        for label in [self.white_time,self.black_time]:
+            label.text = line
+            label.size = [sizes.board_size[0],sizes.board_size[1] / 10]
+            label.color = (1, 0, 0, 1)
+            label.font_name = global_constants.Settings.get_font()
+            label.valign = 'middle'
+            label.text_size = [sizes.board_size[0], sizes.board_size[1]/10]
+            global_constants.Main_Window.add_widget(label)
+
         self.info = Label(
             size=[sizes.board_size[0], 2 * sizes.board_size[1] / 10],
             pos = [sizes.x_top_board,sizes.y_top_board-3*sizes.board_size[0]/10],
@@ -205,9 +203,6 @@ class Graphical_interfase():
             color = [0.1,0.8,1,2],
             font_name = global_constants.Settings.get_font()
         )
-
-        global_constants.Main_Window.add_widget(self.white_time)
-        global_constants.Main_Window.add_widget(self.black_time)
         global_constants.Main_Window.add_widget(self.info)
     
     def set_time(self,play_time:dict):
@@ -258,7 +253,7 @@ class Graphical_interfase():
                 text_size = [ sizes.board_size[0] , sizes.board_size[1] / 10 ],
                 font_name = global_constants.Settings.get_font(),
                 valign='middle',
-                text=' '+names[x]
+                text=f' {names[x]}'
             ))
 
         # add purple rectangle
@@ -282,52 +277,39 @@ class Graphical_interfase():
         s = (sizes.window_size[0]*0.09,sizes.window_size[1]*0.07)
         with pause_but.canvas:
             Color(1,0,0,1)
-        for x in 1,2:
-            pause_but.canvas.add(Line(
-                points=(
-                    x*0.33*s[0] + sizes.window_size[0]*0.75 ,
-                    0.2*s[1] + sizes.window_size[1]*.93 ,
-                    x*0.33*s[0] + sizes.window_size[0]*0.75 ,
-                    0.8*s[1] + sizes.window_size[1]*.93
-                    ),
-                width = 3,  
-            ))
+            for x in 1,2:
+                Line(
+                    width = 3,
+                    points=(
+                        x / 3 * s[0] + sizes.window_size[0] * 0.75 ,
+                        0.2 * s[1] + sizes.window_size[1]*.93 ,
+                        x / 3 * s[0] + sizes.window_size[0]*0.75 ,
+                        0.8 * s[1] + sizes.window_size[1]*.93
+                    )
+                )
         main_widget.add_widget(pause_but)
 
         directory = global_constants.Settings.folder
-        # surrend button
-        but = Button(
-            background_normal = os.path.join(directory,'pictures','empty.png'),
-            background_down = os.path.join(directory,'pictures','empty.png'),
-            size=(sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),
-            text = '',
-            pos = [sizes.window_size[0]*0.65,sizes.window_size[1]*.93],
-            on_press = commands[2]
-        )
-        with but.canvas:
-            Rectangle(
-                source = os.path.join(directory,'pictures','surrend.png'),
-                size = (sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),
-                pos = [sizes.window_size[0]*0.65,sizes.window_size[1]*.93]
+        # surrend button(0) + draw  button(1)
+        pictures = ['surrend.png', 'draw.png']
+        for i in 0,1:
+            d = 0.65 - i * 0.1
+            but = Button(
+                text='',
+                size=(sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),
+                pos=[sizes.window_size[0]*d, sizes.window_size[1]*.93],
+                background_normal = os.path.join(directory,'pictures','empty.png'),
+                background_down = os.path.join(directory,'pictures','empty.png'),
+                on_press=commands[2+i]
             )
-        main_widget.add_widget(but)
+            with but.canvas:
+                Rectangle(
+                    source = os.path.join(directory,'pictures',pictures[i]),
+                    size = (sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),
+                    pos = [sizes.window_size[0]*d,sizes.window_size[1]*.93]
+                )
+            main_widget.add_widget(but)
 
-        # draw button
-        but = Button(
-            text = '',
-            background_normal = os.path.join(directory,'pictures','empty.png'),
-            background_down = os.path.join(directory,'pictures','empty.png'),
-            on_press = commands[3],
-            size = (sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),
-            pos = [sizes.window_size[0]*0.55,sizes.window_size[1]*.93]
-        )
-        with but.canvas:
-            Rectangle(
-                source = os.path.join(directory,'pictures','draw.png'),
-                size = (sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),
-                pos = [sizes.window_size[0]*0.55,sizes.window_size[1]*.93]
-            )
-        main_widget.add_widget(but)
 
     def __delattr__(self):
         del self.black_time

@@ -28,6 +28,7 @@ import schatranj
 import week_chess
 import legan_chess
 import sovereign_chess
+import uprising
 
 import sizes
 import global_constants
@@ -75,6 +76,8 @@ def find_chess_module(tip):
         return legan_chess
     elif tip == 'sovereign':
         return sovereign_chess
+    elif tip == 'uprising':
+        return uprising
     if game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')
@@ -523,7 +526,7 @@ class GameWidget(Widget):
         size = app_size.window_size
         self.canvas.add(
             Rectangle(source=settings.Settings.get_bace_picture(), size=size))
-        but = Button(
+        self.add_widget(Button(
             text=Get_text('all_back'),
             pos=[size[0]*0.8, size[1]*0.9],
             size=[size[0]*0.2, size[1]*0.07],
@@ -532,8 +535,7 @@ class GameWidget(Widget):
             font_name = settings.Settings.get_font(),
             color=(0, 1, 0.1, 1),
             on_press=self.create_start_game
-        )
-        self.add_widget(but)
+        ))
         self.add_widget(change_widget.Chess_menu())
 
     def to_connection(self, click):
@@ -552,7 +554,7 @@ class GameWidget(Widget):
             source=settings.Settings.get_bace_picture(),
             size=size
         ))
-        but = Button(
+        self.add_widget(Button(
             text=Get_text('all_back'),
             pos=[size[0]*0.8, size[1]*0.9],
             size=[size[0]*0.2, size[1]*0.07],
@@ -561,8 +563,7 @@ class GameWidget(Widget):
             font_size=20,
             color=(0, 1, 0.1, 1),
             on_press=self.create_start_game
-        )
-        self.add_widget(but)
+        ))
         self.add_widget(saved_games.Saved_games(
             size=[.8 * size[0], .6 * size[1]],
             pos=[.1 * size[0], .05 * size[1]]

@@ -347,6 +347,13 @@ def bace_text(language, description):
             return 'ajedrez \nnuclear'
         elif language == 'de':
             return 'nukleares \nSchach'
+    
+    elif description == 'uprising':
+        if language == 'ru':   return 'Крестьянское\nвосстание'
+        elif language == 'en': return 'Peasant\nuprising'
+        elif language == 'de': return 'Bauernaufstand'
+        elif language == 'fr': return 'Jacquerie'
+        elif language == 'es': return 'Rebelión\ncampesina'
 
     elif description == 'sovereign':
         if language == 'ru':
@@ -1772,6 +1779,9 @@ def tutorial(language, description):
     elif 'legan' in description:
         return get_legan(language, description[6:])
 
+    elif 'uprising' in description:
+        return get_uprising(language, description[9:])
+
     elif 'sovereign' in description:
         return get_sovereign(language, description[10:])
 
@@ -1931,15 +1941,15 @@ def get_classic(language, description):
 
     if description == 'pawn2':
         if language == 'ru':
-            return 'Если белая пешка дошла до 5 горизонтали (чёрная до четвёртой) , а вражеская пешка воспользовалась шансом сходить на 2 поля сразу, то вы можете срубить её, но сразу, следующим ходом уже нельзя. Это называется \"взятие на проходе\". Если враг ходит по красной стрелке, вы можете сходить по зелёной и срубить.'
+            return 'Если белая пешка дошла до 5 горизонтали (чёрная до четвёртой), а вражеская пешка воспользовалась шансом сходить на 2 поля сразу, то вы можете срубить её, но сразу, следующим ходом уже нельзя. Это называется \"взятие на проходе\". Если враг ходит по красной стрелке, вы можете сходить по зелёной и срубить.'
         if language == 'en':
-            return 'If the white pawn reached the 5th horizontal (the black pawn reached the fourth), and the enemy pawn took the chance to go to 2 squares at once, then you can cut it down, but immediately, the next move is no longer possible. This is called \ " taking on the pass\". If the enemy walks on the red arrow, you can go on the green and cut down.'
+            return 'If the white pawn reached the 5th horizontal (the black pawn reached the fourth), and the enemy pawn took the chance to go to 2 squares at once, then you can cut it down, but immediately, the next move is no longer possible. This is called \" taking on the pass\". If the enemy walks on the red arrow, you can go on the green and cut down.'
         if language == 'fr':
-            return 'Si le pion blanc a atteint la 5e ligne horizontale (noire à la 4e) et que le pion ennemi a profité de la chance d\'aller sur 2 champs à la fois, vous pouvez le couper, mais vous ne pouvez pas le faire immédiatement. C\'est ce qu\'on appelle"prendre sur le passage". Si l\'ennemi marche sur la flèche rouge, vous pouvez aller sur le vert et couper.'
+            return 'Si le pion blanc a atteint la 5e ligne horizontale (noire à la 4e) et que le pion ennemi a profité de la chance d\'aller sur 2 champs à la fois, vous pouvez le couper, mais vous ne pouvez pas le faire immédiatement. C\'est ce qu\'on appelle "prendre sur le passage". Si l\'ennemi marche sur la flèche rouge, vous pouvez aller sur le vert et couper.'
         if language == 'es':
-            return 'Si el peón blanco llegó a la horizontal 5 (negro a la cuarta), y el peón enemigo aprovechó la oportunidad de ir a 2 campos a la vez, entonces puedes cortarlo, pero inmediatamente, el siguiente movimiento ya no es posible. Esto se llama \ " tomar en el pasillo\". Si el enemigo camina por la flecha roja, puede ir por el verde y cortar.'
+            return 'Si el peón blanco llegó a la horizontal 5 (negro a la cuarta), y el peón enemigo aprovechó la oportunidad de ir a 2 campos a la vez, entonces puedes cortarlo, pero inmediatamente, el siguiente movimiento ya no es posible. Esto se llama \" tomar en el pasillo\". Si el enemigo camina por la flecha roja, puede ir por el verde y cortar.'
         if language == 'de':
-            return 'Wenn der weiße Bauer 5 horizontale (schwarze bis vierte) erreicht hat und der gegnerische Bauer die Chance genutzt hat, auf zwei Felder auf einmal zu gehen, dann kannst du ihn abschneiden, aber sofort ist der nächste Zug nicht mehr möglich. Dies wird als \ "take on Pass\" bezeichnet. Wenn der Feind auf dem roten Pfeil geht, können Sie auf dem grünen gehen und schneiden.'
+            return 'Wenn der weiße Bauer 5 horizontale (schwarze bis vierte) erreicht hat und der gegnerische Bauer die Chance genutzt hat, auf zwei Felder auf einmal zu gehen, dann kannst du ihn abschneiden, aber sofort ist der nächste Zug nicht mehr möglich. Dies wird als \"take on Pass\" bezeichnet. Wenn der Feind auf dem roten Pfeil geht, können Sie auf dem grünen gehen und schneiden.'
 
     if description == 'king':
         if language == 'ru':
@@ -3706,6 +3716,62 @@ def get_sovereign(language, description):
             return 'Ein angenehmes Spiel! Ein spannendes politisches Spiel, in dem der beste Stratege gewinnt, wartet auf Sie!!!!'
 
     return description
+
+
+def get_uprising(language, description):
+    if description == 'start':
+        if language == 'ru':
+            return 'Погрузитесь в атмосферу средневековья вместе с шахматами "Крестьянское восстание"! Эти шахматы для экстремалов. Скоро Вы это ощутите!'
+        if language == 'en':
+            return 'Immerse yourself in the atmosphere of the Middle Ages with the Peasant Uprising chess game! This chess is for extreme athletes. Soon you will feel it!'
+        if language == 'fr':
+            return 'Plongez dans l\'atmosphère médiévale avec les échecs de la révolte Paysanne! Ces échecs sont pour les extrêmes. Bientôt, vous le ressentirez!'
+        if language == 'es':
+            return '¡Sumérgete en la atmósfera medieval con el ajedrez "levantamiento Campesino"! Este ajedrez es para los extremos. ¡Pronto lo sentirás!'
+        if language == 'de':
+            return 'Tauchen Sie ein in die Atmosphäre des Mittelalters mit dem Schach "Bauernaufstand"! Dieses Schach ist für Extreme. Sie werden es bald spüren!'
+
+    if description == '2':
+        if language == 'ru':
+            return 'В этой игре крестьяне(пешки) воюют против дворян(коней), других фигур тут нет. Цель - поставить мат! '
+        if language == 'en':
+            return 'In this game, the peasants (pawns) are fighting against the nobles(knights), there are no other pieces here. The goal is to checkmate! '
+        if language == 'fr':
+            return 'Dans ce jeu, les paysans (pions) se battent contre les nobles(chevaliers), il n\'y a pas d\'autres pièces ici. Le but est d\'échouer et mat! '
+        if language == 'es':
+            return 'En este juego, los campesinos(peones) están luchando contra los nobles (caballeros), no hay otras piezas aquí. El objetivo es jaque mate! '
+        if language == 'de':
+            return "In diesem Spiel kämpfen die Bauern (Bauern) gegen die Adligen(Ritter), hier gibt es keine anderen Teile. Das Ziel ist Schachmatt! "
+
+    if description == '3':
+        if language == 'ru':
+            return 'Хватит болтать! Пора играть! Новички могут посмотреть, как ходить, а остальные - в бой!'
+        if language == 'en':
+            return 'Stop talking! It\'s time to play! Beginners can see how to walk, and the rest can go into battle!'
+        if language == 'fr':
+            return 'Arrête de parler! Il est temps de jouer! Les débutants peuvent regarder comment marcher et les autres se battre!'
+        if language == 'es':
+            return '¡Deja de hablar! ¡Es hora de jugar! ¡Los principiantes pueden ver cómo caminar y el resto de ellos a la batalla!'
+        if language == 'de':
+            return 'Hör auf zu reden! Es ist Zeit zu spielen! Anfänger können sehen, wie man geht, und der Rest - in den Kampf!'
+
+    if description == 'pawn':
+        if language == 'ru':
+            return 'Пешка является единственной фигурой, которая не может ходить назад! Только в сторону врага! По 1 клетке за ход, но если пешка ещё не ходила, она может сходить на две. Дойдя до последней линии, пешка превращается в дворянина(коня). Рубит и атакует пешка наискосок, не так, как ходит.'
+        if language == 'en':
+            return 'The pawn is the only piece that can\'t move backwards! Only in the direction of the enemy! 1 square per turn, but if the pawn has not yet moved, it can go to two. After reaching the last line, the pawn turns into a nobleman (horse). The pawn cuts and attacks diagonally, not as it moves.'
+        if language == 'fr':
+            return 'Un pion est la seule pièce qui ne peut pas marcher en arrière! Seulement vers l\'ennemi! 1 cellule par tour, mais si le pion n\'a pas encore marché, il peut aller à deux. Après avoir atteint la Dernière ligne, le pion se transforme en noble (cheval). Le pion coupe et attaque obliquement, pas comme il marche.'
+        if language == 'es':
+            return 'El peón es la única pieza que no puede caminar hacia atrás! ¡Solo en la dirección del enemigo! 1 casilla por turno, pero si el peón aún no ha caminado, puede ir a dos. Al llegar a la Última línea, el peón se transforma en un noble (caballo). Corta y ataca al peón de forma oblicua, no como camina.'
+        if language == 'de':
+            return 'Der Bauer ist die einzige Figur, die nicht rückwärts gehen kann! Nur in Richtung des Feindes! 1 Zelle pro Runde, aber wenn der Bauer noch nicht gegangen ist, kann er für zwei gehen. Wenn Sie die Letzte Zeile erreichen, verwandelt sich in einen Adligen (Pferd). Hackt und greift der Bauer schräg, nicht wie er geht.'
+
+
+
+    return 'error in get_uprising'
+
+
 
 
 def for_copy(language, description):
