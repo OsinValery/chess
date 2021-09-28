@@ -1,5 +1,6 @@
 import bad_figure 
 import random
+import global_constants
 
 Figure = bad_figure.Figure
 
@@ -58,8 +59,9 @@ def create_start_game_board(position=None):
 
 
 def init_chess(game):
-    if game.state_game != 'one':
-        game.board = create_start_game_board(game.position)
+    if global_constants.game.state_game != 'one':
+        game.board = create_start_game_board(global_constants.game.position)
+        del global_constants.game.position
     else:
         game.board = create_start_game_board()
 

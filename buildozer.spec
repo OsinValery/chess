@@ -1,13 +1,13 @@
 [app]
 
-title = CHESS
-package.name = CHESS
-package.domain = org.test
+title = NeogidannieSchahmati
+package.name = NeogidannieSchahmati
+package.domain = chess.new2.ru
 source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,ogg,txt,otf,ttf
 #source.include_patterns = assets/*,images/*.png
 #source.exclude_exts = spec
-#source.exclude_dirs = tests, bin, .vscode, .git
+source.exclude_dirs = tests, bin, .vscode, .git
 #source.exclude_patterns = license,images/*/*.jpg
 version.regex = __version__ = ['"](.*)['"]
 version.filename = %(source.dir)s/main.py
@@ -30,7 +30,7 @@ orientation = portrait
 osx.python_version = 3
 
 # Kivy version to use
-osx.kivy_version = 1.9.1
+osx.kivy_version
 
 #
 # Android specific

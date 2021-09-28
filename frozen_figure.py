@@ -62,7 +62,41 @@ class Figure(Basic_figure.Figure):
         if self.type == 'pawn':
             return get_pawn_moves(self,board)
         return super().first_list(board)
-    
+
+    def from_saves(self, data):
+        info = data.split()
+        x, y, self.type = info[:3]
+        x, y = int(x), int(y)
+        self.x, self.y = x, y
+        if self.type not in ['empty', 'frozen']:
+            self.color = info[3]
+            info = info[1:]
+        info = info[3:]
+        if info[0] == 'n':
+            self.do_hod_before = False
+        if info[0] == 'y':
+            self.do_hod_before = True
+        if info[1] == 'y':
+            self.do_hod_now = True
+        if info[1] == 'n':
+            self.do_hod_now = False
+        # third possible variant is "e"
+        if self.type == 'frozen':
+            path = global_constants.Settings.get_folder()
+            file = os.path.join(path,'pictures','ice.png')
+            self.rect = Rectangle(
+                source = file,
+                size=[global_constants.Sizes.field_size]*2
+            )
+            global_constants.current_figure_canvas.add(self.rect)
+            self.set_coords_on_board(x,y)
+        elif self.type != 'empty':
+            name = self.type[0] + self.color[0] + '.png'
+            Sizes = global_constants.Sizes
+            folder = get_folder()
+            self.rect = Rectangle(source=folder+name,size=[Sizes.field_size]*2)
+            global_constants.current_figure_canvas.add(self.rect)
+            self.set_coords_on_board(x,y)
 
 
 def get_pawn_moves(figure:Figure,board):

@@ -1,4 +1,5 @@
 import help_chess
+import global_constants
 import random
 import copy
 
@@ -86,6 +87,7 @@ def do_rocking(board,x,y,choose_figure):
                     rook = n
     if rook != -1:
         figure = board[rook][b].figure
+        print('ext', figure)
 
     # this code move king
     board[a][b].figure = Figure('',0,0,'empty')
@@ -94,6 +96,9 @@ def do_rocking(board,x,y,choose_figure):
     board[x][y].figure.set_coords_on_board(x,y)
 
     if x == 6 and rook != -1:
+        print(figure)
+        if figure.type == 'empty':
+            figure = Figure(choose_figure.color, rook, b, 'rook')
         if rook != 5:
             board[5][b].figure = figure
             board[5][b].figure.set_coords_on_board(5,b)
@@ -102,6 +107,9 @@ def do_rocking(board,x,y,choose_figure):
                 board[rook][b].figure = Figure('',7,b,'empty')
 
     if x == 2 and rook != -1:
+        print(figure)
+        if figure.type == 'empty':
+            figure = Figure(choose_figure.color, rook, b, 'rook')
         if rook != 3:
             board[3][b].figure = figure
             board[3][b].figure.set_coords_on_board(3,b)
@@ -220,24 +228,15 @@ def is_it_rocking(figure,board,field):
         if king  == 2 and x in [0,1]:
             if field == 3:
                 board[king][y].figure.do_hod_before = True
-            
-
-def clear(game):
-    del game.do_rocking
-    del game.can_do_rocking
-    del game.clear
-    del game.rocking_do_rook
-    del game.is_it_rocking
-
 
 def init_chess(game):
-    if game.state_game != 'one':
-        game.board = create_start_game_board(game.position)
+    if global_constants.game.state_game != 'one':
+        game.board = create_start_game_board(global_constants.game.position)
+        del global_constants.game.position
     else:
         game.board = create_start_game_board()
     game.do_rocking = do_rocking
     game.can_do_rocking = can_do_rocking
-    game.clear = clear
     game.rocking_do_rook = rocking_do_rook
     game.is_it_rocking = is_it_rocking
 

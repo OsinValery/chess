@@ -34,7 +34,7 @@ def choose_magia(board,e_x,e_y):
     h = 0
     for x in range(8):
         if board[x][e_y].figure.type != 'empty':
-            if board[x][e_y].figure.color == global_constants.game.color_do_hod_now:
+            if board[x][e_y].figure.color == global_constants.game.Game_logik.color_do_hod_now:
                 h += 1
     if h > 1:
         var += [8,9]
@@ -217,7 +217,7 @@ def magia_for_network_run(board,case:str):
 
     elif case[0] == 8:
         for x in range(8):
-            if board[x][e_y].figure.color == global_constants.game.color_do_hod_now:
+            if board[x][e_y].figure.color == global_constants.game.Game_logik.color_do_hod_now:
                 if board[x][e_y].figure.color == 'white' and e_y != 7:
                     if board[x][e_y+1].figure.type == 'empty' and \
                         board[x][e_y].figure.type != 'empty':
@@ -234,7 +234,7 @@ def magia_for_network_run(board,case:str):
                         board[x][e_y-1].figure.do_hod_before = True
     elif case[0] == 9:
         for x in range(8):
-            if board[x][e_y].figure.color == global_constants.game.color_do_hod_now:
+            if board[x][e_y].figure.color == global_constants.game.Game_logik.color_do_hod_now:
                 if board[x][e_y].figure.color == 'black' and e_y != 7:
                     if board[x][e_y+1].figure.type == 'empty' and \
                         board[x][e_y].figure.type != 'empty':
@@ -250,7 +250,7 @@ def magia_for_network_run(board,case:str):
                         board[x][e_y-1].figure.set_coords_on_board(x,e_y-1)
                         board[x][e_y-1].figure.do_hod_before = True
     elif case[0] == 10:
-        if global_constants.game.color_do_hod_now == 'white':
+        if global_constants.game.Game_logik.color_do_hod_now == 'white':
             for x in range(8):
                 for y in range(1,8):
                     if board[x][y-1].figure.type == 'empty' and board[x][y].figure.type != 'empty':
@@ -269,7 +269,7 @@ def magia_for_network_run(board,case:str):
                             board[x][y+1].figure.set_coords_on_board(x,y+1)
                             board[x][y+1].figure.do_hod_before = True
     elif case[0] == 11:
-        if global_constants.game.color_do_hod_now == 'white':
+        if global_constants.game.Game_logik.color_do_hod_now == 'white':
             for x in range(8):
                 for y in range(6,-1,-1):
                     if board[x][y].figure.color == 'white' and board[x][y].figure.type != 'empty':
@@ -454,7 +454,7 @@ def magik(board,magia=0):
                 board[x+2][y-2].figure.set_coords_on_board(x+2,y-2)
     elif magia == 8:
         for x in range(8):
-            if board[x][e_y].figure.color == global_constants.game.color_do_hod_now:
+            if board[x][e_y].figure.color == global_constants.game.Game_logik.color_do_hod_now:
                 if board[x][e_y].figure.color == 'white' and e_y != 7:
                     if board[x][e_y+1].figure.type == 'empty' and \
                         board[x][e_y].figure.type != 'empty':
@@ -471,7 +471,7 @@ def magik(board,magia=0):
                         board[x][e_y-1].figure.do_hod_before = True
     elif magia == 9:
         for x in range(8):
-            if board[x][e_y].figure.color == global_constants.game.color_do_hod_now:
+            if board[x][e_y].figure.color == global_constants.game.Game_logik.color_do_hod_now:
                 if board[x][e_y].figure.color == 'black' and e_y != 7:
                     if board[x][e_y+1].figure.type == 'empty' and \
                         board[x][e_y].figure.type != 'empty':
@@ -487,7 +487,7 @@ def magik(board,magia=0):
                         board[x][e_y-1].figure.set_coords_on_board(x,e_y-1)
                         board[x][e_y-1].figure.do_hod_before = True
     elif magia == 10:
-        if global_constants.game.color_do_hod_now == 'white':
+        if global_constants.game.Game_logik.color_do_hod_now == 'white':
             for x in range(8):
                 for y in range(1,8):
                     if board[x][y-1].figure.type == 'empty' and board[x][y].figure.type != 'empty':
@@ -506,7 +506,7 @@ def magik(board,magia=0):
                             board[x][y+1].figure.set_coords_on_board(x,y+1)
                             board[x][y+1].figure.do_hod_before = True
     elif magia == 11:
-        if global_constants.game.color_do_hod_now == 'white':
+        if global_constants.game.Game_logik.color_do_hod_now == 'white':
             for x in range(8):
                 for y in range(6,-1,-1):
                     if board[x][y].figure.color == 'white' and board[x][y].figure.type != 'empty':
@@ -546,7 +546,6 @@ def copy_board(board):
             new_board[a][b].figure.color = copy.copy(board[a][b].figure.color)
             new_board[a][b].figure.type = copy.copy(board[a][b].figure.type)
             new_board[a][b].figure.do_hod_before = copy.copy(board[a][b].figure.do_hod_before)
-
     return new_board
 
 def create_start_game_board():
@@ -581,7 +580,6 @@ def do_rocking(board,x,y,choose_figure):
         board[0][b].figure = Figure('',1,b,'empty')
         board[3][b].figure.do_hod_before = True
         board[3][b].figure.set_coords_on_board(3,b)
-        del x,b
     return board
 
 def can_do_rocking(my_game,board,figure,list2):
@@ -610,17 +608,10 @@ def can_do_rocking(my_game,board,figure,list2):
                     list2.append([2,c])
     return list2
 
-def clear(game):
-    del game.clear
-    del game.do_rocking
-    del game.can_do_rocking
-
-
 def init_chess(game):
     game.board = create_start_game_board()
     game.do_rocking = do_rocking
     game.can_do_rocking = can_do_rocking
-    game.clear = clear
 
 
 

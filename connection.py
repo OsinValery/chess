@@ -48,7 +48,11 @@ def end_connection_activity(who=0):
 
 def check_my_ip():
     """try to know my ip address"""
-    my_ip = socket.gethostbyname(socket.gethostname())
+    my_ip = '127.0.0.1'
+    try:
+        my_ip = socket.gethostbyname(socket.gethostname())
+    except:
+        pass
     if my_ip == '127.0.0.1':
         # higly likely it will true for android and linux
         """
@@ -470,8 +474,9 @@ class server_widget(Widget):
                     on_press = create
             ))
 
-        except:
+        except Exception as e:
             # have not wifi
+            print(e)
             self.add_widget(NotConnection_Widget(
                 size=self.size,
                 pos = (.04 * self.size[0], .2 * self.size[1])
@@ -518,16 +523,14 @@ class server_widget(Widget):
         comandes = change_nick,change_ip,change_pass
         descriptions = ['connection_nick','connection_ip','connection_pass']
         Connection.my_nick = Settings.default_nick
+        texts = [Connection.my_nick, Connection.friend_ip, Connection.password]
         for i in 0,1,2:
             grid.add_widget(Label(
                 text = Get_text(descriptions[i]),
                 color = [1,1,0,1]
             ))
-            text = ''
-            if i == 0:
-                text = Connection.my_nick
             grid.add_widget(Text_line(
-                comandes[i],text = text,
+                comandes[i],text = texts[i],
                 size = [.4 * self.size[0], .05 * self.size[1]],
                 pos = [.3 * self.size[0], .7 * self.size[1]],
                 size_hint = [1,None]

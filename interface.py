@@ -171,7 +171,7 @@ class Graphical_interfase():
         self.create(game,sizes,commands)
         
         if game.with_time:
-            line = time(game.players_time['white'])
+            line = time(game.Game_logik.players_time['white'])
         else:
             line = '--:--'
 

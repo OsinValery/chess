@@ -292,7 +292,7 @@ class Figure():
         return data + '\n'
 
     def from_saves(self,data):
-        info = data.split()
+        info = data.split()     
         x, y, self.type = info[:3]
         self.x, self.y = int(x), int(y)
         if self.type != 'empty':

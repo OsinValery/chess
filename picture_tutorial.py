@@ -24,7 +24,6 @@ Figure = None
 import classic
 import fisher
 import horse_battle
-import los_alamos
 import gen_glinskiy
 import gen_kuej
 import gen_horde
@@ -40,6 +39,7 @@ import uprising
 import circle_chess
 import garner
 import rasing
+import chess_los_alamos
 
 
 class Field():
@@ -98,7 +98,7 @@ class Static_picture(Widget):
         elif self.type_of_chess == 'los_alamos':
             Figure = figure_alamos.Figure
             if 'start' in self.options:
-                los_alamos.create_start_game_board()
+                chess_los_alamos.create_start_game_board()
 
         elif self.type_of_chess == 'glinskiy':
             Figure = glin_figure.Figure

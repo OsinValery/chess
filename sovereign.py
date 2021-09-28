@@ -274,15 +274,15 @@ class Color_dropDown(Widget):
             Rectangle(size=self.grid.size,pos=self.grid.pos)
             Color(1,1,1,1)
         self.grid.clear_widgets()
-        owners = [global_constants.game.game_state.white_player,global_constants.game.game_state.black_player]
-        for color in global_constants.game.game_state.colors_state:
+        owners = [global_constants.game.Game_logik.game_state.white_player,global_constants.game.Game_logik.game_state.black_player]
+        for color in global_constants.game.Game_logik.game_state.colors_state:
             self.grid.add_widget(Image(
                 source=get_image_path(color),
                 size=[self.element_size]*2
             ))
 
             text = '-'
-            owner = global_constants.game.game_state.get_owner(color)
+            owner = global_constants.game.Game_logik.game_state.get_owner(color)
             if owner == 'white':
                 text = '1'
             elif owner == 'black':

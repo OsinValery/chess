@@ -39,14 +39,8 @@ def do_rocking(board,x,y,choose_figure):
 def can_do_rocking(my_game,board,figure,list2):
     return list2
 
-def clear(game):
-    del game.clear
-    del game.do_rocking
-    del game.can_do_rocking
-
 
 def init_chess(game):
     game.board = create_start_game_board()
     game.do_rocking = do_rocking
     game.can_do_rocking = can_do_rocking
-    game.clear = clear

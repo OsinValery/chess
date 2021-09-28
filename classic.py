@@ -56,15 +56,15 @@ def do_rocking(board,x,y,choose_figure):
         del x,b
     return board
 
-def can_do_rocking(my_game,board,figure,list2):
+def can_do_rocking(self ,board, figure, list2):
         c = figure.y
-        board2 = copy_board(board)
+        board2 = self.copy_board(board)
         for a in board2:
             for b in a:
                 b.attacked = False
-        for x in range(8):
-            for y in range(8):
-                if board2[x][y].figure.color != my_game.color_do_hod_now:
+        for x in range(len(board)):
+            for y in range(len(board[0])):
+                if board2[x][y].figure.color != self.color_do_hod_now:
                     board2 = board[x][y].figure.do_attack(board2)
         #короткая рокировка
         if board[6][c].figure.type == 'empty' and board[5][c].figure.type == 'empty':
@@ -82,14 +82,8 @@ def can_do_rocking(my_game,board,figure,list2):
                         list2.append([2,c])
         return list2
 
-def clear(game):
-    del game.clear
-    del game.do_rocking
-    del game.can_do_rocking
-
 
 def init_chess(game):
     game.board = create_start_game_board()
     game.do_rocking = do_rocking
     game.can_do_rocking = can_do_rocking
-    game.clear = clear
