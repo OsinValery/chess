@@ -13,7 +13,6 @@ from Window_info import Window
 from sounds import Music
 from settings import Settings
 from translater import Get_text
-from connection import Connection
 import global_constants
 import core_game_logik
 import sovereign
@@ -180,7 +179,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
             if global_constants.game.with_time:
                 self.time.cancel()
             if global_constants.game.state_game != 'one':
-                Connection.messages += ['surrend']
+                global_constants.Connection_manager.send('surrend')
 
         def no():
             self.want_surrend = False
@@ -381,7 +380,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
         else:
             if global_constants.game.state_game != 'one' and self.color_do_hod_now == global_constants.game.play_by:
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
                 self.message = ''
             self.choose_figure = Figure('', 0, 0, 'empty')
             self.change_color(options)
@@ -405,7 +404,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
             if global_constants.game.state_game != 'one':
                 self.message += ' = ' + ftype
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
             self.message = ''
             self.change_color(options)
             self.is_end_of_game(self.board)
@@ -595,7 +594,7 @@ def desertion(x,y,board):
         if game.state_game != 'one':
             message = f'move {x} {y} {x} {y} = {color}'
             message += f" {game.Game_logik.players_time['white']} {game.Game_logik.players_time['black']}"
-            Connection.messages += [message]
+            global_constants.Connection_manager.send(message)
         game.Game_logik.choose_figure = game.Game_logik.Figure('', 0, 0, 'empty')
         game.Game_logik.change_color()
         game.Game_logik.delete_tips()
@@ -696,7 +695,7 @@ def draw_message():
             Game.Game_logik.want_draw[Game.Game_logik.color_do_hod_now] = True
             Game.Game_logik.voyaje_message = False
         else:
-            Connection.messages += ['draw offer']
+            global_constants.Connection_manager.send('draw offer')
             if global_constants.game.with_time:
                 Game.Game_logik.time.cancel()
             global_constants.Main_Window.wid.canvas.clear()
@@ -728,7 +727,7 @@ def back(touch):
         del Game.Game_logik.time
 
     if Game.state_game != 'one':
-        Connection.messages += ['leave']
+        global_constants.Connection_manager.send('leave')
     Game.renew()
     global_constants.Main_Window.canvas.clear()
     global_constants.Main_Window.create_start_game(touch)

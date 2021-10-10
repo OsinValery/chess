@@ -4,7 +4,6 @@ from kivy.uix.bubble import Bubble, BubbleButton
 from kivy.uix.gridlayout import GridLayout
 
 from settings import Settings
-from connection import Connection
 import global_constants
 import core_game_logik
 
@@ -130,7 +129,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
             if global_constants.game.state_game != 'one':
                 self.message += ' = ' + ftype
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
             self.message = ''
             self.change_color(options)
             self.is_end_of_game(self.board)

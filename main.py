@@ -5,6 +5,7 @@ import time
 
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.lang.builder import Builder
 from kivy.core.window import Window
 from kivy.graphics import Rectangle
 from kivy.uix.button import Button
@@ -118,7 +119,13 @@ class GameWidget(Widget):
         self.canvas.clear()
         game.window = 'connection'
         self.clear_widgets()
-        self.add_widget(connection.server_widget(self.size, self))
+        self.canvas.clear()
+        self.canvas.add(Rectangle(source=settings.Settings.get_bace_picture(),size = self.size))
+        if not global_constants.Connection_manager.active:
+            self.add_widget(connection.EmptyConnectionWidget())
+        else:
+            #self.add_widget(connection.server_widget(self.size, self))
+            self.add_widget(connection.Connection_info_Widget())
 
     def to_saves(self, click):
         if game.state_game != 'one':
@@ -169,10 +176,11 @@ class GameApp(App):
         Clock.schedule_once(test, 2)
         if not 'Saves' in os.listdir(self.user_data_dir):
             os.mkdir(os.path.join(self.user_data_dir, 'Saves'))
+        Builder.load_file('Connection.kv')
 
     def stop(self):
-        if connection.Connection.state == 1:
-            connection.Connection.messages += ['exit']
+        if global_constants.Connection_manager.active:
+            global_constants.Connection_manager.send('exit')
             time.sleep(2)
         if settings.settings_widget in game.main_widget.children:
             settings.back(1)
@@ -186,13 +194,14 @@ class GameApp(App):
 
 
 def close(click):
-    if connection.Connection.state == 1:
-        connection.Connection.messages = ['exit']
+    if global_constants.Connection_manager.active:
+        global_constants.Connection_manager.send('exit')
         time.sleep(2)
     Music.stop()
     myapp.stop()
 
 
+global_constants.Connection_manager = connection.network.Connection_manager()
 game = game_class.Game(__version__)
 app_size = sizes.Size()
 myapp = GameApp()

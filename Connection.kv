@@ -1,0 +1,56 @@
+#: import translater translater
+#: import global_constants global_constants
+
+<Connection_Manager@Widget>:
+    pos: (0,0)
+    canvas:
+        Color: 
+            rgba: (78 /255 ,87/255 ,84/255 , 0.7)
+        Rectangle:
+            pos: (0.2 * self.size[0], 0.2 * self.size[1])
+            size: (0.6 * self.size[0], 0.5 * self.size[1])
+        Color:
+            rgb: (1, 115/255, 0)
+        Line:
+            width: 1.5
+            rectangle: (0.2 * self.size[0]+4, 0.2 * self.size[1]+4, 0.6 * self.size[0]-8, 0.5 * self.size[1]-8)
+        Line:
+            width: 1.5
+            rectangle: (0.2 * self.size[0], 0.2 * self.size[1], 0.6 * self.size[0], 0.5 * self.size[1])
+        Line:
+            rectangle: (0.2 * self.size[0]+4, 0.55 * self.size[1], 0.6 * self.size[0]-8, 5)
+            width: 1.5
+        Line:
+            width: 1.5
+            rectangle: (0.2 * self.size[0]+4, 0.47 * self.size[1], 0.6 * self.size[0]-8, 5)
+        Line:
+            rectangle: (0.2 * self.size[0]+4, 0.41 * self.size[1], 0.6 * self.size[0]-8, 5)
+            width: 1.5
+
+    Label:
+        text: translater.Get_text('connection_wait_connection')
+        color: (1, 0, 0, 1)
+        pos: (0.2 * self.parent.size[0], 0.55 * self.parent.size[1])
+        size: (0.6 * self.parent.size[0], 0.15 * self.parent.size[1])
+        font_size: 60
+    Button:
+        text: translater.Get_text('connection_cancel')
+        pos: (0.2 * self.parent.size[0] + 4, 0.47 * self.parent.size[1] + 4)
+        size: (0.6 * self.parent.size[0] - 8, 0.08 * self.parent.size[1] - 4)
+        on_press: 
+            self.parent.parent.back(1)
+        background_normal: ''
+        background_color: (1, 0, 0, 0.4)
+        color: (0,1,0, 1)
+    Label:
+        text: "ip: {}\nnick: {}".format(global_constants.Connection_manager.server_ip, global_constants.Connection_manager.own_user.username)
+        pos: (0.2 * self.parent.size[0] + 4, 0.41 * self.parent.size[1] + 4 )
+        size: (0.6 * self.parent.size[0] - 8, 0.06 * self.parent.size[1] - 4)
+        font_size: 30
+        color: (0, 1, 0, 1)
+    # for server with more then 1 player
+    GridLayout:
+        id: "user_list"
+        pos: (0.2 * self.parent.size[0], 0.2 * self.parent.size[1])
+        cols: 1
+

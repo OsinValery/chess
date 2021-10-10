@@ -8,7 +8,6 @@ import os
 from sounds import Music
 from settings import Settings
 from translater import Get_text
-from connection import Connection
 import global_constants
 import core_game_logik
 
@@ -144,7 +143,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
             if global_constants.game.state_game != 'one' and self.color_do_hod_now == global_constants.game.play_by:
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
                 self.message += f' {self.case}'
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
                 self.message = ''
             self.change_color(options)
             self.is_end_of_game(board)
@@ -274,7 +273,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
                 self.message += ' = ' + ftype
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
                 self.message += f' {self.case}'
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
             self.message = ''
             self.change_color(options)
             self.is_end_of_game(self.board)

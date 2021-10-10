@@ -2672,7 +2672,7 @@ def get_horde(language, description):
     return 'error 3 in harde'
 
 
-def connection(language, description, params):
+def connection(language, description, params = None):
     if description == 'friend':
         if language == 'ru':
             return 'С другом'
@@ -2686,16 +2686,31 @@ def connection(language, description, params):
             return 'mit Freund'
 
     if description == 'has':
+        my_ip = '?'
+        my_nick = 'Anonimous'
+        friend_nick = ''
+        if global_constants.game.state_game == 'host':
+            my_ip = global_constants.Connection_manager.server_ip
+            my_nick = global_constants.Connection_manager.own_user.username
+            for user in global_constants.Connection_manager.users:
+                friend_nick += user.username + ', '
+            if not friend_nick or friend_nick.isspace():
+                friend_nick = 'Unknown'
+        elif global_constants.game.state_game == 'user':
+            my_ip = global_constants.Connection_manager.own_user.server_ip
+            my_nick = global_constants.Connection_manager.own_user.username
+            friend_nick = global_constants.Connection_manager.server_nick
+
         if language == 'ru':
-            return f'Соединение успешно установлено \n Ваш ip : {params[0].my_ip} \n Ваш ник : {params[0].my_nick} \n Оппонент : {params[0].friend_nick} \n Играйте на здоровье!'
+            return f'Соединение успешно установлено \n ip : {my_ip} \n Ваш ник : {my_nick} \n Оппонент : {friend_nick} \n Играйте на здоровье!'
         if language == 'en':
-            return f"Connection successfully established \n Your ip: {params[0]. my_ip} \n Your nickname : {params[0].my_nick} \n Opponent : {params[0].friend_nick} \n Play for your health!"
+            return f"Connection successfully established \n ip: { my_ip} \n Your nickname : {my_nick} \n Opponent : {friend_nick} \n Play for your health!"
         if language == 'fr':
-            return f"La connexion a été établie avec succès \n votre adresse ip: {params[0].my_ip} \n votre pseudo: {params[0].my_nick} \n votre Adversaire: {params[0].friend_nick} \n Jouez à la santé!"
+            return f"La connexion a été établie avec succès \n adresse ip: {my_ip} \n votre pseudo: {my_nick} \n votre Adversaire: {friend_nick} \n Jouez à la santé!"
         if language == 'es':
-            return f'La conexión se ha establecido correctamente \n Su ip : {params[0].my_ip} \n Su apodo: {params[0].my_nick} \n Oponente: {params[0].friend_nick} \n ¡Juega a la salud!'
+            return f'La conexión se ha establecido correctamente \n ip : {my_ip} \n Su apodo: {my_nick} \n Oponente: {friend_nick} \n ¡Juega a la salud!'
         if language == 'de':
-            return f'Verbindung erfolgreich hergestellt \n Deine IP: {params[0].my_ip} \n Dein Nickname : {params[0].my_nick} \n Gegner : {params[0].friend_nick} \n Gesundheit spielen!'
+            return f'Verbindung erfolgreich hergestellt \n IP: {my_ip} \n Dein Nickname : {my_nick} \n Gegner : {friend_nick} \n Gesundheit spielen!'
 
     if description == 'kill':
         if language == 'ru':
@@ -2956,6 +2971,13 @@ def connection(language, description, params):
             return 'Crear juego'
         if language == 'de':
             return 'Spiel erstellen'
+
+    if description == 'wait_connection':
+        if language == 'ru': return  'Ожидание\nподключений'
+        elif language == 'en':return 'Waiting for\nconnections'
+        elif language == 'fr':return 'En attente \nde connexion'
+        elif language == 'de':return 'Auf Verbindungen \nwarten'
+        elif language == 'es':return 'Conexiones \npendientes'
 
     print(description)
     return 'error connection'

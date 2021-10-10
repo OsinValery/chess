@@ -3,7 +3,6 @@ import core_game_logik
 import global_constants
 from translater import Get_text
 from sounds import Music
-from connection import Connection
 
 import classic
 import fisher
@@ -190,7 +189,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
         else:
             if global_constants.game.state_game != 'one' and self.color_do_hod_now == global_constants.game.play_by:
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
                 self.message = ''
             self.choose_figure = self.Figure('', 0, 0, 'empty')
             self.change_color(options)

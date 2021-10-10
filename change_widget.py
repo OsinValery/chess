@@ -14,7 +14,6 @@ import os
 
 from settings import Settings
 import tutorial
-import connection
 from translater import Get_text
 from my_spinner import Spinner
 from switch import Switch_ as Switch
@@ -83,7 +82,7 @@ def create_game_process(click):
     if game.state_game == 'one':
         game.create_game(click)
     elif game.state_game == 'host':
-        friend_version = connection.Connection.friend_version
+        friend_version = global_constants.Connection_manager.friend_version
         chess_type = global_constants.game.type_of_chess
         if not valid_application_version(friend_version,chess_type):
             # invalid version
@@ -218,7 +217,7 @@ class Card(Widget):
             font_name = Settings.get_font(),
         ))
         if global_constants.game.state_game == 'host':
-            version = connection.Connection.friend_version
+            version = global_constants.Connection_manager.friend_version
             if not valid_application_version(version,chess_type.type):
                 # game is impossible, because version of other player is too old
                 folder = global_constants.Settings.get_folder()
@@ -406,7 +405,7 @@ class Settings_widget(Widget):
             texts.append(Get_text('change_your_color'))
             poses.append([self.pos[0]+.08*self.size[0], self.pos[1]+.78 * self.size[1]])
         if global_constants.game.state_game == 'host':
-            version = connection.Connection.friend_version
+            version = global_constants.Connection_manager.friend_version
             chess_type = global_constants.game.type_of_chess
             if not valid_application_version(version,chess_type):
                 # game is impossible, because version of other player is too old

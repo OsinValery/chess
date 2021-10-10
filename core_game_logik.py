@@ -14,8 +14,6 @@ from Window_info import Window
 from sounds import Music
 from settings import Settings
 from translater import Get_text
-from connection import Connection
-import connection
 
 import help_chess
 
@@ -177,8 +175,8 @@ class CoreGameLogik:
         if not self.pause and not self.need_change_figure:
             self.pause = True
             if global_constants.game.state_game != 'one' and not second_device:
-                Connection.messages += [
-                    f'pause on {self.players_time["white"]} {self.players_time["black"]}']
+                global_constants.Connection_manager.send(
+                    f'pause on {self.players_time["white"]} {self.players_time["black"]}')
             if global_constants.game.with_time:
                 self.time.cancel()
             global_constants.Main_Window.wid.canvas.clear()
@@ -201,8 +199,8 @@ class CoreGameLogik:
         if not self.pause or self.voyaje_message:
             return
         if global_constants.game.state_game != 'one':
-            Connection.messages += [
-                f'pause off {self.players_time["white"]} {self.players_time["black"]}']
+            global_constants.Connection_manager.send(
+                f'pause off {self.players_time["white"]} {self.players_time["black"]}')
         try:
             global_constants.Main_Window.remove_widget(self.pause_button)
             self.pause_button = None
@@ -468,7 +466,7 @@ class CoreGameLogik:
         else:
             if global_constants.game.state_game != 'one' and self.color_do_hod_now == global_constants.game.play_by:
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
                 self.message = ''
             self.choose_figure = self.Figure('', 0, 0, 'empty')
             self.change_color(options)
@@ -495,7 +493,7 @@ class CoreGameLogik:
             if global_constants.game.state_game != 'one':
                 self.message += ' = ' + ftype
                 self.message += f" {self.players_time['white']} {self.players_time['black']}"
-                Connection.messages += [self.message]
+                global_constants.Connection_manager.send(self.message)
             self.message = ''
             self.change_color(options)
             self.is_end_of_game(self.board)
@@ -589,7 +587,7 @@ class CoreGameLogik:
             if global_constants.game.with_time:
                 self.time.cancel()
             if global_constants.game.state_game != 'one':
-                Connection.messages += ['surrend']
+                global_constants.Connection_manager.send(self.message)
 
         def no():
             self.want_surrend = False
@@ -611,12 +609,12 @@ class CoreGameLogik:
         text = f'start\ntype:{game.type_of_chess}\ncolor:'
         if game.play_by == 'white':
             text += 'black'
-            game.name1 = connection.Connection.my_nick
-            game.name2 = connection.Connection.friend_nick
+            game.name1 = global_constants.Connection_manager.my_nick
+            game.name2 = global_constants.Connection_manager.friend_nick
         else:
             text += 'white'
-            game.name2 = connection.Connection.my_nick
-            game.name1 = connection.Connection.friend_nick
+            game.name2 = global_constants.Connection_manager.my_nick
+            game.name1 = global_constants.Connection_manager.friend_nick
         text += f'\ntime:{game.time_mode}\nadd:{game.add_time}\ntips:'
         if game.make_tips:
             text += 't'
@@ -642,7 +640,7 @@ def back(touch):
         del Game.Game_logik.time
 
     if Game.state_game != 'one':
-        Connection.messages += ['leave']
+        global_constants.Connection_manager.send('leave')
     Game.renew()
     global_constants.Main_Window.canvas.clear()
     global_constants.Main_Window.create_start_game(touch)
@@ -672,7 +670,7 @@ def draw_message():
             Game.Game_logik.want_draw[Game.Game_logik.color_do_hod_now] = True
             Game.Game_logik.voyaje_message = False
         else:
-            Connection.messages += ['draw offer']
+            global_constants.Connection_manager.send('draw offer')
             if global_constants.game.with_time:
                 Game.Game_logik.time.cancel()
             global_constants.Main_Window.wid.canvas.clear()

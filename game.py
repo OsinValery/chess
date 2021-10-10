@@ -45,6 +45,7 @@ class Game():
         self.window = 'main'
 
     def start_play(self, settings):
+        print(settings)
         """for game by network\n 
         it parse message and create game"""
         # it will run in addition thread in connection module
@@ -62,11 +63,11 @@ class Game():
             self.position = data[5].split(':')[1]
 
         if self.play_by == 'white':
-            self.name1 = connection.Connection.my_nick
-            self.name2 = connection.Connection.friend_nick
+            self.name1 = global_constants.Connection_manager.my_nick
+            self.name2 = global_constants.Connection_manager.friend_nick
         else:
-            self.name2 = connection.Connection.my_nick
-            self.name1 = connection.Connection.friend_nick
+            self.name2 = global_constants.Connection_manager.my_nick
+            self.name1 = global_constants.Connection_manager.friend_nick
         self.ind = True
         self.window = 'game'
         global_constants.Settings.change_sorting(self.type_of_chess)
@@ -127,7 +128,7 @@ class Game():
                 for figure in pos:
                     self.position += figure[0]
                 text += self.position
-            connection.Connection.messages += [text]
+            global_constants.Connection_manager.send(text)
 
         self.ind = True
         main_widget.clear_widgets()
@@ -188,14 +189,14 @@ class Game():
                     self.Game_logik.time.cancel()
 
                 def no():
-                    connection.Connection.messages += ['draw no']
+                    global_constants.Connection_manager.send('draw no')
                     if self.with_time:
                         self.Game_logik.time = Clock.schedule_interval(
                             self.Game_logik.tick, 1)
                     self.Game_logik.voyaje_message = False
 
                 def yes():
-                    connection.Connection.messages += ['draw yes']
+                    global_constants.Connection_manager.send('draw yes')
                     self.Game_logik.voyaje_message = False
                     self.ind = False
                     self.Game_logik.interfase.do_info(Get_text('game_draw_ok'))
@@ -326,3 +327,7 @@ class Game():
         self.Game_logik = find_chess_module(self.type_of_chess).Game_logik()
         self.Game_logik.players_time = {'white': self.time_mode, 'black': self.time_mode}
         self.Game_logik.init_game()
+
+
+
+
