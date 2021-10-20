@@ -13,8 +13,8 @@ from kivy.uix.popup import Popup
 
 def end_connection_activity(who=0):
     """
-    0 - exit message
-    else - broken
+    0 - i send it
+    1 - i found it
     """
     Game = global_constants.game
     if Game.state_game == 'host':
@@ -46,8 +46,6 @@ def end_connection_activity(who=0):
         grid = GridLayout(cols=1)
         window.add_widget(grid)
         text = Get_text('connection_exit')
-        if who != 0:
-            text = Get_text('connection_broken')
         grid.add_widget(Label(
             text = text,
             color = [1,0,0,1]
@@ -58,7 +56,8 @@ def end_connection_activity(who=0):
             size_hint_y = None,
             on_press = lambda click: window.dismiss()
         ))
-        window.open()
+        if who == 1:
+            window.open()
     Game.state_game = 'one'
 
 def check_my_ip():
@@ -279,7 +278,8 @@ class User():
         self.messages.append(message)
 
     def close(self):
-        self.messages = ['exit']
+        if self.state:
+            self.messages = ['exit']
 
     def set_options(self, nick, sock):
         self.socket = sock
@@ -298,7 +298,7 @@ class User():
                 if self.socket._closed:
                     self.state = False
                     print('connection broken')
-                if self.messages == []:
+                elif self.messages == []:
                     mes = '#'
                     mes = self.socket.recv(1024).decode('utf-8')
                     print('i found')
@@ -306,12 +306,12 @@ class User():
                     if mes == 'exit':
                         self.socket.close()
                         self.state = False
-                        end_connection_activity()
+                        end_connection_activity(1)
                     elif mes == '':
                         print('empty message')
                         self.socket.close()
                         self.state = False
-                        end_connection_activity()
+                        end_connection_activity(1)
                     elif 'start' in mes:
                         global_constants.game.start_play(mes[6:])
                     else:
@@ -322,7 +322,7 @@ class User():
                     if mes == 'exit':
                         self.socket.close()
                         self.state = False
-                        end_connection_activity()
+                        end_connection_activity(0)
                         if self in global_constants.Connection_manager.users:
                             global_constants.Connection_manager.users.remove(self)
             except socket.timeout:

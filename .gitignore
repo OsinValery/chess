@@ -1,2 +1,3 @@
 .vscode
 __py*__
+*.DS_Store
