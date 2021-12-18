@@ -367,6 +367,13 @@ def bace_text(language, description):
         elif language == 'de':
             return 'souveränes\nSchach'
 
+    if description == 'jungles':
+        if language == 'ru':    return 'Джунгли'
+        if language == 'en':    return 'Jungles'
+        if language == 'fr':    return 'Jungle'
+        if language == 'es':    return 'Selva'
+        if language == 'de':    return 'Dschungel'
+
     elif description == 'exit?':
         if language == 'ru':
             return 'Выйти?'
@@ -1647,6 +1654,82 @@ def game_text(language, description, params):
         if language == 'de':
             return f'der {player} Spieler hat verloren!!'
 
+    # for junglies' chess
+    elif description == 'blue_lose':
+        if language == 'ru':   return 'Синие проиграли!'
+        if language == 'en':   return 'The Blues have lost!'
+        if language == 'fr':   return 'Les bleus ont perdu!'
+        if language == 'es':   return '¡Los azules perdieron!'
+        if language == 'de':   return 'Die Blauen haben verloren!'
+    
+    elif description == 'red_lose':
+        if language == 'ru':   return 'Красные проиграли'
+        elif language == 'en': return 'The Reds have lost!'
+        elif language == 'de': return 'Die Roten haben verloren!'
+        elif language == 'fr': return 'Les Reds ont perdu!'
+        elif language == 'es': return '¡Los rojos perdieron!'
+
+    elif description == 'red_move':
+        if language == 'ru':   return 'Ход красных'
+        if language == 'en':   return 'Red\'s Move'
+        if language == 'fr':   return 'Course des figures rouges'
+        if language == 'es':   return 'El movimiento de los rojos'
+        if language == 'de':   return 'Lauf der Roten'
+
+    if description == 'blue_move':
+        if language == 'ru':   return 'Ход синих'
+        if language == 'en':   return 'Blue\'s move'
+        if language == 'fr':   return 'Course des bleus'
+        if language == 'es':   return 'El movimiento de los azules'
+        if language == 'de':   return 'Blaue Figuren gehen'
+    
+    if description == 'game_jungles_white_lost':
+        if language == 'ru':   return 'Синий проиграл!'
+        if language == 'en':   return 'Blue has lost!'
+        if language == 'fr':   return 'Blue a perdu!'
+        if language == 'es':   return '¡El azul perdió!'
+        if language == 'de':   return 'Blau hat verloren!'
+
+    if description == 'game_jungles_black_lost':
+        if language == 'ru':   return 'Красный проиграл!'
+        if language == 'en':   return 'Red has lost!'
+        if language == 'fr':   return 'Les Reds ont perdu!'
+        if language == 'es':   return '¡Los rojos perdieron!'
+        if language == 'de':   return 'Die Roten haben verloren!'
+
+    if description == 'white_lose_castle':
+        if language == 'ru':   return 'Синий потерял гнездо!\n Красные  победили!'
+        if language == 'en':   return 'Blue has lost the nest!\n The Reds have won!'
+        if language == 'fr':   return 'Blue a perdu le nid!\n les Rouges ont gagné!'
+        if language == 'es':   return '¡El azul perdió nido!\n ¡los Rojos ganaron!'
+        if language == 'de':   return 'Blau verloren Nest!\n Die Roten haben gewonnen!'
+
+    if description == 'black_lose_castle':
+        if language == 'ru':   return 'Красные потеряли гнездо!\n Синие победили!'
+        if language == 'en':   return 'The Reds have lost the nest!\n The Blues have won!'
+        if language == 'fr':   return 'Les rouges ont perdu le nid!\n les Bleus ont gagné!'
+        if language == 'es':   return '¡Los rojos perdieron el nido!\n ¡los Azules ganaron!'
+        if language == 'de':   return 'Rot verloren Nest!\n Die Blauen haben gewonnen!'
+
+    elif description == 'blue_surrend':
+        if language == 'ru':
+            return 'Синие сдались'
+        elif language == 'en':
+            return 'Blue surrended'
+        elif language == 'fr':
+            return 'Les Blues se sont rendus'
+        elif language == 'es':
+            return 'Los azul se rindieron'
+        elif language == 'de':
+            return 'Die Blau Gaben auf'
+
+    elif description == 'red_surrend':
+        if language == 'ru':   return 'Красные сдались'
+        elif language == 'en': return 'Reds surrended'
+        elif language == 'fr': return 'Les rouges se sont rendus'
+        elif language == 'es': return 'Los rojos se rindieron'
+        elif language == 'de': return 'Die rot Gaben auf'
+
     else:
         print(description)
         return 'error_2'
@@ -1784,6 +1867,9 @@ def tutorial(language, description):
 
     elif 'sovereign' in description:
         return get_sovereign(language, description[10:])
+    
+    elif 'jungles' in description:
+        return get_jungles(language, description[8:])
 
     else:
         return 'error_2'
@@ -3794,32 +3880,122 @@ def get_uprising(language, description):
     return 'error in get_uprising'
 
 
+def get_jungles(language, description):
+    if description == 'start':
+        if language == 'ru':    return 'Этот режим популярен среди китайских детей, однако он набирает популярность и среди взрослых, так как эта игра помягче шахмат. '
+        if language == 'en':    return 'This game is very popular among chinese children, however it\'s growing among adults too, because this game softer then chess.'
+        if language == 'fr':    return 'Ce jeu est très populaire parmi les enfants chinois, mais il se développe également chez les adultes, car ce jeu est plus doux que les échecs.'
+        if language == 'es':    return 'Este juego es muy popular entre los niños chinos, sin embargo, está creciendo entre los adultos también, porque este juego más suave que el ajedrez.'
+        if language == 'de':    return 'Dieses Spiel ist sehr beliebt bei chinesischen Kindern, aber es wächst auch bei Erwachsenen, weil dieses Spiel weicher dann Schach.'
+
+    if description == 'логово':
+        if language == 'ru':    return 'У каждого игрока есть логово. Если враг туда попадёт - вы проиграли. Другой способ проиграть - потерять всех зверей! Берегите, так сказать.'
+        if language == 'en':    return 'Each player has a lair. If the enemy gets there, you lose. Another way to lose is to lose all the animals! Take care, so to speak.'
+        if language == 'fr':    return 'Chaque joueur a un repaire. Si l\'ennemi y arrive , vous perdez. Une autre façon de perdre est de perdre toutes les bêtes! Prenez soin, pour ainsi dire.'
+        if language == 'es':    return 'Cada jugador tiene una guarida. Si el enemigo llega allí, pierdes. ¡Otra forma de perder es perder a todas las bestias! Cuidado, por así decirlo.'
+        if language == 'de':    return 'Jeder Spieler hat eine Höhle. Wenn der Feind dorthin kommt - Sie verlieren. Ein anderer Weg zu verlieren ist, alle Tiere zu verlieren! Passen Sie auf, sozusagen.'
+    
+    if description == 'ловушки':
+        if language == 'ru':    return 'Каждое логово окружено ловушками. Если враг попадёт в вашу ловушку, он станет настолько слабым, что его может уничтожить любая ваша фигура, даже крыса!'
+        if language == 'en':    return 'Each lair is surrounded by traps. If an enemy falls into your trap, he will become so weak that any of your pieces, even a rat, can destroy him!'
+        if language == 'fr':    return 'Chaque repaire est entouré de pièges. Si l\'ennemi tombe dans votre piège, il deviendra si faible qu\'il peut être détruit par n\'importe quelle figure, même un rat!'
+        if language == 'es':    return 'Cada guarida está rodeada de trampas. Si el enemigo cae en tu trampa, se volverá tan débil que cualquiera de tus figuras puede destruirlo, ¡incluso una rata!'
+        if language == 'de':    return 'Jede Höhle ist von Fallen umgeben. Wenn ein Feind in deine Falle fällt, wird er so schwach, dass er von jeder deiner Figuren zerstört werden kann, sogar von einer Ratte!'
+
+    if description == 'lake':
+        if language == 'ru':    return 'Также на поле есть 2 реки(озера). В воду может попасть только крыса! 2 фигуры могут перепрыгнуть её, если на их пути нет крысы.'
+        if language == 'en':    return 'There are also 2 rivers (lakes) on the field. Only a rat can get into the water! 2 figures can jump over it if there is no rat in their way.'
+        if language == 'fr':    return 'Il y a aussi 2 rivières(lacs) sur le terrain. Seul un rat peut entrer dans l\'eau! 2 pièces peuvent sauter par-dessus s\'il n\'y a pas de rat sur leur chemin.'
+        if language == 'es':    return 'También hay 2 ríos(lagos) en el campo. ¡Solo una rata puede entrar en el agua! 2 figuras pueden saltar sobre ella si no hay una rata en su camino.'
+        if language == 'de':    return 'Auch auf dem Feld gibt es 2 Flüsse(Seen). Nur eine Ratte kann ins Wasser! 2 figuren können über sie springen, wenn es keine Ratte in ihrem Weg gibt.'
+    
+    if description == 'rat':
+        if language == 'ru':    return 'Крыса - самая слабая фигура в вашем отряде! Она может срубить только крысу и слона. Стоп, что? Слона? Да, слоны не зря избегают их...'
+        if language == 'en':    return 'The rat is the weakest figure in your squad! She can only cut down a rat and an elephant. Wait, what? An elephant? Yes, elephants avoid them for a reason...'
+        if language == 'fr':    return 'Rat-la figure la plus faible dans votre équipe! Elle ne peut abattre qu\'un rat et un éléphant. Attends, quoi? Un éléphant? Oui, les éléphants ne les évitent pas pour rien...'
+        if language == 'es':    return '¡La rata es la pieza más débil de tu escuadrón! Solo puede cortar una rata y un elefante. Espera, ¿qué? ¿Un elefante? Sí, los elefantes los evitan por una buena razón...'
+        if language == 'de':    return 'Die Ratte ist die schwächste Figur in eurem Kader! Sie kann nur eine Ratte und einen Elefanten töten. Stopp, was? Ein Elefant? Ja, Elefanten meiden sie nicht umsonst...'
+
+    if description == 'cat':
+        if language == 'ru':    return 'Боевые коты к бою! Они могут побороть только крысу и кота! Это всё, на что способны эти милые создания.'
+        if language == 'en':    return 'Battle cats to battle! They can only fight a rat and a cat! That\'s all these cute creatures are capable of.'
+        if language == 'fr':    return 'Chats de combat au combat! Ils ne peuvent vaincre que le rat et le chat! C\'est tout ce dont ces jolies créatures sont capables.'
+        if language == 'es':    return '¡Gatos de batalla a la batalla! ¡Solo pueden vencer a la rata y al gato! Eso es todo lo que estas lindas criaturas son capaces de hacer.'
+        if language == 'de':    return 'Kampfkatzen zum Kampf! Sie können nur eine Ratte und eine Katze überwinden! Das ist alles, wozu diese niedlichen Kreaturen fähig sind.'
+
+    if description == 'animals':
+        if language == 'ru':    return 'Сила фигур по возрастанию: \n 1) Крыса \n 2) Кот\n 3) Собака\n 4) Волк\n 5) Леопард\n 6) Тигр\n 7) Лев\n 8) Слон'
+        if language == 'en':    return 'The power of the figures in ascending order: \n 1) Rat \n 2) Cat\n 3) Dog\n 4) Wolf\n 5) Leopard\n 6) Tiger\n 7) Lion\n 8) Elephant'
+        if language == 'fr':    return 'La puissance des chiffres \ndans l\'ordre croissant: \n 1) Rat \n 2) Cat \n 3) Log \n 4) Loup \n 5) Léopard \n 6) Tigre \n 7) Lion \n 8) Éléphant'
+        if language == 'es':    return 'El poder de las figuras en orden ascendente: \n 1) Rat \n 2) Gato\n 3) Perro\n 4) Lobo\n 5) Leopardo\n 6) Tigre\n 7) León\n 8) Elefante'
+        if language == 'de':    return 'Die Macht der Figuren in aufsteigender Reihenfolge: \n 1) Ratte \n 2) Bei\n 3) Log\n 4) Wolf \n 5) Leopard\n 6) Tiger\n 7) Löwe\n 8) Elefant'
+
+    if description == 'others':
+        if language == 'ru':    return 'Все фигуры ходят одинаково! У некоторых из них есть свои особенности. Крыса не может атаковать из воды на сушу. Тигр и лев могут перепрыгнуть реку, если на пути нет крысы. '
+        if language == 'en':    return 'All the pieces move the same way! Some of them have their own peculiarities. A rat cannot attack from water to land. A tiger and a lion can jump over a river if there is no rat on the way.'
+        if language == 'fr':    return 'Toutes les figures vont de la même manière! Certains d\'entre eux ont leurs propres caractéristiques. Le rat ne peut pas attaquer de l\'eau à la terre. Le tigre et le Lion peuvent sauter par-dessus la rivière si le champ a pas de rat sur le chemin.'
+        if language == 'es':    return '¡Todas las figuras caminan igual! Algunos de ellos tienen sus propias características. La rata no puede atacar desde el agua a la tierra. Un tigre y un León pueden saltar un río si no hay una rata en el camino.'
+        if language == 'de':    return 'Alle Figuren gehen gleich! Einige von ihnen haben ihre eigenen Eigenschaften. Die Ratte kann nicht vom Wasser an Land angreifen. Tiger und Löwe können über den Fluss springen, wenn keine Ratte auf dem Weg ist.'
+
+    if description == 'dog':
+        if language == 'ru':    return 'Фас! Собака - третья по силе фигура. Разогнать всех котов в округе! И крыс заодно!'
+        if language == 'en':    return 'Face it! The dog is the third figure in the queue. Disperse all the cats in the neighborhood! And rats too!'
+        if language == 'fr':    return 'Fais-le face! Le chien est le troisième personnage de la file d\'attente. Dispersez tous les chats du quartier! Et les rats aussi!'
+        if language == 'es':    return '¡Enfréntalo! El perro es la tercera figura en la cola. ¡Dispersen a todos los gatos del vecindario! ¡Y ratas también!'
+        if language == 'de':    return 'Sei ehrlich! Der Hund ist die dritte Figur in der Warteschlange. Zerstreuen Sie alle Katzen in der Nachbarschaft! Und Ratten auch!'
+
+    if description == 'wolf':
+        if language == 'ru':    return 'А чего это мы вдруг только домашних животных перечисляем? Вон, волки тоже в бой рвутся! И готовы побороть все предыдущие фигуры.'
+        if language == 'en':    return 'And why are we suddenly only listing pets? Out, the wolves are also rushing into battle! And it is ready to overcome all the previous figures.'
+        if language == 'fr':    return 'Et qu\'est-ce que nous énumérons soudainement seulement les animaux domestiques? Les loups se battent aussi! Et prêt à surmonter toutes les figures précédentes.'
+        if language == 'es':    return '¿Y por qué de repente solo enumeramos mascotas? ¡Fuera, los lobos también están luchando! Y listo para superar todas las figuras anteriores.'
+        if language == 'de':    return 'Und was ist es, wenn wir nur Haustiere aufzählen? Da sind auch Wölfe im Kampf! Und wir sind bereit, alle vorherigen Figuren zu überwinden.'
+
+    if description == 'leopard':
+        if language == 'ru':    return 'Одни из самых быстрых на земле - Леопарды. Доподлинно неизвестно, почему они не могут перепрыгнуть реку. Может, боятся?'
+        if language == 'en':    return 'Some of the fastest on earth are Leopards. It is not known for certain why they cannot jump the river. Maybe they\'re afraid?'
+        if language == 'fr':    return 'Certains des plus rapides sur terre sont les Léopards. On ne sait pas pourquoi ils ne peuvent pas sauter par-dessus la rivière. Peut-être peur?'
+        if language == 'es':    return 'Algunos de los más rápidos de la tierra son los Leopardos. No se sabe por qué no pueden saltar el río. ¿Tienen miedo?'
+        if language == 'de':    return 'Eine der schnellsten auf der Erde sind Leoparden. Es ist sicher nicht bekannt, warum sie nicht über den Fluss springen können. Vielleicht haben sie Angst?'
+
+    if description == 'tiger':
+        if language == 'ru':    return 'Пора выводить на поле боя тяжёлую артиллерию! Все предыдущие звери - ничто, по сравнению с тигром!'
+        if language == 'en':    return 'It\'s time to bring heavy artillery to the battlefield! All the previous beasts are nothing compared to the tiger!'
+        if language == 'fr':    return 'Il est temps d\'apporter de l\'artillerie lourde sur le champ de bataille! Toutes les bêtes précédentes ne sont rien comparé au tigre!'
+        if language == 'es':    return '¡Es hora de llevar artillería pesada al campo de batalla! ¡Todas las bestias anteriores no son nada en comparación con un tigre!'
+        if language == 'de':    return 'Es ist Zeit, schwere Artillerie auf das Schlachtfeld zu bringen! Alle vorherigen Tiere sind nichts im Vergleich zu einem Tiger!'
+
+    if description == 'lion':
+        if language == 'ru':    return 'Львы!.. Львы!.. Спасайся, кто может!'
+        if language == 'en':    return 'Lions!.. Lions!.. Save yourself, who can!'
+        if language == 'fr':    return 'Les lions!.. Les lions!.. Sauve qui peut!'
+        if language == 'es':    return '¡Leones!.. ¡Leones!.. ¡Salva a quien pueda!'
+        if language == 'de':    return 'Löwen!.. Löwen!.. Rette dich, wer kann!'
+
+    if description == 'elephant':
+        if language == 'ru':    return 'Не смей тревожить слона! А иначе никому не будет пощады!'
+        if language == 'en':    return 'Don\'t you dare disturb the elephant! Otherwise, there will be no mercy for anyone!'
+        if language == 'fr':    return 'Ne dérange pas l\'éléphant! Sinon, personne ne sera épargné!'
+        if language == 'es':    return '¡No molestes al elefante! ¡De lo contrario, nadie tendrá piedad!'
+        if language == 'de':    return 'Wage es nicht, den Elefanten zu stören! Sonst wird niemand erbarmen!'
+
+    return 'error description in get_jungles\n' + description
 
 
 def for_copy(language, description):
 
     if description == '':
-        if language == 'ru':
-            return ''
-        if language == 'en':
-            return ''
-        if language == 'fr':
-            return ''
-        if language == 'es':
-            return ''
-        if language == 'de':
-            return ''
+        if language == 'ru':    return ''
+        if language == 'en':    return ''
+        if language == 'fr':    return ''
+        if language == 'es':    return ''
+        if language == 'de':    return ''
 
     if description == '':
-        if language == 'ru':
-            return ''
-        if language == 'en':
-            return ''
-        if language == 'fr':
-            return ''
-        if language == 'es':
-            return ''
-        if language == 'de':
-            return ''
+        if language == 'ru':    return ''
+        if language == 'en':    return ''
+        if language == 'fr':    return ''
+        if language == 'es':    return ''
+        if language == 'de':    return ''
 
     return 'error in '

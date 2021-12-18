@@ -17,6 +17,7 @@ import rasing_figure
 import frozen_figure
 import legan_figure
 import sovereign_figure
+import animals
 
 Figure = None
 
@@ -34,6 +35,7 @@ import frozen
 import legan_chess
 import sovereign
 import uprising
+import jungles_chess
 
 #Chess types
 import circle_chess
@@ -149,6 +151,10 @@ class Static_picture(Widget):
             Figure = help_chess.Figure
             if 'start' in self.options:
                 uprising.create_start_game_board()
+        elif self.type_of_chess == 'jungles':
+            Figure = animals.Figure
+            if 'start' in self.options:
+                jungles_chess.create_start_game_board()
 
         for el in self.position:
             # format is [ figure's type, x, y, color ]

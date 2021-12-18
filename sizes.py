@@ -45,6 +45,8 @@ class Size():
             return self.virtual_board_size[0] / 65
         if game.type_of_chess == 'garner':
             return self.board_size[0]//12
+        if game.type_of_chess == 'jungles':
+            return 0.003 * self.board_size[0]
         return self.board_size[0]//20
     
     @property
@@ -56,11 +58,14 @@ class Size():
             return self.virtual_board_size[0] / 63
         if game.type_of_chess == 'garner':
             return self.board_size[1]//12
+        if game.type_of_chess == 'jungles':
+            return 0.003 * self.board_size[1]
         return self.board_size[1]//20
     
     @property
     def field_size(self):
         game = global_constants.game
+        # for all
         if game.type_of_chess == 'los_alamos':
             return (self.board_size[0]-2*self.x_top)//6
         if game.type_of_chess == 'sovereign':
@@ -111,6 +116,20 @@ class Size():
     @property
     def field_h(self):
         return self.board_size[1] / 11
+    
+    @property
+    def field_width(self):
+        if global_constants.game.type_of_chess == 'jungles':
+            return (self.board_size[0] - 2 * self.x_top) / 7
+        else:
+            return self.field_size
+    
+    @property
+    def field_height(self):
+        if global_constants.game.type_of_chess == 'jungles':
+            return (self.board_size[1] - 2 * self.x_top) / 9
+        else:
+            return self.field_size
 
 
 

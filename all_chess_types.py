@@ -18,6 +18,7 @@ import week_chess
 import legan_chess
 import sovereign_chess
 import uprising
+import jungles_chess
 
 
 
@@ -58,6 +59,8 @@ def find_chess_module(tip):
         return sovereign_chess
     elif tip == 'uprising':
         return uprising
+    elif tip == 'jungles':
+        return jungles_chess
     if global_constants.game.test:
         print()
         print('you tryes to run undefined chess type!!!!!!')

@@ -40,7 +40,7 @@ class Game_logik(core_game_logik.CoreGameLogik):
             board = self.do_rocking(board,x,y,self.choose_figure)
         else:
             a , b = self.choose_figure.x , self.choose_figure.y
-            board[a][b].figure = self.Figure('',0,0,'empty')
+            board[a][b].figure = self.Figure('',a,b,'empty')
             board[x][y].figure.destroy()
             board[x][y].figure = self.choose_figure
             board[x][y].figure.set_coords_on_board(x,y)

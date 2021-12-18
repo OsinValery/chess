@@ -245,8 +245,8 @@ class Figure():
         else:
             list_attack = self.first_list(board)
             for element in list_attack:
-                x,y = element[0],element[1]
-                board[x][y].attacked = True
+                x1,y1 = element[0],element[1]
+                board[x1][y1].attacked = True
 
         return board
 
@@ -258,7 +258,6 @@ class Figure():
             global_constants.current_figure_canvas.remove(self.rect)
             del self.rect
         self.type = 'empty'
-        self.color = ''
         self.color = ''
 
     def pawn_on_last_line(self):

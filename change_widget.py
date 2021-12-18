@@ -592,7 +592,7 @@ with_effects = [Chess_type(el)for el in [
 honestless = [Chess_type(el)for el in ['horde', 'week', 'bad_chess','uprising']]
 boards = [Chess_type(el)
           for el in ['circle_chess', 'bizantion', 'glinskiy', 'kuej']]
-other_rules = [Chess_type(el)for el in ['rasing', 'sovereign']]
+other_rules = [Chess_type(el)for el in ['rasing', 'sovereign', 'jungles']]
 
 all_chess = classic_type + positions + \
     with_effects + honestless + boards + other_rules
@@ -604,6 +604,6 @@ for chess in [
         'haotic', 'dark_chess', 'frozen', 'nuclear',
         'horde', 'week', 'bad_chess',
         'circle_chess', 'bizantion', 'glinskiy', 'kuej',
-        'rasing', 'sovereign', 'uprising'
+        'rasing', 'sovereign', 'uprising', 'jungles'
         ]:
-    chess_type_list[chess].version_added = '0.0.49'
+    chess_type_list[chess].version_added = '0.0.52'

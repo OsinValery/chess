@@ -236,6 +236,8 @@ def tutorial(press):
         do_sovereign_tutorial()
     elif game.type_of_chess == 'uprising':
         do_uprising_tutorial()
+    elif game.type_of_chess == 'jungles':
+        do_jungles_tutorial()
     else:
         lost_tutorial()
 
@@ -2547,24 +2549,26 @@ def sov8(arg=...):
 def sov9(arg=...):
     help_tutorial()
     board = [
-        ['white', 8, 0, 'pawn'], ['black', 11,14, 'pawn'], ['white', 1, 3, 'pawn'],
+        ['white', 8, 0, 'pawn'], ['black', 11,
+                                  14, 'pawn'], ['white', 1, 3, 'pawn'],
         ['white', 15, 0, 'king'], ['black', 0, 15, 'king'], ['black', 7, 4, 'pawn']
     ]
     activity = [
         ['show', 11, 14, [[10, 14], [11, 13], [11, 12]]], ['pause'],
         ['move', 11, 14, 10, 14],
-        ['show',8,0,[[8,1],[8,2]]], ['pause'],
-        ['move',8,0,8,2],
-        ['show',10,14,[[10,13], [9,14]]], ['pause'],
-        ['move',10,14,9,14],
-        ['move',8,2,8,3],['pause'],
-        ['move',9,14,9,13],
-        ['show_attack',8,3,7,4], ['pause'],
-        ['take',8,3,7,4], ['move',9,13,9,12],['move',7,4,7,5],
-        ['move',9,12,9,11], ['move', 7, 5, 7, 6],['change',7,6,'queen'],
-        ['pause'], ['move',9,11,9,10], ['show',1,3,[[1,4],[2,3],[3,3]]],
-        ['pause'], ['move',1,3,3,3],['pause'],
-        ['move',9,10,9,9], ['change',9,9,'rook'], ['pause']
+        ['show', 8, 0, [[8, 1], [8, 2]]], ['pause'],
+        ['move', 8, 0, 8, 2],
+        ['show', 10, 14, [[10, 13], [9, 14]]], ['pause'],
+        ['move', 10, 14, 9, 14],
+        ['move', 8, 2, 8, 3], ['pause'],
+        ['move', 9, 14, 9, 13],
+        ['show_attack', 8, 3, 7, 4], ['pause'],
+        ['take', 8, 3, 7, 4], ['move', 9, 13, 9, 12], ['move', 7, 4, 7, 5],
+        ['move', 9, 12, 9, 11], ['move', 7, 5, 7, 6], ['change', 7, 6, 'queen'],
+        ['pause'], ['move', 9, 11, 9, 10], [
+            'show', 1, 3, [[1, 4], [2, 3], [3, 3]]],
+        ['pause'], ['move', 1, 3, 3, 3], ['pause'],
+        ['move', 9, 10, 9, 9], ['change', 9, 9, 'rook'], ['pause']
     ]
     sovereign_video_interface(
         board=board,
@@ -2574,17 +2578,18 @@ def sov9(arg=...):
         command=sov10
     )
 
+
 def sov10(arg=...):
     help_tutorial()
     board = [
-        ['white',2,2,'pawn'], ['white',13,2,'pawn'],
-        ['black',2,13,'pawn'], ['black',13,13,'pawn']
-        ]
+        ['white', 2, 2, 'pawn'], ['white', 13, 2, 'pawn'],
+        ['black', 2, 13, 'pawn'], ['black', 13, 13, 'pawn']
+    ]
     action = [
-        ['show',2,2,[[3,3],[3,1], [1,3] ]], ['pause'],
-        ['show',13,2,[[12,3],[12,1], [14,3]]], ['pause'],
-        ['show',2,13,[[3,12],[3,14], [1,12]]], ['pause'],
-        ['show',13,13,[[12,12],[14,12],[12,14]]],['pause']
+        ['show', 2, 2, [[3, 3], [3, 1], [1, 3]]], ['pause'],
+        ['show', 13, 2, [[12, 3], [12, 1], [14, 3]]], ['pause'],
+        ['show', 2, 13, [[3, 12], [3, 14], [1, 12]]], ['pause'],
+        ['show', 13, 13, [[12, 12], [14, 12], [12, 14]]], ['pause']
     ]
     sovereign_video_interface(
         board=board,
@@ -2594,51 +2599,59 @@ def sov10(arg=...):
         command=sov11
     )
 
+
 def sov11(arg=...):
     help_tutorial()
     board = [
-        ['white',8,0,'king'], ['white',11,0,'rook'],
-        ['black',8,15,'king'],['purple',2,15,'rook'],['black',8,10,'pawn']
+        ['white', 8, 0, 'king'], ['white', 11, 0, 'rook'],
+        ['black', 8, 15, 'king'], ['purple', 2,
+                                   15, 'rook'], ['black', 8, 10, 'pawn']
     ]
     action = [
-        ['show',8,0,[[10,0]]],['pause'],
-        ['o-o',0],
-        ['show',8,10,[]],['pause'],
-        ['show',8,15,[[3,15]]],['pause'],
-        ['o-o-o',15], ['pause']
+        ['show', 8, 0, [[10, 0]]], ['pause'],
+        ['o-o', 0],
+        ['show', 8, 10, []], ['pause'],
+        ['show', 8, 15, [[3, 15]]], ['pause'],
+        ['o-o-o', 15], ['pause']
     ]
-    sovereign_video_interface(board,action,1.5,Get_text('tutorial_sovereign_11'),sov12)
+    sovereign_video_interface(
+        board, action, 1.5, Get_text('tutorial_sovereign_11'), sov12)
+
 
 def sov12(arg=...):
     help_tutorial()
     text = Get_text('tutorial_sovereign_12')
     board = [
-        ['white',8,0,'king'], ['black',8,15,'king'],
-        ['white',7,5,'pawn'], ['black',4,11,'pawn'],
-        ['red',10,9,'pawn']
+        ['white', 8, 0, 'king'], ['black', 8, 15, 'king'],
+        ['white', 7, 5, 'pawn'], ['black', 4, 11, 'pawn'],
+        ['red', 10, 9, 'pawn']
     ]
     action = [
         ['pause'],
-        ['move',7,5,7,6],['change',7,6,'king'],['change',8,0,'empty'],
-        ['pause'],['pause'],['pause'],['pause'],
-        ['move',10,9,9,9],['change',9,9,'king'],['change',8,15,'empty'],
-        ['pause'],['pause'],['pause'],['pause']
+        ['move', 7, 5, 7, 6], ['change', 7, 6, 'king'], ['change', 8, 0, 'empty'],
+        ['pause'], ['pause'], ['pause'], ['pause'],
+        ['move', 10, 9, 9, 9], ['change', 9, 9, 'king'], [
+            'change', 8, 15, 'empty'],
+        ['pause'], ['pause'], ['pause'], ['pause']
     ]
-    sovereign_video_interface(board,action,0.5,text,sov13)
+    sovereign_video_interface(board, action, 0.5, text, sov13)
+
 
 def sov13(arg=...):
     help_tutorial()
     text = Get_text('tutorial_sovereign_13')
     size = global_constants.Main_Window.size
-    static_interface(size,text,do_sovereign_tutorial,1)
+    static_interface(size, text, do_sovereign_tutorial, 1)
 
 # end of sovereign tutorial
+
 
 def do_uprising_tutorial(arg=...):
     help_tutorial()
     text = Get_text('tutorial_uprising_start')
     size = global_constants.Main_Window.size
     static_interface(size, text, uprising2)
+
 
 def uprising2(arg=...):
     help_tutorial()
@@ -2647,6 +2660,7 @@ def uprising2(arg=...):
         label_text=Get_text('tutorial_uprising_2'),
         btn_command=uprising_3
     )
+
 
 def uprising_3(arg=...):
     help_tutorial()
@@ -2665,6 +2679,7 @@ def uprising_3(arg=...):
         on_press=uprising_4
     ))
 
+
 def uprising_4(arg=...):
     help_tutorial()
     size = global_constants.Main_Window.size
@@ -2674,6 +2689,7 @@ def uprising_4(arg=...):
         btn_command=uprising_5,
         label_text=Get_text('tutorial_classic_horse')
     )
+
 
 def uprising_5(arg=...):
     size = global_constants.Main_Window.size
@@ -2701,8 +2717,197 @@ def uprising_5(arg=...):
 # end of uprising tutorial
 
 
+def do_jungles_tutorial(arg=0):
+    help_tutorial()
+    text = Get_text('tutorial_jungles_start')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, jungles2)
 
 
+def jungles2(arg=None):
+    help_tutorial()
+    text = Get_text('tutorial_jungles_логово')
+    size = global_constants.Main_Window.size
+    actions = [
+        ['show_fields', [[3, 0], [3, 8]], 'jungles', [0, 1, 0, 1]],
+        ['pause'],
+        ['pause'],
+    ]
+    video_interface([], actions, 0.5, jungles3, get_text(
+        text, size[0]*0.9, normal_font_size/2))
 
 
+def jungles3(arg=...):
+    help_tutorial()
+    text = Get_text('tutorial_jungles_ловушки')
+    size = global_constants.Main_Window.size
+    fields = [[3, 1], [4, 0], [2, 0], [3, 7], [4, 8], [2, 8]]
+    actions = [
+        ['show_fields', fields, 'jungles', [0, 1, 0, 1]],
+        ['pause'],
+        ['pause'],
+    ]
+    video_interface([], actions, 0.5, jungles4,
+                    get_text(text, size[0]*0.9, normal_font_size/2)
+                    )
 
+
+def jungles4(arg=...):
+    help_tutorial()
+    text = Get_text('tutorial_jungles_lake')
+    size = global_constants.Main_Window.size
+    fields = [[1, 3], [2, 3], [1, 4], [2, 4], [1, 5], [2, 5]]
+    fields += [[4, 3], [4, 4], [5, 4], [4, 5], [5, 3], [5, 5]]
+    actions = [
+        ['show_fields', fields, 'jungles', [0, 0, 1, 1]],
+        ['pause'],
+        ['pause'],
+    ]
+    video_interface([], actions, 0.5, jungles5,
+                    get_text(text, size[0]*0.9, normal_font_size/2)
+                    )
+
+
+def jungles5(arg=...):
+    size = global_constants.Main_Window.size
+    help_tutorial()
+
+    global_constants.Main_Window.add_widget(Label(
+        text=Get_text('tutorial_jungles_animals'),
+        shorten=True,
+        font_size=normal_font_size * 1.5,
+        color=(0, 0, 0, 1),
+        pos=(size[0]*0.05, size[1]*0.3),
+        size=(size[0]*0.9, size[1]*0.4),
+        halign="left",
+        valign="middle",
+        font_name=Settings.get_font(),
+    ))
+
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_next'),
+        pos=(size[0] * 0.65, size[1] * 0.05),
+        background_normal='',
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=jungles6
+    ))
+
+
+def jungles6(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='rat',
+        btn_command=jungles7,
+        label_text=Get_text('tutorial_jungles_rat'),
+        fig_pos=[1, 1]
+    )
+
+
+def jungles7(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='cat',
+        btn_command=jungles8,
+        label_text=Get_text('tutorial_jungles_cat'),
+        fig_pos=[3, 5]
+    )
+
+def jungles8(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='dog',
+        btn_command=jungles9,
+        label_text=Get_text('tutorial_jungles_dog'),
+        fig_pos=[3, 5]
+    )
+
+
+def jungles9(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='wolf',
+        btn_command=jungles10,
+        label_text=Get_text('tutorial_jungles_wolf'),
+        fig_pos=[3, 5]
+    )
+
+
+def jungles10(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='leopard',
+        btn_command=jungles11,
+        label_text=Get_text('tutorial_jungles_leopard'),
+        fig_pos=[3, 5]
+    )
+
+
+def jungles11(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='tiger',
+        btn_command=jungles12,
+        label_text=Get_text('tutorial_jungles_tiger'),
+        fig_pos=[3, 5]
+    )
+
+
+def jungles12(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='lion',
+        btn_command=jungles13,
+        label_text=Get_text('tutorial_jungles_lion'),
+        fig_pos=[3, 5]
+    )
+
+
+def jungles13(arg=None):
+    help_tutorial()
+    interactive_interface(
+        size=global_constants.Main_Window.size,
+        figure='elephant',
+        btn_command=jungles_all,
+        label_text=Get_text('tutorial_jungles_elephant'),
+        fig_pos=[3, 5]
+    )
+
+
+def jungles_all(arg=...):
+    help_tutorial()
+    text = Get_text('tutorial_jungles_others')
+    size = global_constants.Main_Window.size
+    board = [
+        ['white', 2,2, 'dog'], ['white', 4,2, 'tiger'], ['white', 1, 2, 'lion'],
+        ['black', 1, 6, 'cat'], ['black', 6,5,'lion'], ['white', 5, 4, 'rat'],
+        ['black', 5, 3, 'rat'], ['black', 6,4, 'elephant']
+    ]
+    actions = [
+        ['show', 2,2, [[2,1], [3,2]]], ['pause'],
+        ['show', 1,2, [[1,1], [0,2], [1,6]]], ['pause'], ['pause'],
+        ['show', 4,2, [[5,2], [3,2], [4,6], [4,1]]], ['pause'],
+        ['move', 4,2,4,6], ['pause'],
+        ['show', 6,5, [[6,6], [3, 5]]], ['pause'],
+        ['move', 6,5,3,5], ['pause'],
+        ['show', 5,4, [[5,3], [5,5], [4,4]]], ['pause'],
+        ['take', 5,4,5,3]
+    ]
+    video_interface(
+        board=board,
+        actions=actions,
+        speed=1.2,
+        command=jungles_end,
+        text= get_text(text, size[0]*0.9, normal_font_size/2)
+    )
+
+
+def jungles_end(arg=...):
+    ...

@@ -7,6 +7,7 @@ import global_constants
 import help_chess
 import glin_figure
 import frozen_figure
+import animals
 
 Figure = help_chess.Figure
 
@@ -74,10 +75,10 @@ class VideoChess(Widget):
             s = global_constants.Sizes
             pos = [s.x_top_board + s.x_top, s.y_top_board + s.y_top]
             points = [
-                [pos[0] + x*s.field_size, pos[1] + y*s.field_size],
-                [pos[0] + (x+1)*s.field_size, pos[1] + y*s.field_size],
-                [pos[0] + (x+1)*s.field_size, pos[1] + (y+1)*s.field_size],
-                [pos[0] + x*s.field_size, pos[1] + (y+1)*s.field_size],
+                [pos[0] + x*s.field_width, pos[1] + y*s.field_height],
+                [pos[0] + (x+1)*s.field_width, pos[1] + y*s.field_height],
+                [pos[0] + (x+1)*s.field_width, pos[1] + (y+1)*s.field_height],
+                [pos[0] + x*s.field_width, pos[1] + (y+1)*s.field_height],
             ]
             self.effects.append([0,1,0,1])
             if global_constants.game.type_of_chess in ['kuej','glinskiy']:
@@ -97,10 +98,10 @@ class VideoChess(Widget):
                     ))
             else:
                 self.effects += [Line(points = points,width=3,close=True) ]
-                r = 10
+                r = 13
                 for x,y in fields:
                     self.effects.append(Ellipse(
-                        pos=[pos[0] - r/2 +(x+0.5)*s.field_size,pos[1] -r/2 +(y+0.5)*s.field_size],
+                        pos=[pos[0] - r/2 +(x+0.5)*s.field_width,pos[1] -r/2 +(y+0.5)*s.field_height],
                         size=[r,r]
                     ))
 
@@ -146,7 +147,24 @@ class VideoChess(Widget):
                     if nx > -1 and nx < 8 and ny >= 0 and ny < 8:
                         if self.cur_pos[nx][ny][3] not in ['empty','pawn']:
                             self.cur_pos[nx][ny] = ['',nx,ny,'empty']
-
+        elif self.actions[self.move][0] == 'show_fields':
+            fields, chess, color = self.actions[self.move][1:4]
+            self.effects = [color]
+            size = global_constants.Sizes
+            for [x,y] in fields:
+                if chess == 'jungles':
+                    poses = [
+                        x * size.field_width + size.x_top + size.x_top_board,
+                        y * size.field_height + size.y_top + size.y_top_board,
+                        (x + 1) * size.field_width + size.x_top + size.x_top_board,
+                        y * size.field_height + size.y_top + size.y_top_board,
+                        (x + 1) * size.field_width + size.x_top + size.x_top_board,
+                        (y + 1) * size.field_height + size.y_top + size.y_top_board,
+                        x * size.field_width + size.x_top + size.x_top_board,
+                        (y + 1) * size.field_height + size.y_top + size.y_top_board,
+                    ]
+                self.effects.append(Line(points=poses, close=True, width = 3))
+                
 
         if self.actions[self.move][0] != 'pause':
             self.draw()
@@ -162,9 +180,13 @@ class VideoChess(Widget):
             Figure = glin_figure.Figure
         if global_constants.game.type_of_chess == 'frozen':
             Figure = frozen_figure.Figure
+        if global_constants.game.type_of_chess == 'jungles':
+            Figure = animals.Figure
         tip = 'classic'
         if global_constants.game.type_of_chess in ['kuej','glinskiy']:
             tip = 'glinskiy'
+        if global_constants.game.type_of_chess == 'jungles':
+            tip = 'jungles'
         with self.canvas:
             Rectangle(
                 source = global_constants.Settings.get_board_picture(tip),

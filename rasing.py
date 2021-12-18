@@ -10,7 +10,7 @@ import rasing_figure
 
 def get_start_position():
     Field = core_game_logik.Field
-    Figure = global_constants.game.Game_logik.Figure
+    Figure = rasing_figure.Figure
     board = [[Field() for t in range(8)] for a in range(8)]
     for x in range(8):
         for y in range(8):

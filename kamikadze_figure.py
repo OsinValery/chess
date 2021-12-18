@@ -3,7 +3,7 @@ import Basic_figure
 
 class Figure(Basic_figure.Figure):
     def first_list(self,board):
-        if self.type in ['horse', 'rook', 'bishop', 'queen', 'pawn']:
+        if self.type in ['horse', 'rook', 'bishop', 'queen', 'pawn', 'empty']:
             return super(Figure,self).first_list(board)
         my_hod = []
         x , y = self.x , self.y

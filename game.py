@@ -10,7 +10,7 @@ from all_chess_types import find_chess_module
 
 import sovereign_chess
 import chess
-import bad_chess
+import bad_chess 
 
 
 

@@ -39,7 +39,7 @@ def create_start_game_board():
 
 def do_rocking(board,x,y,choose_figure):
     a , b = choose_figure.x , choose_figure.y
-    board[a][b].figure = Figure('',0,0,'empty')
+    board[a][b].figure = Figure('',a,b,'empty')
     board[x][y].figure.destroy()
     board[x][y].figure = choose_figure
     board[x][y].figure.set_coords_on_board(x,y)
@@ -59,16 +59,18 @@ def do_rocking(board,x,y,choose_figure):
 def can_do_rocking(my_game,board,figure,list2):
         c = figure.y
         board2 = copy_board(board)
+
         for a in board2:
             for b in a:
                 b.attacked = False
         for x in range(8):
             for y in range(8):
-                if board2[x][y].figure.color != my_game.color_do_hod_now:
+                if board[x][y].figure.color != my_game.color_do_hod_now:
                     board2 = board[x][y].figure.do_attack(board2)
+
         #короткая рокировка
         if board[6][c].figure.type == 'empty' and board[5][c].figure.type == 'empty':
-            if not board2[5][c].attacked and not board2[6][c].attacked and not board2[4][c].attacked:
+            if (not board2[5][c].attacked) and (not board2[6][c].attacked) and (not board2[4][c].attacked):
                 if board[7][c].figure.type == 'rook' and not board[7][c].figure.do_hod_before and \
                 board[7][c].figure.color == figure.color :
                     list2.append([6,c]) 

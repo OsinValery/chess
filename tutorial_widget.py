@@ -22,9 +22,11 @@ import schatranj_figure
 import rasing_figure
 import frozen_figure
 import legan_figure
+import animals
 Figure = None
 
 import rasing
+import jungles_chess
 import math
 
 
@@ -127,6 +129,22 @@ class Tutorial_Widget(Widget):
             Figure = legan_figure.Figure
             self.board = [ [Field(x,y,'empty','') for y in range(8)] for x in range(8)]
 
+        elif self.type_of_chess == 'jungles':
+            Figure = animals.Figure
+            self.board = [ [jungles_chess.Field() for y in range(9)] for x in range(7)]
+            for x in range(7):
+                for y in range(9):
+                    self.board[x][y].setType('land', '')
+                    self.board[x][y].figure = animals.Figure('', x, y, 'empty')
+            self.board[3][0].setType('castle', 'white')
+            self.board[3][8].setType('castle', 'black')        
+            for y in 3,4,5:
+                for x in 1,2,4,5:
+                    self.board[x][y].setType('river', '')
+            for (x,y) in (2,0), (4,0), (3,1):
+                self.board[x][y].setType('trap', 'white')
+            for (x,y) in (2,8), (4,8), (3,7):
+                self.board[x][y].setType('trap', 'black')
 
 
         for fig in figures:
@@ -145,7 +163,6 @@ class Tutorial_Widget(Widget):
         ))
 
     def on_touch_down(self,click):
-        global Figure
         super(Tutorial_Widget,self).on_touch_down(click)
         pos = [*click.pos]
         eight_fields = [
@@ -196,6 +213,16 @@ class Tutorial_Widget(Widget):
                 return
             coord = [int(pos[0] // f),int(pos[1] // f)]
 
+        elif self.type_of_chess == 'jungles':
+            pos[0] -= (self.app_size.x_top_board + self.app_size.x_top)
+            pos[1] -= (self.app_size.y_top_board + self.app_size.y_top)
+            if pos[0] < 0 or pos[1] < 0:
+                return
+            f = self.app_size
+            if pos[0] > f.field_width * 6 or pos[1] > f.field_height * 8:
+                return
+            coord = [int(pos[0] // f.field_width),int(pos[1] // f.field_height)]
+
         x,y = coord
         if self.current == None:
             if self.board[x][y].figure.type != 'empty':
@@ -217,6 +244,8 @@ class Tutorial_Widget(Widget):
                     round_tips(self.app_size,self.canvas,may)
                 if self.type_of_chess in ['kuej','glinskiy']:
                     gekso_tips(self.app_size,self.canvas,may)
+                if self.type_of_chess == 'jungles':
+                    jungles_tips(self.app_size, self.canvas,may)
 
         elif self.board[x][y].figure.type == 'empty' or self.current.color != self.board[x][y].figure.color:
             may = self.current.first_list(self.board)
@@ -327,8 +356,6 @@ def fit_field_gekso(event,size):
                     return i,j
         return -1,-1
 
-
-
 def simple_tips(size,canvas,where): 
     "create tips on rectangle board"
     with canvas:
@@ -379,6 +406,17 @@ def gekso_tips(size,canvas,where):
     with canvas:
         Color(1,1,1,0,mode='rgba')
 
-
+def jungles_tips(size, canvas, where):
+    """ create tips for jungles chess"""
+    with canvas:
+        Color(0,1,0,1)
+        for x,y in where:
+            canvas.add(Ellipse(
+                size = [11,11],
+                pos = [(x + .5) * size.field_width + size.x_top + size.x_top_board - 5,
+                            size.field_height * (y + .5) + size.y_top + size.y_top_board - 5]
+            ))
+    with canvas:
+        Color(0,0,0,0)
 
 
