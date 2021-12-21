@@ -179,7 +179,7 @@ class __Settings():
         elif tipe == 'sovereign':
             return os.path.join(self.get_folder(), 'pictures', 'boards', 'board16x16.png')
         elif tipe == 'jungles':
-            return os.path.join(self.get_folder(), 'pictures', 'boards', 'jungles.jpeg')
+            return os.path.join(self.get_folder(), 'pictures', 'boards', 'jungles.jpg')
         return os.path.join(self.get_folder(), 'pictures', 'boards', self.boards, file)
 
     def get_music(self):
