@@ -1,4 +1,4 @@
-__version__ = '0.0.52'
+__version__ = '1.0.0'
 
 import os
 import time
