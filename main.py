@@ -19,7 +19,6 @@ import settings
 import connection
 import change_widget
 from round_button import RoundButton
-from sounds import Music
 from translater import Get_text
 
 class GameWidget(Widget):
@@ -29,23 +28,20 @@ class GameWidget(Widget):
         global_constants.Main_Window = self
 
         def back_button(window, key, *arg):
-            if key in [27, 1001]:
-                if game.window == 'settings_app':
-                    settings.back(1)
-                    game.window = 'main'
-                elif game.window == 'menu':
-                    self.create_start_game(1)
-                elif game.window == 'chess_chooser':
-                    for el in self.children:
-                        if type(el) == change_widget.Chess_menu:
-                            el.create_interface(1)
-                elif game.window == 'settings':
-                    # it is settings before the game
-                    self.set_change(1)
-
-                return True
-            else:
-                pass
+            if key not in [27, 1001]: return
+            if game.window == 'settings_app':
+                settings.back(1)
+                game.window = 'main'
+            elif game.window == 'menu':
+                self.create_start_game(1)
+            elif game.window == 'chess_chooser':
+                for el in self.children:
+                    if type(el) == change_widget.Chess_menu:
+                        el.create_interface(1)
+            elif game.window == 'settings':
+                # it is settings before the game
+                self.set_change(1)
+            return True
 
         Window.bind(on_keyboard=back_button)
         self.create_start_game()
@@ -62,14 +58,11 @@ class GameWidget(Widget):
         colors = [(0.7, 0, 0.7, 0.5), (.5, .3, .7, .4), (.5, .3, .7, .4),
                   (.5, .3, .7, .4), (.5, .3, .7, .4)]
         texts = [
-            Get_text('all_start'),    Get_text('bace_settings'),
-            Get_text('bace_saved'),   Get_text('connection_friend'),
-            Get_text('bace_exit')
+            'all_start', 'bace_settings', 'bace_saved', 
+            'connection_friend', 'bace_exit'
         ]
 
-        def to_settings(par=None):
-            game.window = 'settings_app'
-            settings.create_interface(par)
+        def to_settings(par=None): settings.create_interface(par)
 
         commands = [
             self.set_change,
@@ -83,13 +76,12 @@ class GameWidget(Widget):
         [width, height] = [.57 * size[0], .45 * size[1]]
         pos = [.25 * size[0], .25 * size[1]]
         spacing = 30
-        h = height / 5
 
         for i in range(5):
             self.add_widget(RoundButton(
-                text=texts[i],
-                size=[width, h-spacing],
-                pos=[pos[0], pos[1]+height-(i+1)*h],
+                text=Get_text(texts[i]),
+                size=[width, height / 5 - spacing],
+                pos=[pos[0], pos[1]+height-(i+1)*height / 5],
                 on_press=commands[i],
                 font_size=35,
                 color=(0, 3, 0, 10),
@@ -124,7 +116,6 @@ class GameWidget(Widget):
         if not global_constants.Connection_manager.active:
             self.add_widget(connection.EmptyConnectionWidget())
         else:
-            #self.add_widget(connection.server_widget(self.size, self))
             self.add_widget(connection.Connection_info_Widget())
 
     def to_saves(self, click):
@@ -161,20 +152,17 @@ class GameWidget(Widget):
 
 class GameApp(App):
     def build(self):
-        settings.Settings.set_folder(self.directory)
-        settings.Settings.user_folder = self.user_data_dir
-        settings.Settings.read_settings()
+        settings.Settings.init_start_state(self.user_data_dir, self.directory)
         self.title = Get_text('bace_title_app')
         self.icon = 'icon.png'
-        wid = GameWidget()
         self.bind(on_start=self.after_start)
-        return wid
+        return GameWidget()
 
     def after_start(self, par=None):
         def test(time=1):
-            Music.create()
+            global_constants.Music.create()
         Clock.schedule_once(test, 2)
-        if not 'Saves' in os.listdir(self.user_data_dir):
+        if 'Saves' not in os.listdir(self.user_data_dir):
             os.mkdir(os.path.join(self.user_data_dir, 'Saves'))
         Builder.load_file('Connection.kv')
 
@@ -197,11 +185,12 @@ def close(click):
     if global_constants.Connection_manager.active:
         global_constants.Connection_manager.send('exit')
         time.sleep(2)
-    Music.stop()
+    global_constants.Music.stop()
     myapp.stop()
 
 
 global_constants.Connection_manager = connection.network.Connection_manager()
+global_constants.Settings = settings.Settings
 game = game_class.Game(__version__)
 app_size = sizes.Size()
 myapp = GameApp()

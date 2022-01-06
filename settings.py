@@ -140,6 +140,11 @@ class __Settings():
 
         file_settings.close()
 
+    def init_start_state(self, user_folder, app_folder):
+        self.user_folder = user_folder
+        self.set_folder(app_folder)
+        self.read_settings()
+
     def get_lang(self):
         if self.lang == 'ru':
             return 'Русский'
@@ -390,6 +395,7 @@ Settings = __Settings()
 
 def create_interface(click):
     global settings_widget
+    global_constants.game.window = 'settings_app'
     widget = global_constants.Main_Window
     settings_widget = Settings_Widget()
     widget.clear_widgets()
