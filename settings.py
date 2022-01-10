@@ -4,6 +4,7 @@ from kivy.uix.slider import Slider
 from kivy.graphics import Color, Rectangle
 from kivy.uix.widget import Widget
 from kivy.uix.textinput import TextInput
+from kivy.utils import platform
 from my_spinner import Spinner
 from switch import Switch_ as Switch
 
@@ -12,6 +13,9 @@ import re
 import random
 from translater import Get_text
 import global_constants
+
+if platform == 'android':
+    from jnius import autoclass
 
 
 def back(click):
@@ -78,6 +82,10 @@ settings_widget = True
 class __Settings():
     def __init__(self):
         self.lang = 'ru'
+        if platform == 'android':
+            lang = autoclass("Local").getDefault().getDisplayLanguage()
+            if lang in ['ru', 'en', 'fr', 'es', 'de']:
+                self.lang = lang
         self.with_sound = True
         self.with_effects = True
         self.volume = .5
