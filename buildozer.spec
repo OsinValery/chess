@@ -11,7 +11,7 @@ source.exclude_dirs = tests, bin, .vscode, .git
 #source.exclude_patterns = license,images/*/*.jpg
 version.regex = __version__ = ['"](.*)['"]
 version.filename = %(source.dir)s/main.py
-requirements = python3,kivy
+requirements = python3,kivy,pyjnius
 presplash.filename = presplash.png
 icon.filename = icon.png
 orientation = portrait
