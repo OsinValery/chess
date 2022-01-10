@@ -94,7 +94,7 @@ class __Settings():
         # try detect device system language
         try:
             if platform == 'android':
-                lang = autoclass("Local").getDefault().getDisplayLanguage()
+                lang = autoclass('java.util.Locale').getDefault().language
                 if lang in ['ru', 'en', 'fr', 'es', 'de']:
                     self.lang = lang
             elif platform == 'ios':
