@@ -16,7 +16,14 @@ import global_constants
 
 if platform == 'android':
     from jnius import autoclass
+elif platform =='ios':
+    from pyobjus import autoclass
 
+if platform == 'macosx':
+    try:
+        from pyobjus import autoclass
+    except:
+        print('pyobjus not imported')
 
 def back(click):
     global settings_widget
@@ -82,10 +89,24 @@ settings_widget = True
 class __Settings():
     def __init__(self):
         self.lang = 'ru'
+        # try detect device system language
         if platform == 'android':
             lang = autoclass("Local").getDefault().getDisplayLanguage()
             if lang in ['ru', 'en', 'fr', 'es', 'de']:
                 self.lang = lang
+        elif platform == 'ios':
+            NSLocal = autoclass("NSLocale")
+            lang = NSLocal.preferredLocale().languageCode().cString().decode("utf-8")
+            if lang in ['ru', 'en', 'fr', 'es', 'de']:
+                self.lang = lang
+        if platform == 'macosx':
+            try:
+                NSLocal = autoclass("NSLocale")
+                lang = NSLocal.preferredLocale().languageCode().cString().decode("utf-8")
+                if lang in ['ru', 'en', 'fr', 'es', 'de']:
+                    self.lang = lang
+            except:
+                pass
         self.with_sound = True
         self.with_effects = True
         self.volume = .5
