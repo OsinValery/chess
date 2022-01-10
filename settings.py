@@ -14,19 +14,18 @@ import random
 from translater import Get_text
 import global_constants
 
-try:
-    if platform == 'android':
-        from jnius import autoclass
-    elif platform =='ios':
-        from pyobjus import autoclass
 
-    if platform == 'macosx':
-        try:
-            from pyobjus import autoclass
-        except:
-            print('pyobjus not imported')
-except:
-    pass
+if platform == 'android':
+    from jnius import autoclass
+elif platform =='ios':
+    from pyobjus import autoclass
+
+if platform == 'macosx':
+    try:
+        from pyobjus import autoclass
+    except:
+        print('pyobjus not imported')
+
 
 def back(click):
     global settings_widget
