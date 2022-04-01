@@ -76,12 +76,12 @@ class Game():
 
         def start(time):
             """ error of thresds makes me create this function"""
+            self.Game_logik = find_chess_module(self.type_of_chess).Game_logik()
+            self.Game_logik.players_time = {'white': self.time_mode, 'black': self.time_mode}            
             global_constants.Main_Window.clear_widgets()
             global_constants.Main_Window.canvas.clear()
             self.Game_logik.init_game()
 
-        self.Game_logik = find_chess_module(self.type_of_chess).Game_logik()
-        self.Game_logik.players_time = {'white': self.time_mode, 'black': self.time_mode}
         Clock.schedule_once(start)
 
     def create_game(self, touch):
