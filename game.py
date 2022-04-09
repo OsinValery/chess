@@ -177,54 +177,59 @@ class Game():
                     pass
             Clock.schedule_once(pause)
         elif 'surrend' in message:
-            self.ind = False
-            if self.with_time:
-                self.Game_logik.time.cancel()
-            self.Game_logik.interfase.do_info(Get_text('game_friend_surrend'))
-
-        elif 'draw' in message:
-            data = message[4:].split()
-            if 'offer' in data:
+            def surr_action():
+                self.ind = False
                 if self.with_time:
                     self.Game_logik.time.cancel()
+                self.Game_logik.interfase.do_info(Get_text('game_friend_surrend'))
+            Clock.schedule_once(surr_action)
 
-                def no():
-                    global_constants.Connection_manager.send('draw no')
+        elif 'draw' in message:
+            def draw_action():
+                data = message[4:].split()
+                if 'offer' in data:
                     if self.with_time:
-                        self.Game_logik.time = Clock.schedule_interval(
-                            self.Game_logik.tick, 1)
-                    self.Game_logik.voyaje_message = False
+                        self.Game_logik.time.cancel()
 
-                def yes():
-                    global_constants.Connection_manager.send('draw yes')
+                    def no():
+                        global_constants.Connection_manager.send('draw no')
+                        if self.with_time:
+                            self.Game_logik.time = Clock.schedule_interval(
+                                self.Game_logik.tick, 1)
+                        self.Game_logik.voyaje_message = False
+
+                    def yes():
+                        global_constants.Connection_manager.send('draw yes')
+                        self.Game_logik.voyaje_message = False
+                        self.ind = False
+                        self.Game_logik.interfase.do_info(Get_text('game_draw_ok'))
+
+                    self.Game_logik.voyaje_message = True
+                    app_size = global_constants.Sizes
+                    Window_info.Window(
+                        btn_texts=[Get_text('game_'+i) for i in ['no', 'yes']],
+                        btn_commands=[no, yes],
+                        text=Get_text('game_want_draw'),
+                        title=Get_text('game_draw_title'),
+                        size=[app_size.board_size[0], .5 * app_size.board_size[1]],
+                        title_color=[.1, 0, 1, 1],
+                        background_color=[.1, 1, .1, .15]
+                    ).open()
+
+                elif 'yes' in data:
                     self.Game_logik.voyaje_message = False
                     self.ind = False
                     self.Game_logik.interfase.do_info(Get_text('game_draw_ok'))
+                    self.Game_logik.draw_board()
 
-                self.Game_logik.voyaje_message = True
-                app_size = global_constants.Sizes
-                Window_info.Window(
-                    btn_texts=[Get_text('game_'+i) for i in ['no', 'yes']],
-                    btn_commands=[no, yes],
-                    text=Get_text('game_want_draw'),
-                    title=Get_text('game_draw_title'),
-                    size=[app_size.board_size[0], .5 * app_size.board_size[1]],
-                    title_color=[.1, 0, 1, 1],
-                    background_color=[.1, 1, .1, .15]
-                ).open()
-
-            elif 'yes' in data:
-                self.Game_logik.voyaje_message = False
-                self.ind = False
-                self.Game_logik.interfase.do_info(Get_text('game_draw_ok'))
-                self.Game_logik.draw_board()
-
-            elif 'no' in data:
-                self.Game_logik.voyaje_message = False
-                if self.with_time:
-                    self.Game_logik.time = Clock.schedule_interval(
-                        self.Game_logik.tick, 1)
-                self.Game_logik.draw_board()
+                elif 'no' in data:
+                    self.Game_logik.voyaje_message = False
+                    if self.with_time:
+                        self.Game_logik.time = Clock.schedule_interval(
+                            self.Game_logik.tick, 1)
+                    self.Game_logik.draw_board()
+            
+            Clock.schedule_once(draw_action)
 
         elif 'leave' in message and self.ind:
             self.ind = False
