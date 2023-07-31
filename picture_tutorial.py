@@ -36,6 +36,7 @@ import legan_chess
 import sovereign
 import uprising
 import jungles_chess
+import inverted_chess
 
 #Chess types
 import circle_chess
@@ -77,7 +78,7 @@ class Static_picture(Widget):
         standart = [
             'classic','fisher','horse_battle','magik',
             'permutation','week','kamikadze','haotic',
-            'schatranj','dark_chess','nuclear'
+            'schatranj','dark_chess','nuclear','inverse'
             ]
         if self.type_of_chess in standart:
             Figure = help_chess.Figure   
@@ -94,6 +95,8 @@ class Static_picture(Widget):
                     week.create_start_game_board()
                 elif self.type_of_chess == 'schatranj':
                     schatranj.create_start_game_board()
+                elif self.type_of_chess == 'inverse':
+                    inverted_chess.create_start_game_board()
                 else:
                     horse_battle.create_start_game_board()
 

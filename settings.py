@@ -203,7 +203,7 @@ class __Settings():
             'permutation', 'horde', 'week', 'kamikadze',
             'bad_chess', 'rasing', 'haotic', 'schatranj',
             'dark_chess', 'frozen', 'nuclear', 'legan',
-            'uprising'
+            'uprising', 'inverse'
         ]
         if tipe in standart:
             file = 'board.png'

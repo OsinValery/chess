@@ -374,10 +374,7 @@ class Settings_widget(Widget):
         self.pos = pos
         with self.canvas:
             Color(0.1, 0.2, 0.7, 0.7)
-            Rectangle(
-                size=size,
-                pos=pos
-            )
+            Rectangle(size=size, pos=pos)
         self.create_text()
         self.create_active()
 
@@ -582,7 +579,7 @@ class Settings_widget(Widget):
 chess_type_list = dict()
 
 classic_type = [Chess_type(el)for el in [
-    'classic', 'los_alamos', 'garner', 'schatranj'
+    'classic', 'los_alamos', 'garner', 'schatranj', "inverse"
 ]]
 positions = [Chess_type(el)for el in ['fisher', 'horse_battle', 'legan']]
 with_effects = [Chess_type(el)for el in [
@@ -604,6 +601,6 @@ for chess in [
         'haotic', 'dark_chess', 'frozen', 'nuclear',
         'horde', 'week', 'bad_chess',
         'circle_chess', 'bizantion', 'glinskiy', 'kuej',
-        'rasing', 'sovereign', 'uprising', 'jungles'
+        'rasing', 'sovereign', 'uprising', 'jungles', 'inverse'
         ]:
     chess_type_list[chess].version_added = '0.0.52'

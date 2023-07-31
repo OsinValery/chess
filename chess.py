@@ -9,6 +9,7 @@ import fisher
 import horse_battle
 import permutation
 import gen_horde
+import inverted_chess
 
 import permutation_figure
 import help_chess
@@ -138,6 +139,8 @@ class Game_logik(core_game_logik.CoreGameLogik):
             permutation.init_chess(self)
         elif game.type_of_chess == 'horde':
             gen_horde.init_chess(self)
+        elif game.type_of_chess == 'inverse':
+            inverted_chess.init_chess(self)
 
     def move_figure(self, board, x, y, options=None):
         self.message = f'move {self.choose_figure.x} {self.choose_figure.y} {x} {y}'

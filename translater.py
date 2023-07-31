@@ -373,6 +373,13 @@ def bace_text(language, description):
         if language == 'fr':    return 'Jungle'
         if language == 'es':    return 'Selva'
         if language == 'de':    return 'Dschungel'
+    
+    if description == 'inverse':
+        if language == 'ru':    return 'Перевёрнутые \nшахматы'
+        if language == 'en':    return 'Inverted chess'
+        if language == 'fr':    return 'échecs \ninversés'.title()
+        if language == 'es':    return 'Ajedrez \ninvertido'
+        if language == 'de':    return 'Umgekehrtes \nSchach'
 
     elif description == 'exit?':
         if language == 'ru':
@@ -1870,6 +1877,9 @@ def tutorial(language, description):
     
     elif 'jungles' in description:
         return get_jungles(language, description[8:])
+    
+    elif 'inverted' in description:
+        return get_inverse(language, description[9:])
 
     else:
         return 'error_2'
@@ -3981,6 +3991,21 @@ def get_jungles(language, description):
 
     return 'error description in get_jungles\n' + description
 
+
+def get_inverse(language, description):
+    if description == '2':
+        if language == 'ru':    return 'Используются правила классических шахмат. Больше нечего сказать!'
+        if language == 'en':    return 'The rules of classical chess are used. There\'s nothing more to say!'
+        if language == 'fr':    return 'Les règles des échecs classiques sont utilisées. Rien d\'autre à dire!'
+        if language == 'es':    return 'Se utilizan las reglas del ajedrez clásico. ¡No hay nada más que decir!'
+        if language == 'de':    return 'Die Regeln des klassischen Schachs werden verwendet. Es gibt nichts mehr zu sagen!'
+
+    if description == 'start':
+        if language == 'ru':    return 'Представляем вашему вниманию перевёрнутые шахматы!'
+        if language == 'en':    return 'We present to your attention inverted chess!'
+        if language == 'fr':    return 'Nous présentons à votre attention les échecs inversés!'
+        if language == 'es':    return 'Presentamos a su atención el ajedrez invertido!'
+        if language == 'de':    return 'Wir präsentieren Ihnen umgekehrtes Schach!'
 
 def for_copy(language, description):
 

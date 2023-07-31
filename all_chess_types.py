@@ -23,7 +23,7 @@ import jungles_chess
 
 
 def find_chess_module(tip):
-    if tip in ['classic', 'fisher', 'horse_battle', 'permutation', 'horde']:
+    if tip in ['classic', 'fisher', 'horse_battle', 'permutation', 'horde', 'inverse']:
         return chess
     elif tip == 'los_alamos':
         return chess_los_alamos

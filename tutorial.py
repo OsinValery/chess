@@ -238,6 +238,8 @@ def tutorial(press):
         do_uprising_tutorial()
     elif game.type_of_chess == 'jungles':
         do_jungles_tutorial()
+    elif game.type_of_chess == 'inverse':
+        do_inverted_chess_tutorial()
     else:
         lost_tutorial()
 
@@ -353,7 +355,7 @@ def classic_7(press):
         command = bad_2
     elif game.type_of_chess == 'rasing':
         command = do_racing_tutorial
-    elif game.type_of_chess in ['dark_chess', 'frozen', 'nuclear']:
+    elif game.type_of_chess in ['dark_chess', 'frozen', 'nuclear', 'inverse']:
         command = classic_8
     elif game.type_of_chess == 'uprising':
         command = uprising_3
@@ -429,6 +431,8 @@ def classic_9(press):
         but.bind(on_press=do_nuclear_tutorial)
     elif game.type_of_chess == 'legan':
         but.bind(on_press=do_legan_tutorial)
+    elif game.type_of_chess == 'inverse':
+        but.bind(on_press = inverted1)
     else:
         but.bind(on_press=do_classic_tutorial)
     global_constants.Main_Window.add_widget(but)
@@ -2911,3 +2915,24 @@ def jungles_all(arg=...):
 
 def jungles_end(arg=...):
     ...
+
+
+
+def do_inverted_chess_tutorial(args = ...):
+    help_tutorial()
+    text = Get_text('tutorial_inverted_start')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, inverted1, repeat=False)
+
+def inverted1(args = ...):
+    help_tutorial()
+    text = Get_text('tutorial_inverted_2')
+    size = global_constants.Main_Window.size
+    static_interface(size, text, do_inverted_chess_tutorial, repeat=1)
+    global_constants.Main_Window.add_widget(Button(
+        text=Get_text('tutorial_see'),
+        pos=(size[0] * 0.3, size[1] * 0.05),
+        background_color=(1, 1, 0, 0.3),
+        color=(0, 1, 0, 1),
+        on_press=do_classic_tutorial))
+

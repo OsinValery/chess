@@ -64,7 +64,7 @@ class Tutorial_Widget(Widget):
         usual = [
             'classic','fisher','horse_battle','magik',
             'week','haotic','dark_chess','nuclear',
-            'uprising'
+            'uprising', 'inverse',
         ]
         if game.type_of_chess in usual:
             Figure = help_chess.Figure   
@@ -170,7 +170,7 @@ class Tutorial_Widget(Widget):
             'permutation','horde','week','kamikadze',
             'bad_chess', 'rasing','haotic','schatranj',
             'dark_chess','frozen','nuclear','legan',
-            'uprising'
+            'uprising', 'inverse',
             ]
         if self.type_of_chess in eight_fields:
             pos[0] -= (self.app_size.x_top_board + self.app_size.x_top)
@@ -236,7 +236,7 @@ class Tutorial_Widget(Widget):
                     'permutation','los_alamos','garner','horde',
                     'week','kamikadze','bad_chess','rasing','haotic',
                     'schatranj','dark_chess','frozen','nuclear','legan',
-                    'uprising'
+                    'uprising', 'inverse',
                 ]
                 if self.type_of_chess in squared :
                     simple_tips(self.app_size,self.canvas,may)

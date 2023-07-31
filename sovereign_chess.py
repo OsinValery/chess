@@ -1,7 +1,8 @@
 
 from kivy.uix.widget import Widget
 from kivy.graphics import Rectangle, Ellipse, Color, Line
-from kivy.uix.bubble import BubbleButton, Bubble, GridLayout
+from kivy.uix.bubble import BubbleButton, Bubble
+from kivy.uix.gridlayout import GridLayout
 from kivy.uix.scrollview import ScrollView
 from kivy.clock import Clock
 
