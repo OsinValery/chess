@@ -3,3 +3,6 @@ __py*__
 *.DS_Store
 .buildozer
 bin
+.DS_Store
+pictures/.DS_Store
+pictures/boards/.DS_Store
