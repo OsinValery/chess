@@ -197,9 +197,11 @@ class Card(Widget):
     def __init__(self, chess_type:Chess_type, pos):
         super(Card, self).__init__()
         size = global_constants.Sizes
-        self.size = (size.window_size[0]*0.8, size.window_size[0]*.6)
+        #self.size = (size.window_size[0]*0.8, size.window_size[0]*.6)
+        self.size = (size.window_size[0] * 0.96, size.window_size[0]*.6)
         self.size_hint = [None, None]
         self.pos = pos
+
         self.canvas.add(Rectangle(
             size=[self.width, self.height],
             source=chess_type.picture,
@@ -216,6 +218,7 @@ class Card(Widget):
             on_press=chess_type.set_chess,
             font_name = Settings.get_font(),
         ))
+
         if global_constants.game.state_game == 'host':
             version = global_constants.Connection_manager.friend_version
             if not valid_application_version(version,chess_type.type):
@@ -307,6 +310,8 @@ class Chess_view(ScrollView):
         super(Chess_view, self).__init__()
         self.size_hint = (None, None)
         size = global_constants.Sizes
+
+        """
         self.size = (size.window_size[0]*0.95, size.window_size[0]*.6)
         self.pos = (size.window_size[0]*0.025, size.window_size[1]*.3)
 
@@ -320,6 +325,24 @@ class Chess_view(ScrollView):
             pos = [self.pos[0] + width * i, 0]
             big_wid.add_widget(Card(chess_list[i], pos))
         self.add_widget(big_wid)
+        """
+        padding = 0.02 * size.window_size[0]
+        self.size = (size.window_size[0] - 2 * padding - 10, size.window_size[1]*.9)
+        self.pos = (padding, 0)
+        self.do_scroll_x = False
+        self.bar_width = 0
+
+        height = size.window_size[0]*.6 + 30
+        big_wid = Widget(
+            size_hint=[None, None],
+            size=(self.width, height*len(chess_list)+10)
+        )
+        # add cards with presentations of types of game
+        for i in range(len(chess_list)):
+            pos = [self.pos[0], big_wid.height - height * (i + 1)]
+            big_wid.add_widget(Card(chess_list[i], pos))
+        self.add_widget(big_wid)
+
 
 
 class Input(TextInput):
