@@ -293,7 +293,7 @@ class Graphical_interfase():
         # surrend button(0) + draw  button(1)
         pictures = ['surrend.png', 'draw.png']
         for i in 0,1:
-            d = 0.65 - i * 0.1
+            d =  i * 0.1
             but = Button(
                 text='',
                 size=(sizes.window_size[0]*0.09,sizes.window_size[1]*0.07),

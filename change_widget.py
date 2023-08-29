@@ -602,9 +602,9 @@ class Settings_widget(Widget):
 chess_type_list = dict()
 
 classic_type = [Chess_type(el)for el in [
-    'classic', 'los_alamos', 'garner', 'schatranj', "inverse"
+    'classic', 'los_alamos', 'garner', 'schatranj'
 ]]
-positions = [Chess_type(el)for el in ['fisher', 'horse_battle', 'legan']]
+positions = [Chess_type(el)for el in ['fisher', 'horse_battle', 'legan', "inverse"]]
 with_effects = [Chess_type(el)for el in [
     'magik', 'permutation', 'kamikadze',
     'haotic', 'dark_chess', 'frozen', 'nuclear'
